@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "572351514188",
+    "firebase_url": "https://tas-on-5b806.firebaseio.com",
+    "project_id": "tas-on-5b806",
+    "storage_bucket": "tas-on-5b806.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:572351514188:android:aa98163e3a01bf6e6496e9",
+        "android_client_info": {
+          "package_name": "com.tason.android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "572351514188-g6kef06u6nt00a157vpdtv8u1i2io897.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA7l9Z0wgZa0G8jo4DVTqOYYtRfLPYVets"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "572351514188-g6kef06u6nt00a157vpdtv8u1i2io897.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

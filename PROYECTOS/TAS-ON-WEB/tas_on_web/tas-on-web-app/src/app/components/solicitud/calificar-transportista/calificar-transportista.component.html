@@ -1,0 +1,81 @@
+<ngx-loading [show]="loading" xmlns="http://www.w3.org/1999/html"></ngx-loading>
+<div class="container-fluid margin-top-container">
+  <form>
+    <h2>Calificar últimos viajes</h2>
+    <hr>
+    <div>
+      <ngx-datatable
+        class='material tableHeightFixed'
+        [columns]="columns"
+        [columnMode]="'force'"
+        [headerHeight]="'auto'"
+        [footerHeight]="50"
+        [rowHeight]="'auto'"
+        [limit]="25"
+        [rows]='listaSolicitudes'
+        [scrollbarH]="true"
+        [selectionType]="'single'"
+        [messages]="{emptyMessage:'Sin registros para mostrar...',totalMessage: 'total',selectedMessage: 'selected'}">
+      </ngx-datatable>
+    </div>
+
+    <div id="templates">
+      <ng-template #tmplIndex let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+        <strong>{{rowIndex+1}}</strong>
+      </ng-template>
+      <ng-template #tmpPeso let-value="value" let-rowIndex="rowIndex" let-row="row">
+        <div>{{value}} {{row.solicitudEnvioUnidadPeso}}</div>
+      </ng-template>
+      <ng-template #tmpDetalle let-rowIndex="rowIndex" let-row="row">
+        <div>{{row.solicitudEnvioOrigen}} > {{row.solicitudEnvioDestino}} - {{row.solicitudEnvioPeso}} {{row.solicitudEnvioUnidadPeso}} - {{row.solicitudEnvioPiezas}} piezas</div>
+      </ng-template>
+      <ng-template #tmpEstrellas let-value="value" let-rowIndex="rowIndex" let-row="row">
+        <div><i *ngFor="let number of stars[value]" class="fas fa-star" [ngStyle]="{'color': number == 1 ? 'darkblue' : 'gray' }"></i>({{value}})</div>
+      </ng-template>
+      <ng-template #linkButton let-value="value" let-rowIndex="rowIndex" let-row="row">
+        <button type="button" class="btn btn-primary info-button-small" title="Cambiar calificación"
+                (click)="calificar(row)">
+          <i class="fas fa-edit"></i>
+        </button>
+      </ng-template>
+      <ng-template #tmplDate let-value="value">
+        <div>{{value | date: appConfig.formatoFecha}}</div>
+      </ng-template>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal" id="editarCalificacion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog forma" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Calificar flete</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <label>Calificación</label>
+            <div>
+              <i (mouseenter)="mouseEnter(1)" [ngStyle]="{'color': calificacion >= 1 ? 'darkblue' : 'gray' }" class="fas fa-star"></i>
+              <i (mouseenter)="mouseEnter(2)" [ngStyle]="{'color': calificacion >= 2 ? 'darkblue' : 'gray' }" class="fas fa-star"></i>
+              <i (mouseenter)="mouseEnter(3)" [ngStyle]="{'color': calificacion >= 3 ? 'darkblue' : 'gray' }" class="fas fa-star"></i>
+              <i (mouseenter)="mouseEnter(4)" [ngStyle]="{'color': calificacion >= 4 ? 'darkblue' : 'gray' }" class="fas fa-star"></i>
+              <i (mouseenter)="mouseEnter(5)" [ngStyle]="{'color': calificacion >= 5 ? 'darkblue' : 'gray' }" class="fas fa-star"></i>
+              ({{calificacion}})
+            </div>
+            <br/>
+            <label for="comentarios">Comentario{{calificacion<5? '*':''}}</label>
+            <textarea class="form-control" rows="4" id="comentarios" name="comments"
+                      [(ngModel)]="solicitudACalificar.comentario" placeholder="{{calificacion<5?'Requerido':''}}"
+                      #comentarios="ngModel" maxlength="500"></textarea>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="enviarNuevaCalificacion()" [disabled]="calificacion <5 && (solicitudACalificar.comentario==null || solicitudACalificar.comentario.trim() == '' || solicitudACalificar.comentario.length < 20 )">Editar calificación</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </form>
+</div>

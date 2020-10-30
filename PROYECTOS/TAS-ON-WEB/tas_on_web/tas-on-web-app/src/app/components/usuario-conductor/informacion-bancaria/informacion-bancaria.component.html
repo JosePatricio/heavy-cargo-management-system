@@ -1,0 +1,72 @@
+<ngx-loading [show]="loading"></ngx-loading>
+<div class="panel-group" *ngIf="!puedeActualizarDatos">
+  <div class="card">
+    <div class="card-header font-weight-bold">Información bancaria</div>
+    <div class="card-body margin">
+      <div class="row">
+        <div class="col-md-6">
+          <h6 class="card-subtitle">Banco</h6>
+          <p class="card-text">{{informacionBancaria.bancoDesc ? informacionBancaria.bancoDesc : 'Sin registrar'}}</p>
+        </div>
+        <div class="col-md-6">
+          <h6 class="card-subtitle">Tipo de cuenta</h6>
+          <p class="card-text">{{informacionBancaria.tipoCuentaDesc ? informacionBancaria.tipoCuentaDesc : 'Sin registrar'}}</p>
+        </div>
+        <div class="col-md-6">
+          <h6 class="card-subtitle">Número de cuenta</h6>
+          <p class="card-text">{{informacionBancaria.numeroCuenta ? informacionBancaria.numeroCuenta : 'Sin registrar'}}</p>
+        </div>
+        <div class="col-md-6">
+          <h6 class="card-subtitle">Tipo de identificación</h6>
+          <p class="card-text">{{informacionBancaria.tipoIdentificacionDesc ? informacionBancaria.tipoIdentificacionDesc : 'Sin registrar'}}</p>
+        </div>
+        <div class="col-md-6">
+          <h6 class="card-subtitle">Identificación</h6>
+          <p class="card-text">{{informacionBancaria.identificacion ? informacionBancaria.identificacion : 'Sin registrar'}}</p>
+        </div>
+        <div class="col-md-6">
+          <h6 class="card-subtitle">Nombres</h6>
+          <p class="card-text">{{informacionBancaria.nombres ? informacionBancaria.nombres : 'Sin registrar'}}</p>
+        </div>
+        <div class="col-md-6">
+          <h6 class="card-subtitle">Última actualización</h6>
+          <p class="card-text">{{informacionBancaria.ultimaActualizacion ? (informacionBancaria.ultimaActualizacion | date: appConfig.formatoFechaHoraSegundos) : '-'}}</p>
+        </div>
+        <div class="col-md-12">
+          <small>* Estimado usuario, revise que la información se encuentra ingresada correctamente ya que la misma será utilizada para el pago de los servicios brindados por su empresa.</small>
+        </div>
+      </div>
+    </div>
+  </div>
+  <button class="btn btn-primary mt-3" (click)="actualizarInformacion()">Actualizar información</button>
+</div>
+
+
+<!-- Modal -->
+<div class="modal" id="passwordModal" tabindex="-1" role="dialog" aria-labelledby="passwordModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="passwordModalLabel">Ingrese su contraseña</h5>
+      </div>
+      <div class="modal-body">
+
+        <div class="form-group">
+          <label for="password">Contraseña</label>
+          <input class="form-control" [type]="tipoContrasena" id="password" name="password" [(ngModel)]="password" />
+          <i *ngIf="!mostrarContrasena" class="fas fa-eye show-hide-password" (click)="showPassword()"></i>
+          <i *ngIf="mostrarContrasena" class="fas fa-eye-slash show-hide-password" (click)="hidePassword()"></i>
+        </div>
+
+      </div>
+      <div class="modal-footer justify-content-md-center">
+        <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="solicitarActualizarInformacionBancaria()">Aceptar</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div [ngClass]="{'hide-element': !puedeActualizarDatos}">
+  <ng-template #dynamicInsert></ng-template>
+</div>

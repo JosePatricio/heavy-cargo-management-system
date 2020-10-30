@@ -1,0 +1,467 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".fragments.cliente.RegistraSolicitudFragment">
+
+    <ProgressBar
+        android:id="@+id/progressbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|center" />
+
+    <RelativeLayout
+        android:id="@+id/cont_load"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ScrollView
+            android:id="@+id/lySolData"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/tasLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:text="Datos del envío"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@android:color/darker_gray" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Solicitud para ofertar"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+                    <EditText
+                        android:id="@+id/solicId"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:enabled="false" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Número piezas (Cajas, Tambores, Tanques, Bidones, etc)"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+                    <EditText
+                        android:id="@+id/solicNumPiesas"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Peso total"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+                    <EditText
+                        android:id="@+id/solicPesoTot"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number|numberDecimal" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Unidad de peso"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+                    <Spinner
+                        android:id="@+id/solicSpnUnidPeso"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Volumen total (bruto)"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+                    <EditText
+                        android:id="@+id/solicVolTotBruto"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number|numberDecimal" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Unidad de volumen"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+                    <Spinner
+                        android:id="@+id/solicSpnUnidVolum"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Fecha caducidad de la solicitud"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+                    <Button
+                        android:id="@+id/solicFechaCaduca"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text=" - " />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/tasLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:text="Información del origen"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@android:color/darker_gray" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Provincia"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+                    <Spinner
+                        android:id="@+id/solicSpProvOrig"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Ciudad origen"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+                    <Spinner
+                        android:id="@+id/solicSpCantOrig"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Remite"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+                    <EditText
+                        android:id="@+id/solicPersonOrig"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Dirección origen"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+                    <EditText
+                        android:id="@+id/solicDirecOrig"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/tasLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:text="Información del destino"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@android:color/darker_gray" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Provincia"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+                    <Spinner
+                        android:id="@+id/solicSpProvDest"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Ciudad destino"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+                    <Spinner
+                        android:id="@+id/solicSpCantDest"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Recibe"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+                    <EditText
+                        android:id="@+id/solicPersonDes"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Dirección destino"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+                    <EditText
+                        android:id="@+id/solicDirecDes"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/tasLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:text="Información sobre la entrega"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@android:color/darker_gray" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Número estibadores"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+                    <EditText
+                        android:id="@+id/solicNumEstiba"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Días validez"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+                    <EditText
+                        android:id="@+id/solicDiasVal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:enabled="false"
+                        android:inputType="number" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Fecha recolección"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+                    <Button
+                        android:id="@+id/solicFechaRecolecta"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text=" - " />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Fecha entrega"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+                    <Button
+                        android:id="@+id/solicFechaEntrega"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text=" - " />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/tasLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:text="Observaciones"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@android:color/darker_gray" />
+
+                    <EditText
+                        android:id="@+id/solicObserva"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/comentarioLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <TextView
+                        style="@style/tasLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:text="Comentario"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body2" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@android:color/darker_gray" />
+
+                    <EditText
+                        android:id="@+id/solicComentario"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+                </LinearLayout>
+
+                <include layout="@layout/terms_and_conditions_layout" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp" />
+
+                <TextView
+                    style="@style/tasLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" " />
+
+                <TextView
+                    style="@style/tasLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" " />
+
+            </LinearLayout>
+        </ScrollView>
+
+        <RelativeLayout
+            android:id="@+id/oferts_ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@color/phrase_one"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/regresaSolic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+
+
+                android:background="?android:attr/selectableItemBackground"
+                android:text="@string/regresa"
+
+                android:textAllCaps="false"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/cancelSolic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:background="?android:attr/selectableItemBackground"
+
+                android:text="@string/cancel"
+                android:textAllCaps="false"
+
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textColor="@color/red"
+                android:textStyle="bold"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/crearSolic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+
+                android:background="?android:attr/selectableItemBackground"
+                android:text="@string/crear"
+
+                android:textAllCaps="false"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+    </RelativeLayout>
+</LinearLayout>

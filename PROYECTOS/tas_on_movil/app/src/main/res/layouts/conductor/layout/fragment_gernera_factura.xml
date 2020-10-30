@@ -1,0 +1,521 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="@dimen/activity_horizontal_margin"
+    tools:context="ec.redcode.tas.on.android.fragments.GeneraFacturaFlete">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ProgressBar
+            android:id="@+id/progressbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|center" />
+
+        <LinearLayout
+            android:id="@+id/cont_load"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/btnAddSol"
+                style="@style/tasLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_add_circle_red_24dp"
+                android:text="@string/selec_orders" />
+
+            <TextView
+                android:id="@+id/preFactInfo"
+                style="@style/tasLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/nav_header_vertical_spacing"
+                android:gravity="top|center"
+                android:text=""
+                android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:id="@+id/cont_fact_gen"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    style="@style/tasLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/nav_header_vertical_spacing"
+                    android:gravity="top|center"
+                    android:text="@string/generar_prefactura"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <!--datos compania-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/nav_header_vertical_spacing"
+                    android:layout_weight="11"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/tasLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/datos_compania"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/tasLabel"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/empresa_razon_social"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/txtNombreCompania"
+                            style="@style/tasContent"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/tasLabel"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/empresa_ruc"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/txtRucCompania"
+                            style="@style/tasContent"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/tasLabel"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/numero_factura"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            style="@style/tasContent"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/empty_text" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/tasLabel"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/numero_autorizacion"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            style="@style/tasContent"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/empty_text" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/tasLabel"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/empresa_direccion"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/txtDirCompania"
+                            style="@style/tasContent"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!--datos TasON-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/nav_header_vertical_spacing"
+                    android:layout_weight="11"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/tasLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/datos_tason"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/tasLabel"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/empresa_razon_social"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/txtNombreTasOn"
+                            style="@style/tasContent"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/tasLabel"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/empresa_ruc"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/txtRucTasOn"
+                            style="@style/tasContent"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/tasLabel"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/fecha_emision"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/FechaEmiteTasOn"
+                            style="@style/tasContent"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/empty_text" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/tasLabel"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/guia_remision"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            style="@style/tasContent"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/empty_text" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/tasLabel"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/empresa_direccion"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/txtDirTasOn"
+                            style="@style/tasContent"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!--grid factura-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/nav_header_vertical_spacing"
+                    android:layout_weight="11"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/tasLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/detalle"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                        android:textStyle="bold" />
+
+                    <HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+                        xmlns:tools="http://schemas.android.com/tools"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:stretchColumns="1">
+
+                            <TableRow>
+
+                                <TextView
+                                    style="@style/tasLabel"
+                                    android:gravity="center"
+                                    android:padding="3dip"
+                                    android:text="Cantidad"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    style="@style/tasLabel"
+                                    android:gravity="center"
+                                    android:padding="3dip"
+                                    android:text="Descripción"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    style="@style/tasLabel"
+                                    android:gravity="center"
+                                    android:padding="3dip"
+                                    android:text="Precio Unitario"
+                                    android:textStyle="bold" />
+                            </TableRow>
+
+                            <TableRow>
+
+                                <TextView
+                                    style="@style/tasContent14"
+                                    android:gravity="center"
+                                    android:padding="3dip"
+                                    android:text="1" />
+
+                                <TextView
+                                    android:id="@+id/descripFact"
+                                    style="@style/tasContent14"
+                                    android:gravity="right"
+                                    android:padding="3dip" />
+
+                                <TextView
+                                    android:id="@+id/precioUniFact"
+                                    style="@style/tasContent14"
+                                    android:gravity="center"
+                                    android:padding="3dip" />
+                            </TableRow>
+
+                            <TableRow>
+
+                                <TextView
+                                    android:gravity="center"
+                                    android:padding="3dip"
+                                    android:text="" />
+
+                                <TextView
+                                    style="@style/tasLabel"
+                                    android:gravity="right"
+                                    android:padding="3dip"
+                                    android:text="Subtotal 12%"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    style="@style/tasContent14"
+                                    android:gravity="center"
+                                    android:padding="3dip"
+                                    android:text="  -  " />
+                            </TableRow>
+
+                            <TableRow>
+
+                                <TextView
+                                    android:gravity="center"
+                                    android:padding="3dip"
+                                    android:text="" />
+
+                                <TextView
+                                    style="@style/tasLabel"
+                                    android:gravity="right"
+                                    android:padding="3dip"
+                                    android:text="Subtotal 0%"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/subto0"
+                                    style="@style/tasContent14"
+                                    android:gravity="center"
+                                    android:padding="3dip" />
+                            </TableRow>
+
+                            <TableRow>
+
+                                <TextView
+                                    android:gravity="center"
+                                    android:padding="3dip"
+                                    android:text="" />
+
+                                <TextView
+                                    android:id="@+id/descripFactRap"
+                                    style="@style/tasLabel"
+                                    android:gravity="right"
+                                    android:padding="3dip"
+                                    android:text="Descuento"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/precioUniFactRap"
+                                    style="@style/tasContent14"
+                                    android:gravity="center"
+                                    android:padding="3dip"
+                                    android:text="  -  " />
+                            </TableRow>
+
+                            <TableRow>
+
+                                <TextView
+                                    android:gravity="center"
+                                    android:padding="3dip"
+                                    android:text="" />
+
+                                <TextView
+                                    style="@style/tasLabel"
+                                    android:gravity="right"
+                                    android:padding="3dip"
+                                    android:text="Subtotal"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/subto"
+                                    style="@style/tasContent14"
+                                    android:gravity="center"
+                                    android:padding="3dip" />
+                            </TableRow>
+
+                            <TableRow>
+
+                                <TextView
+                                    android:gravity="center"
+                                    android:padding="3dip"
+                                    android:text="" />
+
+                                <TextView
+                                    style="@style/tasLabel"
+                                    android:gravity="right"
+                                    android:padding="3dip"
+                                    android:text="IVA (12%)"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    style="@style/tasContent14"
+                                    android:gravity="center"
+                                    android:padding="3dip"
+                                    android:text="  -  " />
+                            </TableRow>
+
+                            <TableRow>
+
+                                <TextView
+                                    android:gravity="center"
+                                    android:padding="3dip"
+                                    android:text="" />
+
+                                <TextView
+                                    style="@style/tasLabel"
+                                    android:gravity="right"
+                                    android:padding="3dip"
+                                    android:text="Total"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/total"
+                                    style="@style/tasContent14"
+                                    android:gravity="center"
+                                    android:padding="3dip" />
+                            </TableRow>
+                        </TableLayout>
+                    </HorizontalScrollView>
+                </LinearLayout>
+
+                <!--opciones-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="11"
+                    android:orientation="vertical">
+
+                    <Button
+                        android:id="@+id/btnCancelFact"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/rounded_corner_button15_light"
+                        android:text="@string/cancel"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textStyle="bold" />
+
+                    <Button
+                        android:id="@+id/btnGuardaFact"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/rounded_corner_button15"
+                        android:text="@string/guardar"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

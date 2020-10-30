@@ -1,0 +1,74 @@
+<ngx-loading [show]="loading"></ngx-loading>
+<div class="container-fluid margin-top-container">
+  <form>
+    <h3>Facturas generadas</h3>
+    <hr />
+    <div>
+      <ngx-datatable
+        class='material tableHeightFixed'
+        [columnMode]="'force'"
+        [headerHeight]="'auto'"
+        [footerHeight]="50"
+        [rowHeight]="'auto'"
+        [columns]="columns"
+        [rows]="ebillings"
+        [scrollbarH]="true"
+        [selectionType]="'single'"
+        [messages]="{emptyMessage:'Sin registros para mostrar...',totalMessage: 'total',selectedMessage: 'selected'}">
+      </ngx-datatable>
+    </div>
+
+    <div id="templates">
+      <ng-template #tmplIndex let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+        <strong>{{rowIndex+1}}</strong>
+      </ng-template>
+      <ng-template #tmplAmount let-value="value" let-row="row">
+        <div class="amount-text wm-100">{{value | currency:'USD':'symbol'}}</div>
+      </ng-template>
+      <ng-template #tmplDate let-value="value">
+        <div>{{value == '' ? '' : (value | date: appConfig.formatoFecha)}}</div>
+      </ng-template>
+      <ng-template #tmplDateTime let-value="value">
+        <div>{{value | date: appConfig.formatoFechaHora}}</div>
+      </ng-template>
+      <ng-template #tmplBreakWord let-value="value">
+        <div class="break-word">{{value}}</div>
+      </ng-template>
+      <ng-template #tmplDownloadFiles let-value="value" let-rowIndex="rowIndex" let-row="row">
+        <button type="button" class="btn btn-primary info-button-small" (click)="downloadRIDE(row)" [disabled]="value != 'AUTORIZADO'">
+          <i class="far fa-file-pdf" title="Descargar PDF"></i>
+        </button>
+        <button type="button" class="btn btn-primary info-button-small" (click)="downloadXML(row)">
+          <i class="far fa-file-code" title="Descargar XML"></i>
+        </button>
+        <button type="button" class="btn btn-primary info-button-small" (click)="send(row)" *ngIf="value != 'AUTORIZADO' && value != 'ENVIADO'">
+          <i class="fas fa-exchange-alt" title="Volver a enviar factura"></i>
+        </button>
+      </ng-template>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal" id="modalPassword" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Volver a enviar factura electrónica</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <label for="clave">Ingrese la contraseña de su firma electrónica</label>
+            <input class="form-control" type="password" id="clave" name="clave"
+                   [(ngModel)]="claveFirma" #clave="ngModel" required maxlength="100" minlength="1"
+                   />
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="reenviarFactura()" [disabled]="claveFirma == null || claveFirma == ''">Enviar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

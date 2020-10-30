@@ -1,0 +1,423 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:camel="http://camel.apache.org/schema/spring"
+       xmlns:cxf="http://camel.apache.org/schema/cxf"
+       xsi:schemaLocation="
+         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+         http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd
+         http://camel.apache.org/schema/cxf http://camel.apache.org/schema/cxf/camel-cxf.xsd">
+
+    <import resource="classpath:META-INF/cxf/cxf.xml"/>
+    <import resource="persistence-config.xml"/>
+    <import resource="tason-security-context.xml"/>
+
+    <bean id="jsonProvider" class="org.codehaus.jackson.jaxrs.JacksonJsonProvider"/>
+
+    <cxf:rsServer id="rsServerUsuario" address="/rest-usuarios"
+                  serviceClass="ec.net.redcode.tas.on.rest.service.UsuarioServiceRest" loggingFeatureEnabled="true">
+        <cxf:providers>
+            <ref bean="jsonProvider"/>
+        </cxf:providers>
+    </cxf:rsServer>
+
+    <cxf:rsServer id="rsServerLogin" address="/rest-login"
+                  serviceClass="ec.net.redcode.tas.on.rest.service.LoginServiceRest">
+        <cxf:providers>
+            <ref bean="jsonProvider"/>
+        </cxf:providers>
+    </cxf:rsServer>
+
+    <cxf:rsServer id="rsServerSecurity" address="/rest-security"
+                  serviceClass="ec.net.redcode.tas.on.rest.service.SecurityRest">
+        <cxf:providers>
+            <ref bean="jsonProvider"/>
+            <ref bean="securityFilter"/>
+        </cxf:providers>
+    </cxf:rsServer>
+
+    <cxf:rsServer id="rsServerCatalogo" address="/rest-catalogo"
+                  serviceClass="ec.net.redcode.tas.on.rest.service.CatalogoServiceRest" loggingFeatureEnabled="true">
+        <cxf:providers>
+            <ref bean="jsonProvider"/>
+            <ref bean="securityFilter"/>
+        </cxf:providers>
+    </cxf:rsServer>
+
+    <cxf:rsServer id="rsServerCatalogoItem" address="/rest-catalogo-item"
+                  serviceClass="ec.net.redcode.tas.on.rest.service.CatalogoItemServiceRest" loggingFeatureEnabled="true">
+        <cxf:providers>
+            <ref bean="jsonProvider"/>
+        </cxf:providers>
+    </cxf:rsServer>
+
+    <cxf:rsServer id="rsServerLocalidad" address="/rest-localidad"
+                  serviceClass="ec.net.redcode.tas.on.rest.service.LocalidadServiceRest" loggingFeatureEnabled="true">
+        <cxf:providers>
+            <ref bean="jsonProvider"/>
+        </cxf:providers>
+    </cxf:rsServer>
+
+    <cxf:rsServer id="rsServerSolicitudEnvio" address="/rest-solicitud-envio"
+                  serviceClass="ec.net.redcode.tas.on.rest.service.SolicitudEnvioRest" loggingFeatureEnabled="true">
+        <cxf:providers>
+            <ref bean="jsonProvider"/>
+            <ref bean="securityFilter"/>
+        </cxf:providers>
+    </cxf:rsServer>
+
+    <cxf:rsServer id="rsServerEnvio" address="/rest-envio"
+                  serviceClass="ec.net.redcode.tas.on.rest.service.EnvioRest" loggingFeatureEnabled="true">
+        <cxf:providers>
+            <ref bean="jsonProvider"/>
+            <ref bean="securityFilter"/>
+        </cxf:providers>
+    </cxf:rsServer>
+
+    <cxf:rsServer id="rsServerSecuencia" address="/rest-secuencia"
+                  serviceClass="ec.net.redcode.tas.on.rest.service.SecuenciaServicioRest" loggingFeatureEnabled="true">
+        <cxf:providers>
+            <ref bean="jsonProvider"/>
+            <ref bean="securityFilter"/>
+        </cxf:providers>
+    </cxf:rsServer>
+
+    <cxf:rsServer id="rsServerOferta" address="/rest-oferta"
+                  serviceClass="ec.net.redcode.tas.on.rest.service.OfertaServiceRest" loggingFeatureEnabled="true">
+        <cxf:providers>
+            <ref bean="jsonProvider"/>
+            <ref bean="securityFilter"/>
+        </cxf:providers>
+    </cxf:rsServer>
+
+    <cxf:rsServer id="rsServerClient" address="/rest-client"
+                  serviceClass="ec.net.redcode.tas.on.rest.service.ClienteServiceRest" loggingFeatureEnabled="true">
+        <cxf:providers>
+            <ref bean="jsonProvider"/>
+            <ref bean="securityFilter"/>
+        </cxf:providers>
+    </cxf:rsServer>
+
+    <cxf:rsServer id="rsServerVehiculo" address="/rest-vehiculo"
+                  serviceClass="ec.net.redcode.tas.on.rest.service.VehiculoServiceRest" loggingFeatureEnabled="true">
+        <cxf:providers>
+            <ref bean="jsonProvider"/>
+            <ref bean="securityFilter"/>
+        </cxf:providers>
+    </cxf:rsServer>
+
+    <cxf:rsServer id="rsServerConductor" address="/rest-conductor"
+                  serviceClass="ec.net.redcode.tas.on.rest.service.ConductorServiceRest" loggingFeatureEnabled="true">
+        <cxf:providers>
+            <ref bean="jsonProvider"/>
+            <ref bean="securityFilter"/>
+        </cxf:providers>
+    </cxf:rsServer>
+
+    <cxf:rsServer id="rsServerFactura" address="/rest-factura"
+                  serviceClass="ec.net.redcode.tas.on.rest.service.FacturaServiceRest" loggingFeatureEnabled="true">
+        <cxf:providers>
+            <ref bean="jsonProvider"/>
+            <ref bean="securityFilter"/>
+        </cxf:providers>
+    </cxf:rsServer>
+
+    <cxf:rsServer id="rsServerEBilling" address="/rest-ebilling"
+                  serviceClass="ec.net.redcode.tas.on.rest.service.EbillingServiceRest" loggingFeatureEnabled="true">
+        <cxf:providers>
+            <ref bean="jsonProvider"/>
+            <ref bean="securityFilter"/>
+        </cxf:providers>
+    </cxf:rsServer>
+
+    <cxf:rsServer id="rsServerPublic" address="/rest-public"
+                  serviceClass="ec.net.redcode.tas.on.rest.service.PublicServicesRest" loggingFeatureEnabled="true">
+        <cxf:providers>
+            <ref bean="jsonProvider"/>
+            <ref bean="publicSecurityFilter"/>
+        </cxf:providers>
+    </cxf:rsServer>
+
+    <cxf:rsServer id="rsServerPago" address="/rest-pago"
+                  serviceClass="ec.net.redcode.tas.on.rest.service.PagoServiceRest" loggingFeatureEnabled="true">
+        <cxf:providers>
+            <ref bean="jsonProvider"/>
+            <ref bean="securityFilter"/>
+        </cxf:providers>
+    </cxf:rsServer>
+
+    <cxf:rsServer id="rsServerFcm" address="/rest-fcm"
+                  serviceClass="ec.net.redcode.tas.on.rest.service.FcmDispositivoServiceRest" loggingFeatureEnabled="true">
+        <cxf:providers>
+            <ref bean="jsonProvider"/>
+            <ref bean="publicSecurityFilter"/>
+        </cxf:providers>
+    </cxf:rsServer>
+
+    <cxf:rsServer id="rsServerFacturaProveedor" address="/rest-factura-proveedor"
+                  serviceClass="ec.net.redcode.tas.on.rest.service.FacturaProveedorServiceRest" loggingFeatureEnabled="true">
+        <cxf:providers>
+            <ref bean="jsonProvider"/>
+            <ref bean="securityFilter"/>
+        </cxf:providers>
+    </cxf:rsServer>
+
+    <cxf:rsServer id="rsServerCalificacionTransportista" address="/rest-calificacion-transportista"
+                  serviceClass="ec.net.redcode.tas.on.rest.service.CalificacionTransportistaRest" loggingFeatureEnabled="true">
+        <cxf:providers>
+            <ref bean="jsonProvider"/>
+            <ref bean="securityFilter"/>
+        </cxf:providers>
+    </cxf:rsServer>
+
+    <cxf:rsServer id="rsServerRetencion" address="/rest-retencion"
+                  serviceClass="ec.net.redcode.tas.on.rest.service.RetencionRest" loggingFeatureEnabled="true">
+        <cxf:providers>
+            <ref bean="jsonProvider"/>
+            <ref bean="securityFilter"/>
+        </cxf:providers>
+    </cxf:rsServer>
+
+    <cxf:rsServer id="rsServerPedido" address="/rest-pedido"
+                  serviceClass="ec.net.redcode.tas.on.rest.service.PedidoRest" loggingFeatureEnabled="true">
+        <cxf:providers>
+            <ref bean="jsonProvider"/>
+            <ref bean="securityFilter"/>
+        </cxf:providers>
+    </cxf:rsServer>
+
+    <!-- API -->
+    <cxf:rsServer id="rsServerAPI" address="/rest-api"
+                  serviceClass="ec.net.redcode.tas.on.rest.service.ServiceApiRest" loggingFeatureEnabled="true">
+        <cxf:providers>
+            <ref bean="jsonProvider"/>
+            <ref bean="securityFilter"/>
+        </cxf:providers>
+    </cxf:rsServer>
+
+    <!-- Processors -->
+    <bean id="usuarioProcessor" class="ec.net.redcode.tas.on.rest.processor.UsuariosProcessor">
+        <property name="usuarioService" ref="usuarioService"/>
+        <property name="vehiculoService" ref="vehiculoService"/>
+        <property name="conductorService" ref="conductorService"/>
+        <property name="oAuthDataProvider" ref="dataProvider"/>
+        <property name="catalogoItemService" ref="catalogoItemService"/>
+        <property name="clienteService" ref="clienteService"/>
+    </bean>
+    <bean id="catalogoProcessor" class="ec.net.redcode.tas.on.rest.processor.CatalogoProcessor">
+        <property name="catalogoService" ref="catalogoService"/>
+    </bean>
+    <bean id="catalogoItemProcessor" class="ec.net.redcode.tas.on.rest.processor.CatalogoItemProcessor">
+        <property name="catalogoItemService" ref="catalogoItemService"/>
+    </bean>
+    <bean id="localidadProcessor" class="ec.net.redcode.tas.on.rest.processor.LocalidadProcessor">
+        <property name="localidadService" ref="localidadService"/>
+    </bean>
+    <bean id="solicitudEnvioProcessor" class="ec.net.redcode.tas.on.rest.processor.SolicitudEnvioProcessor">
+        <property name="solicitudEnvioService" ref="solicititudService"/>
+        <property name="catalogoItemService" ref="catalogoItemService"/>
+        <property name="localidadService" ref="localidadService"/>
+        <property name="ofertaService" ref="ofertaService"/>
+        <property name="usuarioService" ref="usuarioService"/>
+        <property name="conductorService" ref="conductorService"/>
+        <property name="vehiculoService" ref="vehiculoService"/>
+        <property name="clienteService" ref="clienteService"/>
+        <property name="facturaDetalleService" ref="facturaDetalleService"/>
+        <property name="secuenciaService" ref="secuenciaService"/>
+    </bean>
+    <bean id="envioProcessor" class="ec.net.redcode.tas.on.rest.processor.EnvioProcessor">
+        <property name="catalogoItemService" ref="catalogoItemService"/>
+        <property name="localidadService" ref="localidadService"/>
+        <property name="usuarioService" ref="usuarioService"/>
+        <property name="conductorService" ref="conductorService"/>
+        <property name="vehiculoService" ref="vehiculoService"/>
+        <property name="clienteService" ref="clienteService"/>
+        <property name="envioService" ref="envioService"/>
+        <property name="fileService" ref="fileService"/>
+        <property name="envioFileService" ref="envioFileService"/>
+    </bean>
+    <bean id="pedidoProcessor" class="ec.net.redcode.tas.on.rest.processor.PedidoProcessor">
+        <property name="usuarioService" ref="usuarioService"/>
+        <property name="clientePedidosService" ref="clientePedidosService"/>
+        <property name="visitaService" ref="visitaService"/>
+        <property name="productoService" ref="productoService"/>
+        <property name="pedidoService" ref="pedidoService"/>
+        <property name="pedidoDetalleService" ref="pedidoDetalleService"/>
+        <property name="categoriaProductoService" ref="categoriaProductoService"/>
+        <property name="pedidoDocumentosCreditoService" ref="pedidoDocumentosCreditoService"/>
+        <property name="fileService" ref="fileService"/>
+    </bean>
+    <bean id="retencionProcessor" class="ec.net.redcode.tas.on.rest.processor.RetencionProcessor">
+        <property name="usuarioService" ref="usuarioService"/>
+    </bean>
+    <bean id="secuenciaProcessor" class="ec.net.redcode.tas.on.rest.processor.SecuenciaProcessor">
+        <property name="secuenciaService" ref="secuenciaService"/>
+    </bean>
+    <bean id="ofertaProcessor" class="ec.net.redcode.tas.on.rest.processor.OfertaProcessor" init-method="init">
+        <property name="ofertaService" ref="ofertaService"/>
+        <property name="usuarioService" ref="usuarioService"/>
+        <property name="solicitudEnvioService" ref="solicititudService"/>
+        <property name="catalogoItemService" ref="catalogoItemService"/>
+        <property name="localidadService" ref="localidadService"/>
+        <property name="facturaDetalleService" ref="facturaDetalleService"/>
+        <property name="facturaService" ref="facturaService"/>
+        <property name="clienteService" ref="clienteService"/>
+        <property name="calificacionTransportistaService" ref="calificacionTransportistaService"/>
+        <property name="conductorService" ref="conductorService"/>
+        <property name="vehiculoService" ref="vehiculoService"/>
+        <property name="fileService" ref="fileService"/>
+        <property name="ofertaFileService" ref="ofertaFileService"/>
+    </bean>
+    <bean id="clientProcessor" class="ec.net.redcode.tas.on.rest.processor.ClienteProcessor">
+        <property name="clienteService" ref="clienteService"/>
+        <property name="catalogoItemService" ref="catalogoItemService"/>
+        <property name="localidadService" ref="localidadService"/>
+        <property name="usuarioService" ref="usuarioService"/>
+        <property name="secuenciaService" ref="secuenciaService"/>
+    </bean>
+    <bean id="vehiculoProcessor" class="ec.net.redcode.tas.on.rest.processor.VehiculoProcessor">
+        <property name="vehiculoService" ref="vehiculoService"/>
+        <property name="usuarioService" ref="usuarioService"/>
+        <property name="solicitudEnvioService" ref="solicititudService"/>
+    </bean>
+    <bean id="conductorProcessor" class="ec.net.redcode.tas.on.rest.processor.ConductorProcessor">
+        <property name="conductorService" ref="conductorService"/>
+        <property name="usuarioService" ref="usuarioService"/>
+        <property name="solicitudEnvioService" ref="solicititudService"/>
+    </bean>
+    <bean id="facturaProcessor" class="ec.net.redcode.tas.on.rest.processor.FacturaProcessor" init-method="init">
+        <property name="facturaService" ref="facturaService"/>
+        <property name="usuarioService" ref="usuarioService"/>
+        <property name="localidadService" ref="localidadService"/>
+        <property name="clienteService" ref="clienteService"/>
+        <property name="secuenciaService" ref="secuenciaService"/>
+        <property name="facturaDetalleService" ref="facturaDetalleService"/>
+        <property name="ofertaService" ref="ofertaService"/>
+        <property name="solicitudEnvioService" ref="solicititudService"/>
+        <property name="pagoService" ref="pagoService"/>
+        <property name="catalogoItemService" ref="catalogoItemService"/>
+        <property name="adquirienteService" ref="adquirienteService"/>
+        <property name="facturaManualService" ref="facturaManualService"/>
+        <property name="facturaRetencionService" ref="facturaRetencionService"/>
+    </bean>
+    <bean id="publicServiceProcessor" class="ec.net.redcode.tas.on.rest.processor.PublicServiceProcessor">
+        <property name="localidadService" ref="localidadService"/>
+        <property name="catalogoItemService" ref="catalogoItemService"/>
+        <property name="clienteService" ref="clienteService"/>
+        <property name="usuarioService" ref="usuarioService"/>
+        <property name="vehiculoService" ref="vehiculoService"/>
+        <property name="conductorService" ref="conductorService"/>
+        <property name="solicitudEnvioService" ref="solicititudService"/>
+        <property name="ofertaService" ref="ofertaService"/>
+        <property name="secuenciaService" ref="secuenciaService"/>
+        <property name="estadisticasService" ref="estadisticasService"/>
+    </bean>
+    <bean id="pagoProcessor" class="ec.net.redcode.tas.on.rest.processor.PagoProcessor" init-method="init">
+        <property name="pagoService" ref="pagoService"/>
+        <property name="catalogoItemService" ref="catalogoItemService"/>
+        <property name="facturaService" ref="facturaService"/>
+        <property name="facturaDetalleService" ref="facturaDetalleService"/>
+        <property name="solicitudEnvioService" ref="solicititudService"/>
+        <property name="ofertaService" ref="ofertaService"/>
+        <property name="notaCreditoService" ref="notaCreditoService"/>
+    </bean>
+    <bean id="fcmDispositivoProcessor" class="ec.net.redcode.tas.on.rest.processor.FcmDispositivoProcessor">
+        <property name="fcmDispositivoService" ref="fcmDispositivoService"/>
+    </bean>
+    <bean id="fcmSolicitudNuevaProcessor" class="ec.net.redcode.tas.on.rest.processor.fcm.FCMSolicitudNuevaProcessor">
+        <property name="solicitudEnvioService" ref="solicititudService"/>
+        <property name="localidadService" ref="localidadService"/>
+        <property name="usuarioService" ref="usuarioService"/>
+        <property name="clienteService" ref="clienteService"/>
+    </bean>
+    <bean id="fcmSolicitudAceptadaProcessor" class="ec.net.redcode.tas.on.rest.processor.fcm.FCMSolicitudAceptadaProcessor">
+        <property name="solicitudEnvioService" ref="solicititudService"/>
+        <property name="ofertaService" ref="ofertaService"/>
+        <property name="usuarioService" ref="usuarioService"/>
+        <property name="clienteService" ref="clienteService"/>
+    </bean>
+    <bean id="fcmSolicitudModificadaProcessor" class="ec.net.redcode.tas.on.rest.processor.fcm.FCMSolicitudModificadaProcessor">
+        <property name="usuarioService" ref="usuarioService"/>
+        <property name="solicitudEnvioService" ref="solicititudService"/>
+        <property name="solicitudEnvioAuditService" ref="solicitudEnvioAuditService"/>
+    </bean>
+    <bean id="fcmOfertaCambioProcessor" class="ec.net.redcode.tas.on.rest.processor.fcm.FCMOfertaCambioProcessor">
+        <property name="ofertaService" ref="ofertaService"/>
+        <property name="usuarioService" ref="usuarioService"/>
+        <property name="solicitudEnvioService" ref="solicititudService"/>
+    </bean>
+    <bean id="fcmSolicitudCanceladaProcessor" class="ec.net.redcode.tas.on.rest.processor.fcm.FCMSolicitudCanceladaProcessor">
+        <property name="solicitudEnvioService" ref="solicititudService"/>
+        <property name="ofertaService" ref="ofertaService"/>
+        <property name="usuarioService" ref="usuarioService"/>
+        <property name="clienteService" ref="clienteService"/>
+    </bean>
+    <bean id="fcmSolicitudCanceladaJobProcessor" class="ec.net.redcode.tas.on.rest.processor.fcm.FCMSolicitudCanceladaJobProcessor">
+        <property name="solicitudEnvioService" ref="solicititudService"/>
+        <property name="usuarioService" ref="usuarioService"/>
+        <property name="ofertaService" ref="ofertaService"/>
+    </bean>
+    <bean id="fcmSolicitudOfertaProcessor" class="ec.net.redcode.tas.on.rest.processor.fcm.FCMSolicitudOfertaProcessor">
+        <property name="usuarioService" ref="usuarioService"/>
+        <property name="ofertaService" ref="ofertaService"/>
+        <property name="solicitudEnvioService" ref="solicititudService"/>
+    </bean>
+    <bean id="solicitudEnvioCancelProcessor" class="ec.net.redcode.tas.on.rest.processor.SolicitudEnvioCancelProcessor">
+        <property name="clienteService" ref="clienteService"/>
+        <property name="ofertaService" ref="ofertaService"/>
+        <property name="solicitudEnvioService" ref="solicititudService"/>
+        <property name="localidadService" ref="localidadService"/>
+        <property name="usuarioService" ref="usuarioService"/>
+    </bean>
+    <bean id="facturaProveedorProcessor" class="ec.net.redcode.tas.on.rest.processor.FacturaProveedorProcessor">
+        <property name="facturaProveedorService" ref="facturaProveedorService"/>
+        <property name="usuarioService" ref="usuarioService"/>
+        <property name="clienteService" ref="clienteService"/>
+        <property name="catalogoItemService" ref="catalogoItemService"/>
+    </bean>
+    <bean id="serviceApiProcessor" class="ec.net.redcode.tas.on.rest.processor.ServiceApiProcessor">
+        <property name="oAuthDataProvider" ref="dataProvider"/>
+        <property name="secuenciaService" ref="secuenciaService"/>
+        <property name="usuarioService" ref="usuarioService"/>
+        <property name="conductorService" ref="conductorService"/>
+        <property name="ofertaService" ref="ofertaService"/>
+        <property name="solicitudEnvioService" ref="solicititudService"/>
+        <property name="vehiculoService" ref="vehiculoService"/>
+    </bean>
+    <bean id="eBillingProcessor" class="ec.net.redcode.tas.on.rest.processor.EBillingProcessor">
+        <property name="adquirienteService" ref="adquirienteService"/>
+        <property name="usuarioEbillingService" ref="usuarioEbillingService"/>
+        <property name="usuarioService" ref="usuarioService"/>
+        <property name="ebillingService" ref="ebillingService"/>
+        <property name="clienteService" ref="clienteService"/>
+    </bean>
+    <bean id="calificacionTransportistaProcessor" class="ec.net.redcode.tas.on.rest.processor.CalificacionTransportistaProcessor">
+        <property name="calificacionTransportistaService" ref="calificacionTransportistaService"/>
+        <property name="usuarioService" ref="usuarioService"/>
+    </bean>
+    <bean id="requestProcessor" class="ec.net.redcode.tas.on.rest.processor.RequestProcessor">
+        <property name="requestService" ref="requestService"/>
+    </bean>
+    <bean id="securityRestProcessor" class="ec.net.redcode.tas.on.rest.processor.SecurityRestProcessor">
+        <property name="usuarioService" ref="usuarioService"/>
+        <property name="clienteService" ref="clienteService"/>
+    </bean>
+
+    <!-- Routes -->
+    <bean id="tasOnRoute" class="ec.net.redcode.tas.on.rest.route.TasOnRoute" init-method="initCron">
+        <property name="catalogoItemService" ref="catalogoItemService"/>
+    </bean>
+    <bean id="tasOnPublicRoute" class="ec.net.redcode.tas.on.rest.route.TasOnPublicRoute"/>
+    <bean id="tasOnEmailRoute" class="ec.net.redcode.tas.on.rest.route.TasOnEmailRoute"/>
+    <bean id="tasOnFCMRoute" class="ec.net.redcode.tas.on.rest.route.TasOnFCMRoute"/>
+    <bean id="tasOnApiRoute" class="ec.net.redcode.tas.on.rest.route.TasOnApiRoute"/>
+
+    <camel:camelContext id="tasOnCamel">
+        <camel:routeBuilder ref="tasOnRoute"/>
+        <camel:routeBuilder ref="tasOnPublicRoute"/>
+        <camel:routeBuilder ref="tasOnEmailRoute"/>
+        <camel:routeBuilder ref="tasOnFCMRoute"/>
+        <camel:routeBuilder ref="tasOnApiRoute"/>
+    </camel:camelContext>
+
+</beans>

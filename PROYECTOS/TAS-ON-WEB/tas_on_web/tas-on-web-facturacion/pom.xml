@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>tas-on-web</artifactId>
+        <groupId>ec.net.redcode.tas.on</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>tas-on-web-facturacion</artifactId>
+    <packaging>war</packaging>
+    <name>TAS ON :: Facturacion</name>
+
+    <dependencies>
+        <dependency>
+            <groupId>ec.net.redcode.tas.on</groupId>
+            <artifactId>tas-on-web-commons</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ec.net.redcode.tas.on</groupId>
+            <artifactId>tas-on-web-wsdl-sri-recepcion</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.ow2.asm</groupId>
+                    <artifactId>asm</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>ec.net.redcode.tas.on</groupId>
+            <artifactId>tas-on-web-wsdl-sri-auth</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ec.net.redcode.tas.on</groupId>
+            <artifactId>tas-on-web-persistence</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-quartz2</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-spring</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-jaxb</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>activemq-camel</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+        </dependency>
+        <!-- mvn install:install-file
+            -Dfile={path-to-lib}/tas_on_web/tas-on-web-facturacion/src/lib/sri.jar
+            -DgroupId=ec.gob.sri
+            -DartifactId=sri
+            -Dversion=1.0
+            -Dpackaging=jar -->
+        <dependency>
+            <groupId>ec.gob.sri</groupId>
+            <artifactId>sri</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>es.mityc.jumbo.adsi</groupId>
+            <artifactId>MITyCLibXADES</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>es.mityc.jumbo.adsi</groupId>
+            <artifactId>MITyCLibTSA</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>es.mityc.jumbo.adsi</groupId>
+            <artifactId>MITyCLibAPI</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>es.mityc.jumbo.adsi</groupId>
+            <artifactId>xmlsec-1.4.2-ADSI</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>net.sf.jasperreports</groupId>
+            <artifactId>jasperreports</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>net.sf.barcode4j</groupId>
+            <artifactId>barcode4j</artifactId>
+            <version>2.1</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>avalon-framework</groupId>
+                    <artifactId>avalon-framework-impl</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apache.ant</groupId>
+                    <artifactId>ant</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apache.ant</groupId>
+                    <artifactId>ant-launcher</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!--dependency>
+            <groupId>groovy</groupId>
+            <artifactId>groovy</artifactId>
+            <version>1.1-beta-2</version>
+        </dependency-->
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy-all</artifactId>
+            <version>2.3.0</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.ow2.asm</groupId>
+                    <artifactId>asm</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!--dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy</artifactId>
+            <version>2.2.2</version>
+        </dependency-->
+        <!--<dependency>
+            <groupId>batik</groupId>
+            <artifactId>batik-bridge</artifactId>
+            <version>1.6-1</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>xerces</groupId>
+                    <artifactId>xercesImpl</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>-->
+        <dependency>
+            <groupId>org.apache.xmlgraphics</groupId>
+            <artifactId>batik-bridge</artifactId>
+            <version>1.10</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>xerces</groupId>
+                    <artifactId>xercesImpl</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>${artifactId}</finalName>
+    </build>
+
+
+</project>

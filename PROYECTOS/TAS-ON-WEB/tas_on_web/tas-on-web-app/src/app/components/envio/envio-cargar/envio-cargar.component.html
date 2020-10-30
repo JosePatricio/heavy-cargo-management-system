@@ -1,0 +1,50 @@
+<ngx-loading [show]="loading"></ngx-loading>
+<simple-notifications [options]="options" (onDestroy)="destroyed($event)"></simple-notifications>
+
+<div class="container-fluid margin-top-container">
+  <form>
+    <h3>Cargar envíos</h3>
+    <hr>
+    <div class="form-group">
+      <input type="file" id="fileFinish" class="form-control-file subir-archivo" (change)="onFileChange($event)">
+      <button type="button" class="btn btn-primary boton" (click)="validarEnvios()" [disabled]="envios.length > 0 || !archivoSolicitudes.file">Validar</button>
+    </div>
+    <div>
+      <ngx-datatable
+        class='material tableHeightFixed'
+        [columns]="columns"
+        [columnMode]="'force'"
+        [headerHeight]="'auto'"
+        [footerHeight]="50"
+        [rowHeight]="'auto'"
+        [limit]="25"
+        [rows]='envios'
+        [scrollbarH]="true"
+        [selectionType]="'single'"
+      >
+      </ngx-datatable>
+    </div>
+    <div class="mt-3">
+      <button type="button" class="btn btn-primary boton float-right" (click)="cargarEnvios()" [disabled]="envios.length == 0">Cargar</button>
+      <a href="../../../../assets/files/envios.xlsx" target="_blank">Archivo base</a>
+    </div>
+
+    <div id="templates">
+      <ng-template #tmplIndex let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+        <strong>{{rowIndex+1}}</strong>
+      </ng-template>
+      <ng-template #tmplDateTime let-value="value">
+        <div>{{value | date: appConfig.formatoFechaHora}}</div>
+      </ng-template>
+      <ng-template #tmplTipoEnvio let-value="value">
+        <div>{{value == "G" ? "Guía": value == "C" ? "Cobro" : value == "D" ? "Devolución" : "ERROR" }}</div>
+      </ng-template>
+      <ng-template #tmplConductor let-value="value">
+        <div>{{value.conductorNombre+" "+ value.conductorApellido}}</div>
+      </ng-template>
+      <ng-template #tmplVehiculo let-value="value">
+        <div>{{value.vehiculoPlaca + " " + value.vehiculoAnio + " " + value.vehiculoModelo}}</div>
+      </ng-template>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,80 @@
+<ngx-loading [show]="loading"></ngx-loading>
+<div class="container-fluid margin-top-container">
+  <form>
+    <h3>Conductores</h3>
+    <hr>
+    <div id="driverInfo" *ngIf="!drivNew">
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group" *ngIf="clienteCombo"
+               [ngClass]="{'has-danger': empresaClienteSeleccionadaM.errors?.required  && empresaClienteSeleccionadaM.touched}">
+            <label for="empresaClienteSeleccionada">Empresa cliente</label>
+            <select class="form-control" id="empresaClienteSeleccionada" name="empresaClienteSeleccionada"
+                    [(ngModel)]="empresaClienteSeleccionada" required #empresaClienteSeleccionadaM="ngModel"
+                    (ngModelChange)="loadData()">
+              <option></option>
+              <option *ngFor="let cliente of clienteCombo" [value]="cliente.ruc">
+                {{cliente.razonSocial}}
+              </option>
+            </select>
+            <div *ngIf="empresaClienteSeleccionadaM.errors?.required" class="form-control-feedback">
+              {{appConfig.msgRequerido}}
+            </div>
+          </div>
+          <div class="form-group" *ngIf="catState">
+            <label for="usuarioEstado">Estado usuario</label>
+            <select class="form-control" id="usuarioEstado" name="usuarioEstado" [(ngModel)]="idCatState"
+                    #usuarioEstado="ngModel" required (ngModelChange)="loadData()">
+              <option [value]="null" label="--Selecione estado--" disabled selected="selected"></option>
+              <option *ngFor="let _usuarioState of catState" [value]="_usuarioState.catalogoItemId">
+                {{_usuarioState.catalogoItemDescripcion}}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="col-md-8 hm-40">
+          <button type="button" class="btn btn-primary content-bottom-right"
+                  (click)="nuevoConductor()">Nuevo conductor
+          </button>
+        </div>
+      </div>
+      <div>
+        <ngx-datatable
+          class='material tableHeightFixed'
+          [columnMode]="'force'"
+          [headerHeight]="'auto'"
+          [footerHeight]="50"
+          [rowHeight]="'auto'"
+          [limit]="25"
+          [rows]='conductores'
+          [columns]="columns"
+          [scrollbarH]="true"
+          [selectionType]="'single'"
+          [messages]="{emptyMessage:'Sin registros para mostrar...',totalMessage: 'total',selectedMessage: 'selected'}">
+        </ngx-datatable>
+      </div>
+      <hr>
+    </div>
+
+    <div [ngClass]="{'hide-element': !drivNew}">
+      <ng-template #dynamicInsert></ng-template>
+    </div>
+
+    <div id="templates">
+      <ng-template #tmplIndex let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+        <strong>{{rowIndex+1}}</strong>
+      </ng-template>
+      <ng-template #tmplDate let-value="value">
+        <div>{{value | date: appConfig.formatoFecha}}</div>
+      </ng-template>
+      <ng-template #linkButton let-value="value" let-rowIndex="rowIndex" let-row="row">
+        <button type="button" class="btn btn-warning info-button-small"
+                (click)="editarConductor(row.usuarioIdDocumento)">
+          <i class="fas fa-edit"></i>
+        </button>
+      </ng-template>
+    </div>
+
+  </form>
+</div>
+

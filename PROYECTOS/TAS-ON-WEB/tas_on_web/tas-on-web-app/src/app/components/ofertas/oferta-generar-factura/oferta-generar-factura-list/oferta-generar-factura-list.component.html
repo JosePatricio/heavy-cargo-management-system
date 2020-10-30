@@ -1,0 +1,222 @@
+<ngx-loading [show]="loading"></ngx-loading>
+<div class="container-fluid margin-top-container">
+  <form>
+    <h3>{{titlePay}}</h3>
+    <hr>
+    <div *ngIf="!typePay" class="text-center">
+      <h4>Seleccione tipo facturación</h4>
+      <div class="element-center col-md-4">
+        <button type="button" class="btn btn-outline-primary   w-100" (click)="tipoFactua(appConfig.idPagoNormal)">
+          Facturación normal
+        </button>
+        <br/>
+        <button type="button" class="btn btn-outline-primary w-100" (click)="tipoFactua(appConfig.idPagoInmediato)">
+          Facturación pago inmediato
+        </button>
+      </div>
+    </div>
+    <div *ngIf="typePay">
+      <div>
+        <ngx-datatable
+          class='material tableHeightFixed'
+          [columnMode]="'force'"
+          [headerHeight]="'auto'"
+          [footerHeight]="50"
+          [rowHeight]="'auto'"
+          [limit]="25"
+          [rows]='ofertas'
+          [columns]='columns'
+          [scrollbarH]="true"
+          [selected]="selOfert"
+          [selectionType]="'checkbox'"
+          (select)='onSelect($event)'
+          [messages]="{emptyMessage:'Sin registros para mostrar...',totalMessage: 'total',selectedMessage: 'selected'}">
+        </ngx-datatable>
+      </div>
+      <hr/>
+      <div style="text-align: right;">
+        <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="previewFactMod()"
+                [disabled]="ofertas.length<1">
+          Generar prefactura
+        </button>
+        <button type="button" class="btn btn-warning" data-dismiss="modal" (click)="tipoFactua(null)">
+          Cancelar
+        </button>
+      </div>
+    </div>
+    <div id="templates">
+      <ng-template #tmplIndex let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+        <strong>{{rowIndex+1}}</strong>
+      </ng-template>
+      <ng-template #tmplAmount let-value="value" let-row="row">
+        <div class="amount-text wm-100">{{value | currency:'USD':'symbol'}}</div>
+      </ng-template>
+      <ng-template #tmpPeso let-value="value" let-rowIndex="rowIndex" let-row="row">
+        <div>{{row.peso}} {{row.tipoPeso}}</div>
+      </ng-template>
+    </div>
+  </form>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="modPreviewInvoice" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog forma" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">[ GENERAR PREFACTURA ]</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h5 class="modal-title" id="ctDatos">Datos Compañía:</h5>
+        <div class="row">
+          <div class="col-md-5">
+            <div class="form-group">
+              <label>Nombre:</label>
+              <input class="form-control" id="nombreCt" name="nombreCt" [readonly]="true"
+                     [(ngModel)]="datosCompania.clienteRazonSocial" value="{{datosCompania.clienteRazonSocial}}">
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <label>RUC:</label>
+              <input class="form-control" id="rucCt" name="rucCt" [readonly]="true"
+                     [(ngModel)]="datosCompania.clienteRuc" value="{{datosCompania.clienteRuc}}">
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <label for="noFactCt">No. Factura:</label>
+              <input class="form-control" id="noFactCt" name="noFactCt" [readonly]="true" value=" - ">
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <label>No. Autorizacion:</label>
+              <input class="form-control" id="noAutCt" name="noAutCt" [readonly]="true" value=" - ">
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Dirección:</label>
+              <input class="form-control" id="direccCt" name="direccCt" [readonly]="true"
+                     [(ngModel)]="datosCompania.clienteDireccion" value="{{datosCompania.clienteDireccion}}">
+            </div>
+          </div>
+        </div>
+
+        <h5 class="modal-title" id="tasDatos">Datos de TASON:</h5>
+        <div class="row">
+          <div class="col-md-5">
+            <div class="form-group">
+              <label>Nombre:</label>
+              <input class="form-control" id="nombreTas" name="nombreTas" [readonly]="true"
+                     [(ngModel)]="datosTasOn.clienteRazonSocial" value="{{datosTasOn.clienteRazonSocial}}">
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <label for="rucTas">RUC:</label>
+              <input class="form-control" id="rucTas" name="rucTas" [readonly]="true"
+                     [(ngModel)]="datosTasOn.clienteRuc" value="{{datosTasOn.clienteRuc}}">
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <label for="fechEmiTas">Fecha Emisión:</label>
+              <label class="form-control disable-element" id="fechEmiTas" name="fechEmiTas">{{actualDate |
+                date: appConfig.formatoFecha}}</label>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <label for="guiaEmiTas">Guía Remisión:</label>
+              <input class="form-control" id="guiaEmiTas" name="guiaEmiTas" [readonly]="true"
+                     value=" - ">
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="direccTas">Dirección:</label>
+              <input class="form-control" id="direccTas" name="direccTas" [readonly]="true"
+                     [(ngModel)]="datosTasOn.clienteDireccion" value="{{datosTasOn.clienteDireccion}}">
+            </div>
+          </div>
+        </div>
+
+        <div class="row table-responsive" *ngIf="ofertas">
+          <table class="table table-hover">
+            <thead>
+            <tr>
+              <th>Cantidad</th>
+              <th>Descripción</th>
+              <th>Precio Unitario</th>
+            </tr>
+            </thead>
+
+            <tfoot>
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td></td>
+              <td class="text-bold">Subtotal 12%</td>
+              <td>
+                <div class="amount-text"> -</div>
+              </td>
+            </tr>
+            <tr>
+              <td></td>
+              <td class="text-bold">Subtotal 0%</td>
+              <td>
+                <div class="amount-text">{{subTotalFactura | currency:'USD':'symbol'}}</div>
+              </td>
+            </tr>
+            <tr>
+              <td></td>
+              <td class="text-bold">Descuento</td>
+              <td>
+                <div class="amount-text"> {{descuentos | currency:'USD':'symbol'}}</div>
+              </td>
+            </tr>
+            <tr>
+              <td></td>
+              <td class="text-bold">IVA (12%)</td>
+              <td>
+                <div class="amount-text"> -</div>
+              </td>
+            </tr>
+            <tr>
+              <td></td>
+              <td class="text-bold">Total</td>
+              <td>
+                <div class="amount-text">{{totalFactura | currency:'USD':'symbol'}}</div>
+              </td>
+            </tr>
+            </tfoot>
+
+            <tbody>
+            <tr *ngFor="let oferta of selOfert_;">
+              <td>1</td>
+              <td>{{oferta.ofertaObservacion}}</td>
+              <td>
+                <div class="amount-text">{{oferta.amount | currency:'USD':'symbol'}}</div>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="savePreFact()">Guardar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

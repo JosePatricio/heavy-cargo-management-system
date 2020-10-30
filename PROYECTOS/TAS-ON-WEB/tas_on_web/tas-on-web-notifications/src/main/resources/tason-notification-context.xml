@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:camel="http://camel.apache.org/schema/spring"
+       xsi:schemaLocation="
+         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+         http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
+
+    <import resource="persistence-config.xml"/>
+
+    <!--<context:property-placeholder
+            location="file:${MEFIA_HOME}/promotions_queue/promotionEngineQueue.properties,
+            file:${MEFIA_HOME}/activemq/activemq.properties" order="1" ignore-unresolvable="true"/> -->
+
+    <bean id="jmsConnectionFactory" class="org.apache.activemq.pool.PooledConnectionFactory">
+        <property name="connectionFactory">
+            <bean class="org.apache.activemq.ActiveMQConnectionFactory">
+                <property name="brokerURL" value="tcp://localhost:61616" />
+            </bean>
+        </property>
+        <property name="maxConnections" value="10" />
+    </bean>
+
+    <bean id="jmsConfig" class="org.apache.camel.component.jms.JmsConfiguration">
+        <property name="connectionFactory" ref="jmsConnectionFactory" />
+        <property name="transacted" value="false" />
+        <property name="concurrentConsumers" value="10" />
+        <property name="maxConcurrentConsumers" value="10" />
+    </bean>
+
+    <bean id="notificationProcessor" class="ec.net.redcode.tas.on.notifications.processor.NotificationProcesor">
+        <property name="usuarioService" ref="usuarioService"/>
+        <property name="clienteService" ref="clienteService"/>
+        <property name="solicitudEnvioService" ref="solicititudService"/>
+        <property name="catalogoItemService" ref="catalogoItemService"/>
+        <property name="facturaDetalleService" ref="facturaDetalleService"/>
+        <property name="facturaService" ref="facturaService"/>
+        <property name="ebillingService" ref="ebillingService"/>
+        <property name="ofertaService" ref="ofertaService"/>
+        <property name="conductorService" ref="conductorService"/>
+        <property name="vehiculoService" ref="vehiculoService"/>
+        <property name="calificacionTransportistaService" ref="calificacionTransportistaService"/>
+    </bean>
+
+    <bean id="notificationRoute" class="ec.net.redcode.tas.on.notifications.route.NotificationRoute" init-method="initNotificationRoute" >
+        <property name="catalogoItemService" ref="catalogoItemService"/>
+    </bean>
+
+    <camel:camelContext id="tasOnCamelNotication">
+        <camel:routeBuilder ref="notificationRoute"/>
+    </camel:camelContext>
+
+</beans>

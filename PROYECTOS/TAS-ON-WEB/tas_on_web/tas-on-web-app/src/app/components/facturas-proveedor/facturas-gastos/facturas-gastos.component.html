@@ -1,0 +1,528 @@
+<ngx-loading [show]="loading"></ngx-loading>
+<simple-notifications [options]="options" (onDestroy)="onCloseDialog()"></simple-notifications>
+<div class="container-fluid margin-top-container">
+  <div *ngIf="!ingresa">
+    <button type="button" class="btn btn-primary " (click)="addFactGasto()">
+      <i class="fas fa-plus-circle"></i> Ingresar factura
+    </button>
+  </div>
+  <div *ngIf="ingresa">
+    <form novalidate #forma="ngForm">
+      <div class="modal-body">
+        <h5 class="modal-title" id="provData">Datos del proveedor:</h5>
+        <div class="col">
+          <div class="row">
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-2">
+              <div class="form-group">
+                <label>RUC:</label>
+              </div>
+            </div>
+            <div class="col-md-5">
+              <div class="form-group" [ngClass]="{'has-danger': rucCt.errors?.required  && rucCt.touched}">
+                <input class="form-control" id="rucCt" name="rucCt" #rucCt="ngModel"
+                       [(ngModel)]="datosCompania.ruc" value="{{datosCompania.ruc}}">
+              </div>
+            </div>
+            <div class="col-md-1">
+              <button type="button" class="button btn-primary" (click)="buscaCliente()">
+                <i class="fas fa-search"></i>
+              </button>
+            </div>
+            <div class="col-md-2">
+              <div class="form-group" [ngClass]="{'has-danger': rucCt.errors?.required  && rucCt.touched}">
+                <div *ngIf="rucCt.errors?.required" class="form-control-feedback small-text-msg">
+                  {{appConfig.msgRequerido}}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-2">
+              <div class="form-group">
+                <label>Razón social:</label>
+              </div>
+            </div>
+            <div class="col-md-5">
+              <div class="form-group"
+                   [ngClass]="{'has-danger': chkNombProv.errors?.required  && chkNombProv.touched}">
+                <input class="form-control" id="nombreCt" name="nombreCt" disabled
+                       [(ngModel)]="datosCompania.razonSocial" value="{{datosCompania.razonSocial}}">
+              </div>
+            </div>
+            <div class="col-md-1">
+              <div class="form-group" [ngClass]="{'has-danger': chkNombProv.errors?.required  && chkNombProv.touched}">
+                <input type="checkbox" name="chkNombProv" id="chkNombProv" #chkNombProv="ngModel" [ngModel]="" required>
+              </div>
+            </div>
+            <div class="col-md-2">
+              <div class="form-group"
+                   [ngClass]="{'has-danger': chkNombProv.errors?.required  && chkNombProv.touched}">
+                <div *ngIf="chkNombProv.errors?.required" class="form-control-feedback small-text-msg">
+                  {{appConfig.msgRequerido}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <h5 class="modal-title" id="tasData">Datos de TAS-ON:</h5>
+        <div class="col">
+          <div class="row">
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-2">
+              <div class="form-group">
+                <label>Razón social:</label>
+              </div>
+            </div>
+            <div class="col-md-5">
+              <div class="form-group" [ngClass]="{'has-danger': chkRsTas.errors?.required  && chkRsTas.touched}">
+                <input class="form-control" id="nombreTas" name="nombreTas" disabled
+                       [(ngModel)]="datosTasOn.clienteRazonSocial" value="{{datosTasOn.clienteRazonSocial}}">
+              </div>
+            </div>
+            <div class="col-md-1">
+              <div class="form-group" [ngClass]="{'has-danger': chkRsTas.errors?.required  && chkRsTas.touched}">
+                <input type="checkbox" name="chkRsTas" id="chkRsTas" #chkRsTas="ngModel" [ngModel]="" required>
+              </div>
+            </div>
+            <div class="col-md-2">
+              <div class="form-group" [ngClass]="{'has-danger': chkRsTas.errors?.required  && chkRsTas.touched}">
+                <div *ngIf="chkRsTas.errors?.required" class="form-control-feedback small-text-msg">
+                  {{appConfig.msgRequerido}}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-2">
+              <div class="form-group">
+                <label for="rucTas">RUC:</label>
+              </div>
+            </div>
+            <div class="col-md-5">
+              <div class="form-group" [ngClass]="{'has-danger': chkRucTas.errors?.required  && chkRucTas.touched}">
+                <input class="form-control" id="rucTas" name="rucTas" disabled
+                       [(ngModel)]="datosTasOn.clienteRuc" value="{{datosTasOn.clienteRuc}}">
+              </div>
+            </div>
+            <div class="col-md-1">
+              <div class="form-group" [ngClass]="{'has-danger': chkRsTas.errors?.required  && chkRsTas.touched}">
+                <input type="checkbox" name="chkRucTas" id="chkRucTas" #chkRucTas="ngModel" [ngModel]="" required/>
+              </div>
+            </div>
+            <div class="col-md-2">
+              <div class="form-group" [ngClass]="{'has-danger': chkRucTas.errors?.required  && chkRucTas.touched}">
+                <div *ngIf="chkRucTas.errors?.required" class="form-control-feedback small-text-msg">
+                  {{appConfig.msgRequerido}}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-2">
+              <div class="form-group">
+                <label for="direccTas">Dirección:</label>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group" [ngClass]="{'has-danger': chkDirTas.errors?.required  && chkDirTas.touched}">
+                <input class="form-control" id="direccTas" name="direccTas" disabled
+                       [(ngModel)]="datosTasOn.clienteDireccion" value="{{datosTasOn.clienteDireccion}}">
+              </div>
+            </div>
+            <div class="col-md-1">
+              <div class="form-group" [ngClass]="{'has-danger': chkDirTas.errors?.required  && chkDirTas.touched}">
+                <input type="checkbox" name="chkDirTas" id="chkDirTas" #chkDirTas="ngModel" [ngModel]="" required/>
+              </div>
+            </div>
+            <div class="col-md-2">
+              <div class="form-group" [ngClass]="{'has-danger': chkDirTas.errors?.required  && chkDirTas.touched}">
+                <div *ngIf="chkDirTas.errors?.required" class="form-control-feedback small-text-msg">
+                  {{appConfig.msgRequerido}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <h5 class="modal-title" id="factDataEgre">Datos de egreso:</h5>
+        <div class="col">
+          <div class="row">
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-2">
+              <div class="form-group">
+                <label>Tipo de compra:</label>
+              </div>
+            </div>
+            <div class="col-md-5">
+              <div class="form-group">
+                <select class="form-control" id="pagoTipo" name="pagoTipo"
+                        [(ngModel)]="invoiceData.facturaProveedorCompra"
+                        #pagoTipo="ngModel" required>
+                  <option [value]="null" label="--Selecione tipo--" disabled selected="selected"></option>
+                  <option *ngFor="let _tipoPago of tipoPago" [value]="_tipoPago.catalogoItemId">
+                    {{_tipoPago.catalogoItemDescripcion}}
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-2">
+              <div class="form-group">
+                <label>Fecha de pago:</label>
+              </div>
+            </div>
+            <div class="col-md-5">
+              <div class="form-group">
+                <my-date-picker id="fechRecFact" locale="es" name="fechRecFact" placeholder="Fecha de pago"
+                                [options]="myDatePickerOptions" [(ngModel)]="invoiceData.facturaProveedorFechaPago"
+                                #fechRecFact="ngModel"
+                                required></my-date-picker>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-2">
+              <div class="form-group">
+                <label>Forma de pago:</label>
+              </div>
+            </div>
+            <div class="col-md-5">
+              <div class="form-group">
+                <select class="form-control" id="formaPago" name="formaPago"
+                        [(ngModel)]="invoiceData.facturaProveedorFormaPago"
+                        #pagoTipo="ngModel" required>
+                  <option [value]="null" label="--Selecione tipo--" disabled selected="selected"></option>
+                  <option *ngFor="let _formaPago of formaPago" [value]="_formaPago.catalogoItemId">
+                    {{_formaPago.catalogoItemDescripcion}}
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+        <h5 class="modal-title" id="factData">Datos de la factura:</h5>
+        <div class="col">
+          <div class="row">
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-2">
+              <div class="form-group">
+                <label for="noFactCt">No. factura:</label>
+              </div>
+            </div>
+            <div class="col-md-5">
+              <div class="form-group" [ngClass]="{'has-danger': noFactCt.errors?.required  && noFactCt.touched}">
+                <input class="form-control" id="noFactCt" name="noFactCt"
+                       [(ngModel)]="invoiceData.facturaProveedorNumero"
+                       #noFactCt="ngModel" value="{{invoiceData.facturaProveedorNumero}}" required maxlength="17"
+                       pattern="([0-9]{3}-[0-9]{3}-[0-9]{9})">
+              </div>
+            </div>
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-2">
+              <div class="form-group" [ngClass]="{'has-danger': noFactCt.errors?.required  && noFactCt.touched}">
+                <div *ngIf="noFactCt.errors?.required" class="form-control-feedback small-text-msg">
+                  {{appConfig.msgRequerido}}
+                </div>
+                <div *ngIf="noFactCt.errors?.maxlength" class="form-control-feedback small-text-msg">
+                  Maximo de caracteres: {{noFactCt.errors.maxlength.requiredLength}}
+                </div>
+                <div *ngIf="noFactCt.errors?.pattern" class="form-control-feedback small-text-msg">
+                 El formato es la siguiente: 001-001-12...789
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-2">
+              <div class="form-group">
+                <label>Fecha de emisión:</label>
+              </div>
+            </div>
+            <div class="col-md-5">
+              <div class="form-group" [ngClass]="{'has-danger': fechemi.errors?.required  && fechemi.touched}">
+                <my-date-picker id="fechemi" locale="es" name="fechemi" placeholder="Fecha de autorización"
+                                [options]="myDatePickerOptions" [(ngModel)]="invoiceData.facturaProveedorFechaEmision"
+                                #fechemi="ngModel"
+                                required></my-date-picker>
+              </div>
+            </div>
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-2">
+              <div class="form-group" [ngClass]="{'has-danger': fechemi.errors?.required  && fechemi.touched}">
+                <div *ngIf="fechemi.errors?.required" class="form-control-feedback small-text-msg">
+                  {{appConfig.msgRequerido}}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-2">
+              <div class="form-group">
+                <label for="noAutCt">No. autorización:</label>
+              </div>
+            </div>
+            <div class="col-md-5">
+              <div class="form-group" [ngClass]="{'has-danger': noAutCt.errors?.required  && noAutCt.touched}">
+                <input class="form-control" id="noAutCt" name="noAutCt"
+                       [(ngModel)]="invoiceData.facturaProveedorNumeroAutorizacion"
+                       value="{{invoiceData.facturaProveedorNumeroAutorizacion}}" #noAutCt="ngModel" required
+                       maxlength="49" minlength="10"
+                       pattern="[0-9]+">
+              </div>
+            </div>
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-2">
+              <div class="form-group" [ngClass]="{'has-danger': noAutCt.errors?.required  && noAutCt.touched}">
+                <div *ngIf="noAutCt.errors?.required" class="form-control-feedback small-text-msg">
+                  {{appConfig.msgRequerido}}
+                </div>
+                <div *ngIf="noAutCt.errors?.minlength" class="form-control-feedback small-text-msg">
+                  Minimo de caracteres: {{noAutCt.errors.minlength.requiredLength}}
+                </div>
+                <div *ngIf="noAutCt.errors?.pattern" class="form-control-feedback small-text-msg">
+                  {{appConfig.msgSoloNumeros}}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-2">
+              <div class="form-group">
+                <label>Fecha autorización:</label>
+              </div>
+            </div>
+            <div class="col-md-5">
+              <div class="form-group">
+                <my-date-picker id="factFechAut" locale="es" name="factFechAut" placeholder="Fecha de autorización"
+                                [options]="myDatePickerOptions"
+                                [(ngModel)]="invoiceData.facturaProveedorFechaAutorizacion"
+                                #factFechAut="ngModel"
+                                required></my-date-picker>
+              </div>
+            </div>
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-2">
+              <div class="form-group"
+                   [ngClass]="{'has-danger': (factFechAut.errors?.required  || factFechAut.errors?.dateLess) && factFechAut.touched}">
+                <div *ngIf="factFechAut.errors?.required" class="form-control-feedback small-text-msg">
+                  {{appConfig.msgRequerido}}
+                </div>
+                <div *ngIf="factFechAut.errors?.dateLess" class="form-control-feedback small-text-msg">Fecha maxima no
+                  debe ser mayor a {{maxDate|date: appConfig.formatoFechaHora}}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-2">
+              <div class="form-group">
+                <label>Subtotal Sin Impuestos:</label>
+              </div>
+            </div>
+            <div class="col-md-5">
+              <div class="form-group" [ngClass]="{'has-danger': subtSI.errors?.required  && subtSI.touched}">
+                <input class="form-control" id="subtSI" name="subtSI" #subtSI="ngModel"
+                       [(ngModel)]="invoiceData.facturaProveedorSubtotal" required onlyDecimal
+                       (ngModelChange)="calcTotal()" (focusout)="calcTotal()">
+              </div>
+            </div>
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-2">
+              <div class="form-group" [ngClass]="{'has-danger': subtSI.errors?.required  && subtSI.touched}">
+                <div *ngIf="subtSI.errors?.required" class="form-control-feedback small-text-msg">
+                  {{appConfig.msgRequerido}}
+                </div>
+                <div *ngIf="subtSI.errors?.onlyDecimal" class="form-control-feedback small-text-msg">
+                  {{appConfig.msgSoloNumerosDecimales}}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-2">
+              <div class="form-group">
+                <label>Subtotal (IVA 12%):</label>
+              </div>
+            </div>
+            <div class="col-md-5">
+              <div class="form-group" [ngClass]="{'has-danger': subt12.errors?.required  && subt12.touched}">
+                <input class="form-control" id="subt12" name="subt12" #subt12="ngModel"
+                       [(ngModel)]="invoiceData.facturaProveedorSubTotal12" required onlyDecimal
+                       (ngModelChange)="calcTotal()" (focusout)="calcTotal()">
+              </div>
+            </div>
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-2">
+              <div class="form-group" [ngClass]="{'has-danger': subt12.errors?.required  && subt12.touched}">
+                <div *ngIf="subt12.errors?.required" class="form-control-feedback small-text-msg">
+                  {{appConfig.msgRequerido}}
+                </div>
+                <div *ngIf="subt12.errors?.onlyDecimal" class="form-control-feedback small-text-msg">
+                  {{appConfig.msgSoloNumerosDecimales}}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-2">
+              <div class="form-group">
+                <label>Subtotal (IVA 0%):</label>
+              </div>
+            </div>
+            <div class="col-md-5">
+              <div class="form-group" [ngClass]="{'has-danger': subt0.errors?.required  && subt0.touched}">
+                <input class="form-control" id="subt0" name="subt0" #subt0="ngModel"
+                       [(ngModel)]="invoiceData.facturaProveedorSubTotal0" required onlyDecimal
+                       (ngModelChange)="calcTotal()" (focusout)="calcTotal()">
+              </div>
+            </div>
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-2">
+              <div class="form-group" [ngClass]="{'has-danger': subt0.errors?.required  && subt0.touched}">
+                <div *ngIf="subt0.errors?.required" class="form-control-feedback small-text-msg">
+                  {{appConfig.msgRequerido}}
+                </div>
+                <div *ngIf="subt0.errors?.onlyDecimal" class="form-control-feedback small-text-msg">
+                  {{appConfig.msgSoloNumerosDecimales}}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-2">
+              <div class="form-group">
+                <label for="iva">IVA:</label>
+              </div>
+            </div>
+            <div class="col-md-5">
+              <div class="form-group"
+                   [ngClass]="{'has-danger': iva.errors?.required  && iva.touched || iva.errors?.ivaValidator}">
+                <input class="form-control" id="iva" name="iva" [(ngModel)]="invoiceData.facturaProveedorIva"
+                       #iva="ngModel" required onlyDecimal (ngModelChange)="calcTotal()" (focusout)="calcTotal()" ivaValidator="subt12">
+              </div>
+            </div>
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-2">
+              <div class="form-group" [ngClass]="{'has-danger': iva.errors?.required  && iva.touched}">
+                <div *ngIf="iva.errors?.required" class="form-control-feedback small-text-msg">
+                  {{appConfig.msgRequerido}}
+                </div>
+                <div *ngIf="iva.errors?.onlyDecimal" class="form-control-feedback small-text-msg">
+                  {{appConfig.msgSoloNumerosDecimales}}
+                </div>
+                <div *ngIf="iva.errors?.ivaValidator" class="form-control-feedback small-text-msg">
+                  IVA no es correcto.
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-2">
+              <div class="form-group">
+                <label>Total:</label>
+              </div>
+            </div>
+            <div class="col-md-5">
+              <div class="form-group" [ngClass]="{'has-danger': chkTotal.errors?.required  && chkTotal.touched}">
+                <input class="form-control" id="total" name="total" disabled
+                       value="{{invoiceData.facturaProveedorTotal | number:'1.2'}}">
+              </div>
+            </div>
+            <div class="col-md-1">
+              <div class="form-group" [ngClass]="{'has-danger': chkTotal.errors?.required  && chkTotal.touched}">
+                <input type="checkbox" name="chkTotal" id="chkTotal" #chkTotal="ngModel" [ngModel]="" required/>
+              </div>
+            </div>
+            <div class="col-md-2">
+              <div class="form-group" [ngClass]="{'has-danger': chkTotal.errors?.required  && chkTotal.touched}">
+                <div *ngIf="chkTotal.errors?.required" class="form-control-feedback small-text-msg">
+                  {{appConfig.msgRequerido}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <h5 class="modal-title" id="factDataIng">Datos de ingreso:</h5>
+        <div class="col">
+          <div class="row">
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-2">
+              <div class="form-group">
+                <label>Fecha de recepción de factura:</label>
+              </div>
+            </div>
+            <div class="col-md-5">
+              <div class="form-group">
+                <input class="form-control" id="fechRecFact" name="fechRecFact" disabled
+                       value="{{nowDate | date: appConfig.formatoFechaHoraSegundos}}">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-2">
+              <div class="form-group">
+                <label>Persona que recibe la factura:</label>
+              </div>
+            </div>
+            <div class="col-md-5">
+              <div class="form-group">
+                <input class="form-control" id="userRec" name="userRec" disabled
+                       value="{{_authService.getIdUsuario()}}">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="saveInvoice()"
+                [disabled]="!forma.valid">Guardar
+        </button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="onCloseDialog()">Cerrar</button>
+      </div>
+    </form>
+  </div>
+</div>

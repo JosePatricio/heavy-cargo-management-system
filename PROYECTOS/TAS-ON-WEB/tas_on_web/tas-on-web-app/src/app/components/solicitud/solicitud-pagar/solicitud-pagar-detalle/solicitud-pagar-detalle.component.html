@@ -1,0 +1,180 @@
+<ngx-loading [show]="loading"></ngx-loading>
+<form novalidate #forma="ngForm">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel">[ DETALLE FACTURA ]</h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true" (click)="closeDetail()">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <h5 class="modal-title" id="ctDatos">Datos Compañía:</h5>
+      <div class="row">
+        <div class="col-md-5">
+          <div class="form-group">
+            <label>Nombre:</label>
+            <input class="form-control" id="nombreCt" name="nombreCt" [readonly]="true"
+                   [(ngModel)]="datosCompania.razonSocial" value="{{datosCompania.razonSocial}}">
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="form-group">
+            <label>RUC:</label>
+            <input class="form-control" id="rucCt" name="rucCt" [readonly]="true"
+                   [(ngModel)]="datosCompania.ruc" value="{{datosCompania.ruc}}">
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="form-group">
+            <label for="noFactCt">No. Factura:</label>
+            <input class="form-control" id="noFactCt" name="noFactCt" [readonly]="true"
+                   [(ngModel)]="factura.invoiceNumer" value="{{factura.invoiceNumer}}">
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="form-group">
+            <label>No. Autorizacion:</label>
+            <input class="form-control" id="noAutCt" name="noAutCt" [readonly]="true"
+                   value="{{factura.authorizationNumber}}">
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>Dirección:</label>
+            <input class="form-control" id="direccCt" name="direccCt" [readonly]="true"
+                   [(ngModel)]="datosCompania.direccion" value="{{datosCompania.direccion}}">
+          </div>
+        </div>
+      </div>
+
+      <h5 class="modal-title" id="tasDatos">Datos de TASON:</h5>
+      <div class="row">
+        <div class="col-md-5">
+          <div class="form-group">
+            <label>Nombre:</label>
+            <input class="form-control" id="nombreTas" name="nombreTas" [readonly]="true"
+                   [(ngModel)]="datosTasOn.razonSocial" value="{{datosTasOn.razonSocial}}">
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="form-group">
+            <label for="rucTas">RUC:</label>
+            <input class="form-control" id="rucTas" name="rucTas" [readonly]="true"
+                   [(ngModel)]="datosTasOn.ruc" value="{{datosTasOn.ruc}}">
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="form-group">
+            <label for="fechEmiTas">Fecha Emisión:</label>
+            <label class="form-control disable-element" id="fechEmiTas" name="fechEmiTas">{{factura.invoiceDatePreFactura
+              |
+              date: appConfig.formatoFecha}}</label>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="form-group">
+            <label for="guiaEmiTas">Guía Remisión:</label>
+            <input class="form-control" id="guiaEmiTas" name="guiaEmiTas" [readonly]="true"
+                   value=" - ">
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="direccTas">Dirección:</label>
+            <input class="form-control" id="direccTas" name="direccTas" [readonly]="true"
+                   [(ngModel)]="datosTasOn.direccion" value="{{datosTasOn.direccion}}">
+          </div>
+        </div>
+      </div>
+
+      <div class="row table-responsive" *ngIf="ofertas">
+        <table class="table table-hover">
+          <thead>
+          <tr>
+            <th>Solicitud</th>
+            <th>No. Documento</th>
+            <th>Oferta</th>
+            <th>Origen</th>
+            <th>Destino</th>
+            <th>Precio Unitario</th>
+          </tr>
+          </thead>
+
+          <tfoot>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td class="text-bold">Subtotal 12%</td>
+            <td><div class="amount-text"> -</div></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td class="text-bold">Subtotal 0%</td>
+            <td><div class="amount-text">{{totalFactura | currency:'USD':'symbol'}}</div></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td class="text-bold">Descuento</td>
+            <td><div class="amount-text"> -</div></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td class="text-bold">Subtotal</td>
+            <td><div class="amount-text">{{totalFactura | currency:'USD':'symbol'}}</div></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td class="text-bold">IVA (12%)</td>
+            <td><div class="amount-text"> -</div></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td class="text-bold">Total</td>
+            <td><div class="amount-text">{{totalFactura | currency:'USD':'symbol'}}</div></td>
+          </tr>
+          </tfoot>
+
+          <tbody>
+          <tr *ngFor="let oferta of ofertas;">
+            <td>{{oferta.idSolicitud}}</td>
+            <td>{{oferta.numeroDocCliente}}</td>
+            <td>{{oferta.idOferta}}</td>
+            <td>{{oferta.origen}}</td>
+            <td>{{oferta.destino}}</td>
+            <td><div class="amount-text">{{oferta.amount + oferta.comision | currency:'USD':'symbol'}}</div></td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="modal-footer justify-content-md-center">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeDetail()">Cerrar
+      </button>
+    </div>
+  </div>
+</form>

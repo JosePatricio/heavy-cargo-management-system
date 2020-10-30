@@ -1,0 +1,392 @@
+<ngx-loading [show]="loading"></ngx-loading>
+<div class="container-fluid" style="margin-top: 20px">
+  <form novalidate #forma="ngForm">
+
+    <!-- PASO 1 -->
+    <div class="panel-group" *ngIf="nextStep == 0">
+      <div class="card">
+        <div class="card-header font-weight-bold"><h5>Datos de la empresa</h5></div>
+        <div class="card-body margin">
+          <hr>
+
+          <!-- FILA 1 - PASO 1 -->
+          <div class="row">
+            <div class="col-md-6">
+              <div class="row">
+                <div class="col-md-5">
+                  <div class="form-group">
+                    <label for="clienteRuc">* Número de documento:</label>
+                  </div>
+                </div>
+                <div class="col-md-7">
+                  <div class="form-group">
+                    <input type="text" class="form-control" id="clienteRuc" placeholder="RUC"
+                           name="clienteRuc" [(ngModel)]="empresa.clienteRuc"
+                           #clienteRuc="ngModel" required pattern="^\d+$"
+                           minlength="13" maxlength="13" rucClienteVal
+                           [ngClass]="{'is-invalid': clienteRuc.errors && clienteRuc.touched}">
+                    <div class="invalid-feedback">
+                      <span *ngIf="clienteRuc.errors?.pattern">{{appConfig.msgSoloNumeros}}</span>
+                      <span *ngIf="clienteRuc.errors?.minlength">Mínimo de caracteres {{clienteRuc.errors.minlength.requiredLength}}</span>
+                      <span *ngIf="clienteRuc.errors?.maxlength">Máximo de caracteres {{clienteRuc.errors.maxlength.requiredLength}}</span>
+                      <span *ngIf="clienteRuc.errors?.ruccliente">{{appConfig.msgNumDocUnico}}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="row">
+                <div class="col-md-5">
+                  <div class="form-group">
+                    <label for="clienteRazonSocial">* Razón social:</label>
+                  </div>
+                </div>
+                <div class="col-md-7">
+                  <div class="form-group">
+                    <input type="text" class="form-control" id="clienteRazonSocial"
+                           name="clienteRazonSocial" [(ngModel)]="empresa.clienteRazonSocial"
+                           #clienteRazonSocial="ngModel" required maxlength="100"
+                           [ngClass]="{'is-invalid': clienteRazonSocial.errors && clienteRazonSocial.touched}">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- /FILA 1 - PASO 1 -->
+
+          <!-- FILA 2 - PASO 1 -->
+          <div class="row">
+            <div class="col-md-6">
+              <div class="row">
+                <div class="col-md-5">
+                  <div class="form-group">
+                    <label for="provinciaEmpresa">* Provincia:</label>
+                  </div>
+                </div>
+                <div class="col-md-7">
+                  <div class="form-group">
+                    <select class="form-control" id="provinciaEmpresa" name="provinciaEmpresa" required
+                            [(ngModel)]="idProvinciaEmpresa" #provinciaEmpresa="ngModel" (change)="mostrarCiudadesEmpresa()"
+                            [ngClass]="{'is-invalid': provinciaEmpresa.errors  && provinciaEmpresa.touched}">
+                      <option *ngFor="let localidad of provincias" [value]="localidad.localidadId">
+                        {{localidad.localidadDescripcion}}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="row">
+                <div class="col-md-5">
+                  <div class="form-group">
+                    <label for="ciudadEmpresa">* Ciudad:</label>
+                  </div>
+                </div>
+                <div class="col-md-7">
+                  <div class="form-group">
+                    <select class="form-control" id="ciudadEmpresa" name="ciudadEmpresa"
+                            required [(ngModel)]="empresa.clienteLocalidadId"
+                            #ciudadEmpresa="ngModel" [ngClass]="{'is-invalid': ciudadEmpresa.errors  && ciudadEmpresa.touched}">
+                      <option *ngFor="let localidad of ciudadesEmpresa" [value]="localidad.localidadId">
+                        {{localidad.localidadDescripcion}}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- /FILA 2 - PASO 1 -->
+
+          <!-- FILA 3 - PASO 1 -->
+          <div class="row">
+            <div class="col-md-6">
+              <div class="row">
+                <div class="col-md-5">
+                  <div class="form-group">
+                    <label for="clienteDireccion">* Dirección:</label>
+                  </div>
+                </div>
+                <div class="col-md-7">
+                  <div class="form-group">
+                    <input id="clienteDireccion" name="clienteDireccion" [(ngModel)]="empresa.clienteDireccion"
+                           #clienteDireccion="ngModel" class="form-control" maxlength="100" required
+                           [ngClass]="{'is-invalid': clienteDireccion.errors  && clienteDireccion.touched}">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- /FILA 3 - PASO 1 -->
+          <hr>
+
+          <div class="col text-right">
+            <button type="button" class="btn btn-primary" (click)="siguiente()" [disabled]="!forma.valid">Siguiente</button>
+            <button type="button" class="btn btn-secondary" routerLink="/login">Cancelar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /PASO 1 -->
+
+    <!-- PASO 2 -->
+    <div class="panel-group" *ngIf="nextStep == 1">
+      <div class="card">
+
+        <div class="card-header font-weight-bold"><h5>Datos de usuario administrador</h5></div>
+        <div class="card-body margin">
+
+          <!-- FILA 1 - PASO 2 -->
+          <div class="row">
+            <div class="col-md-6">
+              <div class="row">
+                <div class="col-md-5">
+                  <div class="form-group">
+                    <label for="tipoDocUser">* Tipo de documento:</label>
+                  </div>
+                </div>
+                <div class="col-md-7">
+                  <div class="form-group">
+                    <select class="form-control" id="tipoDocUser" name="tipoDocUser"
+                            [(ngModel)]="cliente.usuarioTipoDocumento" #tipoDocUser="ngModel" required
+                            [ngClass]="{'is-invalid': tipoDocUser.errors  && tipoDocUser.touched}">
+                      <option *ngFor="let tipoDocumento of tiposDocumento" [value]="tipoDocumento.catalogoItemId">
+                        {{tipoDocumento.catalogoItemDescripcion}}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="row">
+                <div class="col-md-5">
+                  <div class="form-group">
+                    <label for="numDoc">* No. documento:</label>
+                  </div>
+                </div>
+                <div class="col-md-7">
+                  <div class="form-group">
+                    <input id="numDoc" name="numDoc" [(ngModel)]="cliente.usuarioIdDocumento" #numDoc="ngModel"
+                           class="form-control" required pattern="[0-9]+"
+                           minlength="{{cliente.usuarioTipoDocumento==appConfig.idRuc?13:10}}"
+                           maxlength="{{cliente.usuarioTipoDocumento==appConfig.idRuc?13:10}}"
+                           numDocUserVal [ngClass]="{'is-invalid': numDoc.errors  && numDoc.touched}">
+                    <div class="invalid-feedback">
+                      <span *ngIf="numDoc.errors?.pattern">{{appConfig.msgSoloNumeros}}</span>
+                      <span *ngIf="numDoc.errors?.minlength">Mínimo de caracteres {{numDoc.errors.minlength.requiredLength}}</span>
+                      <span *ngIf="numDoc.errors?.maxlength">Máximo de caracteres {{numDoc.errors.maxlength.requiredLength}}</span>
+                      <span *ngIf="numDoc.errors?.numdoc">{{appConfig.msgNumDocUnico}}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- /FILA 1 - PASO 2 -->
+
+          <!-- FILA 2 - PASO 2 -->
+          <div class="row">
+            <div class="col-md-6">
+              <div class="row">
+                <div class="col-md-5">
+                  <div class="form-group">
+                    <label for="nombUser">* Nombres:</label>
+                  </div>
+                </div>
+                <div class="col-md-7">
+                  <div class="form-group">
+                    <input id="nombUser" name="nombUser" [(ngModel)]="cliente.usuarioNombres" #nombUser="ngModel"
+                           class="form-control" required maxlength="50" pattern="([A-Za-z\u00C0-\u00FF ])+"
+                           [ngClass]="{'is-invalid': nombUser.errors  && nombUser.touched}">
+                    <div class="invalid-feedback">
+                      <div *ngIf="nombUser.errors?.pattern" >{{appConfig.msgSoloLetras}}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="row">
+                <div class="col-md-5">
+                  <div class="form-group">
+                    <label for="apelUser">* Apellidos:</label>
+                  </div>
+                </div>
+                <div class="col-md-7">
+                  <div class="form-group">
+                    <input id="apelUser" name="apelUser" [(ngModel)]="cliente.usuarioApellidos" #apelUser="ngModel"
+                           class="form-control" required maxlength="50" pattern="([A-Za-z\u00C0-\u00FF ])+"
+                           [ngClass]="{'is-invalid': apelUser.errors  && apelUser.touched}">
+                    <div class="invalid-feedback">
+                      <div *ngIf="apelUser.errors?.pattern">{{appConfig.msgSoloLetras}}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- /FILA 2 - PASO 2 -->
+
+          <!-- FILA 3 - PASO 2 -->
+          <div class="row">
+            <div class="col-md-6">
+              <div class="row">
+                <div class="col-md-5">
+                  <div class="form-group">
+                    <label for="user">* Usuario:</label>
+                  </div>
+                </div>
+                <div class="col-md-7">
+                  <div class="form-group">
+                    <input id="user" name="user" [(ngModel)]="cliente.usuarioNombreUsuario" #user="ngModel"
+                           class="form-control" required maxlength="12" pattern="([A-Za-z0-9_])+" userNameValidator
+                           [ngClass]="{'is-invalid': user.errors  && user.touched}">
+                    <div class="invalid-feedback">
+                      <div *ngIf="user.errors?.pattern">{{appConfig.msgSoloLetras}}</div>
+                      <div *ngIf="user.errors?.username">{{appConfig.msgUserNameUnico}}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="row">
+                <div class="col-md-5">
+                  <div class="form-group">
+                    <label for="email">* Correo electrónico:</label>
+                  </div>
+                </div>
+                <div class="col-md-7">
+                  <div class="form-group">
+                    <input id="email" name="email" [(ngModel)]="cliente.usuarioMail" #email="ngModel"
+                           class="form-control" required maxlength="100" emailPattern emailUsuarioValidator
+                           [ngClass]="{'is-invalid': email.errors  && email.touched}">
+                    <div class="invalid-feedback">
+                      <div *ngIf="email.errors?.emailUsuario" >{{appConfig.msgEmailUnico}}</div>
+                      <div *ngIf="email.errors?.emailPattern" >{{appConfig.msgEmailValido}}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- /FILA 3 - PASO 2 -->
+        </div>
+
+        <hr>
+
+        <div class="card-header font-weight-bold"><h5>Datos de contacto</h5></div>
+        <div class="card-body margin">
+
+          <!-- FILA 4 - PASO 2 -->
+          <div class="row">
+            <div class="col-md-6">
+              <div class="row">
+                <div class="col-md-5">
+                  <div class="form-group">
+                    <label for="provinciaUsuario">* Provincia:</label>
+                  </div>
+                </div>
+                <div class="col-md-7">
+                  <div class="form-group">
+                    <select class="form-control" id="provinciaUsuario" name="provinciaUsuario"
+                            [(ngModel)]="idProvinciaUsuario" #provinciaUsuario="ngModel"
+                            value="{{idProvinciaUsuario}}" (change)="mostrarCiudades()"
+                            [ngClass]="{'is-invalid': provinciaUsuario.errors  && provinciaUsuario.touched}">
+                      <option *ngFor="let localidad of provincias" [value]="localidad.localidadId">
+                        {{localidad.localidadDescripcion}}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="row">
+                <div class="col-md-5">
+                  <div class="form-group">
+                    <label for="ciudadUsuario">* Ciudad:</label>
+                  </div>
+                </div>
+                <div class="col-md-7">
+                  <div class="form-group">
+                    <select class="form-control" id="ciudadUsuario" name="ciudadUsuario"
+                            [(ngModel)]="cliente.usuarioLocalidad" #ciudadUsuario="ngModel" required
+                            [ngClass]="{'is-invalid': ciudadUsuario.errors  && ciudadUsuario.touched}">
+                      <option *ngFor="let localidad of ciudadesUsuario" [value]="localidad.localidadId">
+                        {{localidad.localidadDescripcion}}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- /FILA 4 - PASO 2 -->
+
+          <!-- FILA 5 - PASO 2 -->
+          <div class="row">
+            <div class="col-md-6">
+              <div class="row">
+                <div class="col-md-5">
+                  <div class="form-group">
+                    <label for="usuarioCelular">* Teléfono:</label>
+                  </div>
+                </div>
+                <div class="col-md-7">
+                  <div class="form-group">
+                    <input id="usuarioCelular" name="usuarioCelular" [(ngModel)]="cliente.usuarioCelular"
+                           #usuarioCelular="ngModel" class="form-control" required minlength="6" maxlength="10" pattern="^\d+$"
+                           [ngClass]="{'is-invalid': usuarioCelular.errors  && usuarioCelular.touched}">
+                    <div class="invalid-feedback">
+                      <div *ngIf="usuarioCelular.errors?.pattern">{{appConfig.msgSoloNumeros}}</div>
+                      <div *ngIf="usuarioCelular.errors?.minlength">Mínimo de caracteres {{usuarioCelular.errors.minlength.requiredLength}}</div>
+                      <div *ngIf="usuarioCelular.errors?.maxlength">Máximo de caracteres {{usuarioCelular.errors.maxlength.requiredLength}}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- /FILA 5 - PASO 2 -->
+        </div>
+        <div class="card-header font-weight-bold"><h5>Términos y condiciones</h5></div>
+
+        <div class="card-body margin">
+          <div class="row text-center">
+            <div class="col text-center">
+              <div class="form-group" [ngClass]="{'is-invalid': acepTerm.errors && !camposValidos}">
+                <input type="checkbox" [ngModel]="" id="acepTerm" name="acepTerm" #acepTerm="ngModel" required>
+                <app-terminos></app-terminos>
+                <div *ngIf="!camposValidos && acepTerm.errors?.required">
+                  <small class="error-input">{{appConfig.msgRequerido}}</small>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <hr>
+
+          <div class="col text-right">
+            <button type="button" class="btn btn-primary" (click)="regresar()">Regresar</button>
+            <button type="button" class="btn btn-primary" (click)="confirmRegister(forma)" [disabled]="deshabilitarRegistro || loading">Registrar</button>
+            <button type="button" class="btn btn-secondary" routerLink="/login">Cancelar</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <!-- /PASO 2 -->
+
+  </form>
+
+</div>

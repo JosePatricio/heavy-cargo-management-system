@@ -1,0 +1,158 @@
+<ngx-loading [show]="loading"></ngx-loading>
+<div class="container-fluid margin-top-container">
+  <h3>Facturas cobradas</h3>
+  <hr>
+
+  <form novalidate #forma="ngForm" *ngIf="!viewDetail">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="row">
+          <div class="col-md-3">
+            <div class="form-group">
+              <label for="razonSocialCliente">Cliente:</label>
+            </div>
+          </div>
+          <div class="col-md-8">
+            <div class="form-group">
+              <input type="text" id="razonSocialCliente" name="razonSocialCliente" class="form-control"
+                     [(ngModel)]="clienteRazonSocial" #razonSocialCliente="ngModel">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="row">
+          <div class="col-md-3">
+            <div class="form-group">
+              <label for="nroFactura">Factura:</label>
+            </div>
+          </div>
+          <div class="col-md-8">
+            <div class="form-group">
+              <input type="text" id="nroFactura" class="form-control" name="nroFactura"
+                     [(ngModel)]="factura" #nroFactura="ngModel">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <div class="row">
+          <div class="col-md-3">
+            <div class="form-group">
+              <label for="valorDesde">Valor desde:</label>
+            </div>
+          </div>
+          <div class="col-md-8">
+            <div class="form-group">
+              <input type="text" id="valorDesde" class="form-control" name="valorDesde" placeholder="0.00"
+                     [(ngModel)]="valorFacturaDesde" #valorDesde="ngModel" maxlength="6">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="row">
+          <div class="col-md-3">
+            <div class="form-group">
+              <label for="valorHasta">Valor hasta:</label>
+            </div>
+          </div>
+          <div class="col-md-8">
+            <div class="form-group">
+              <input type="text" id="valorHasta" class="form-control" name="valorHasta" placeholder="0.00"
+                     [(ngModel)]="valorFacturaHasta" #valorHasta="ngModel" maxlength="6">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <div class="row">
+          <div class="col-md-3">
+            <div class="form-group">
+              <label for="fechaDesde">Fecha desde:</label>
+            </div>
+          </div>
+          <div class="col-md-8">
+            <div class="form-group">
+              <input type="text" class="form-control" id="fechaDesde" name="fechaDesde"
+                     [(ngModel)]="fechaCobroDesde" #fechaDesde="ngModel" dateTimePicker
+                     placeholder="Fecha de cobro"
+                     [value]="fechaCobroDesde | date: appConfig.formatoFecha" [locale]="'es'">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="row">
+          <div class="col-md-3">
+            <div class="form-group">
+              <label for="fechaHasta">Fecha hasta:</label>
+            </div>
+          </div>
+          <div class="col-md-8">
+            <div class="form-group">
+              <input type="text" class="form-control" id="fechaHasta" name="fechaHasta"
+                     [(ngModel)]="fechaCobroHasta" #fechaHasta="ngModel" dateTimePicker
+                     placeholder="Fecha de cobro"
+                     [value]="fechaCobroHasta | date: appConfig.formatoFecha" [locale]="'es'">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button type="button" class="btn btn-primary" (click)="buscarFacturas()">Buscar</button>
+    <button type="button" class="btn btn-primary" (click)="limpiarDatos()">Limpiar campos</button>
+    <br/>
+    <br/>
+
+  </form>
+
+  <div *ngIf="!viewDetail">
+    <ngx-datatable
+      #table
+      class='material tableHeightFixed'
+      [columns]="columns"
+      [columnMode]="'force'"
+      [headerHeight]="'auto'"
+      [footerHeight]="50"
+      [rowHeight]="'auto'"
+      [rows]='rows'
+      [selectionType]="'single'"
+      [scrollbarH]="true">
+    </ngx-datatable>
+  </div>
+
+  <div [ngClass]="{'hide-element': !viewDetail}">
+    <ng-template #detailDynamic></ng-template>
+  </div>
+
+  <div id="templates">
+    <ng-template #tmplDate let-value="value">
+      <div>{{value | date: appConfig.formatoFecha}}</div>
+    </ng-template>
+    <ng-template #linkButton let-value="value" let-rowIndex="rowIndex" let-row="row">
+      <button type="button" class="btn btn-primary info-button-small" (click)="checkRow(row)">
+        <i class="fas fa-info-circle"></i>
+      </button>
+    </ng-template>
+    <ng-template #tmplAmount let-value="value" let-row="row">
+      <div class="amount-text wm-100">{{value| currency:'USD':'symbol'}}</div>
+    </ng-template>
+    <ng-template #tmplFiltro let-column="column">
+      {{column.name}}
+      <input
+        type='text'
+        style="float: left; width: 100%"
+        (keyup)='updateFilter($event)'/>
+    </ng-template>
+  </div>
+
+</div>

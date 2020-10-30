@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <import resource="persistence-config.xml"/>
+
+    <bean id="dataProvider" class="ec.net.redcode.tas.on.security.EncryptingDataProvider" init-method="initSecretKey">
+        <property name="encriptionAlgorithm" value="AES"/>
+        <property name="catalogoItemService" ref="catalogoItemService"/>
+    </bean>
+
+    <bean id="securityFilter" class="ec.net.redcode.tas.on.security.TasOnSecurityFilter">
+        <property name="checkFormData" value="false"/>
+        <property name="dataProvider" ref="dataProvider"/>
+    </bean>
+
+    <bean id="publicSecurityFilter" class="ec.net.redcode.tas.on.security.TasOnPublicSecurityFilter"/>
+
+    <bean id="securityProcessor" class="ec.net.redcode.tas.on.security.TasOnSecurityProcessor"/>
+
+</beans>

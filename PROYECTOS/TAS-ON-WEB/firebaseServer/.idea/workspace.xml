@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="a4208ddc-d657-44e2-8fca-c11489233a13" name="Default Changelist" comment="" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand />
+    <select />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectId" id="1VAYpOxwQP8D0X9AbQ8lQx0MSPm" />
+  <component name="PropertiesComponent">
+    <property name="DatabaseDriversLRU" value="redshift&#10;mysql" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="D:/SALSA-MASTER-APP/SalsaMasterApp" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.0" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected="Application.OnseSignalSpecificUser">
+    <configuration name="FCMNotification" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="FCMNotification" />
+      <module name="firebaseServer" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Main" />
+      <module name="firebaseServer" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="OneSignaNotificaciton" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="OneSignaNotificaciton" />
+      <module name="firebaseServer" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="OnseSignalSpecificUser" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="OnseSignalSpecificUser" />
+      <module name="firebaseServer" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="pruebas" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="pruebas" />
+      <module name="firebaseServer" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.OnseSignalSpecificUser" />
+        <item itemvalue="Application.pruebas" />
+        <item itemvalue="Application.OneSignaNotificaciton" />
+        <item itemvalue="Application.FCMNotification" />
+        <item itemvalue="Application.Main" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="ServiceViewManager">
+    <option name="allServicesViewState">
+      <serviceView>
+        <treeState>
+          <expand>
+            <path>
+              <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
+              <item name="com.intellij.execution.services.ServiceModel$ServiceGroupNode@8305eb90" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+            </path>
+            <path>
+              <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
+              <item name="com.intellij.execution.services.ServiceModel$ServiceGroupNode@8305eb90" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+              <item name="com.intellij.execution.services.ServiceModel$ServiceNode@45b389a4" type="9fbbdea:ServiceModel$ServiceNode" />
+            </path>
+          </expand>
+          <select />
+        </treeState>
+      </serviceView>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="a4208ddc-d657-44e2-8fca-c11489233a13" name="Default Changelist" comment="" />
+      <created>1576697548351</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1576697548351</updated>
+      <workItem from="1576697552113" duration="42000" />
+      <workItem from="1576697672867" duration="4462000" />
+      <workItem from="1576768317645" duration="18229000" />
+      <workItem from="1576858641252" duration="5332000" />
+      <workItem from="1577124980151" duration="599000" />
+      <workItem from="1577132510403" duration="1254000" />
+      <workItem from="1577399328974" duration="1198000" />
+      <workItem from="1577978098306" duration="1215000" />
+      <workItem from="1578066208029" duration="1192000" />
+      <workItem from="1578084477703" duration="598000" />
+      <workItem from="1578499515886" duration="3205000" />
+      <workItem from="1578596115491" duration="597000" />
+      <workItem from="1578698723945" duration="1167000" />
+      <workItem from="1579096629843" duration="265000" />
+      <workItem from="1579187165382" duration="594000" />
+      <workItem from="1579282973289" duration="1869000" />
+      <workItem from="1579659339046" duration="589000" />
+      <workItem from="1579895078325" duration="2341000" />
+      <workItem from="1580080937169" duration="10738000" />
+      <workItem from="1580328882707" duration="3159000" />
+      <workItem from="1580498466210" duration="1306000" />
+      <workItem from="1580920573309" duration="595000" />
+      <workItem from="1580940481064" duration="597000" />
+      <workItem from="1581608043603" duration="600000" />
+      <workItem from="1581710432519" duration="681000" />
+      <workItem from="1582215248586" duration="587000" />
+      <workItem from="1586712858168" duration="681000" />
+      <workItem from="1588131546382" duration="599000" />
+      <workItem from="1588373679628" duration="599000" />
+      <workItem from="1589947702229" duration="597000" />
+      <workItem from="1590123219100" duration="13249000" />
+      <workItem from="1590437943880" duration="3114000" />
+      <workItem from="1590543534868" duration="31714000" />
+      <workItem from="1593576481495" duration="3695000" />
+      <workItem from="1593907887984" duration="3061000" />
+      <workItem from="1594847124286" duration="780000" />
+      <workItem from="1601088017564" duration="284000" />
+      <workItem from="1601478679636" duration="80000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+</project>

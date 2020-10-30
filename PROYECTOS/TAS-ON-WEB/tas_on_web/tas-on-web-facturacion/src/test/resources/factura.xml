@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<factura id="comprobante" version="1.0.0">
+    <detalles>
+        <detalle>
+            <codigoPrincipal>GENER0000014</codigoPrincipal>
+            <codigoAuxiliar>19</codigoAuxiliar>
+            <descripcion>Tranporte de mercaderia pesada desde CHIMBO hasta DELEG</descripcion>
+            <cantidad>1</cantidad>
+            <precioUnitario>220</precioUnitario>
+            <descuento>0</descuento>
+            <impuestos>
+                <impuesto>
+                    <codigo>0</codigo>
+                    <codigoPorcentaje>0</codigoPorcentaje>
+                    <tarifa>0</tarifa>
+                    <valor>0</valor>
+                </impuesto>
+            </impuestos>
+        </detalle>
+        <detalle>
+            <codigoPrincipal>GENER0000018</codigoPrincipal>
+            <codigoAuxiliar>22</codigoAuxiliar>
+            <descripcion>Tranporte de mercaderia pesada desde SAN JUAN BOSCO hasta CENTINELA DEL CÓNDOR</descripcion>
+            <cantidad>1</cantidad>
+            <precioUnitario>214.5</precioUnitario>
+            <descuento>0</descuento>
+            <impuestos>
+                <impuesto>
+                    <codigo>0</codigo>
+                    <codigoPorcentaje>0</codigoPorcentaje>
+                    <tarifa>0</tarifa>
+                    <valor>0</valor>
+                </impuesto>
+            </impuestos>
+        </detalle>
+        <detalle>
+            <codigoPrincipal>GENER0000019</codigoPrincipal>
+            <codigoAuxiliar>21</codigoAuxiliar>
+            <descripcion>Tranporte de mercaderia pesada desde PEDRO MONCAYO hasta COLTA</descripcion>
+            <cantidad>1</cantidad>
+            <precioUnitario>385</precioUnitario>
+            <descuento>0</descuento>
+            <impuestos>
+                <impuesto>
+                    <codigo>0</codigo>
+                    <codigoPorcentaje>0</codigoPorcentaje>
+                    <tarifa>0</tarifa>
+                    <valor>0</valor>
+                </impuesto>
+            </impuestos>
+        </detalle>
+    </detalles>
+    <infoFactura>
+        <fechaEmision>05/08/2018</fechaEmision>
+        <razonSocialComprador>GENERICOS AMERICANOS GENAMERICA S.A.</razonSocialComprador>
+        <identificacionComprador>0991144552001</identificacionComprador>
+        <direccionComprador>Juan Galarza OE2-22 Av. De La Prensa</direccionComprador>
+        <totalSinImpuestos>819.5</totalSinImpuestos>
+        <totalConImpuestos>
+            <totalImpuesto>
+                <codigo>0</codigo>
+                <codigoPorcentaje>0</codigoPorcentaje>
+                <baseImponible>0</baseImponible>
+                <valor>0</valor>
+            </totalImpuesto>
+        </totalConImpuestos>
+        <propina>0</propina>
+        <importeTotal>819.5</importeTotal>
+        <moneda>DOLAR</moneda>
+        <pagos>
+            <pago>
+                <formaPago>01</formaPago>
+                <total>819.5</total>
+                <plazo>30</plazo>
+                <unidadTiempo>dias</unidadTiempo>
+            </pago>
+        </pagos>
+    </infoFactura>
+    <infoTributaria>
+        <ambiente>1</ambiente>
+        <tipoEmision>1</tipoEmision>
+        <razonSocial>TASON S.A.</razonSocial>
+        <nombreComercial>TASON S.A.</nombreComercial>
+        <ruc>1792885256001</ruc>
+        <claveAcceso>050820180117928852560011001001450004201811</claveAcceso>
+        <codDoc>01</codDoc>
+        <estab>001</estab>
+        <ptoEmi>001</ptoEmi>
+        <secuencial>45</secuencial>
+        <dirMatriz>Nicolas Clemente Ponce N45-119 Y Vicente Piedrahita, Edificio Fenix Oficina 104</dirMatriz>
+    </infoTributaria>
+    <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
+        <SignedInfo>
+            <CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/>
+            <SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/>
+            <Reference URI="">
+                <Transforms>
+                    <Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>
+                </Transforms>
+                <DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
+                <DigestValue>wdLszDZck4SgoX3a73jyQC1xZ+o=</DigestValue>
+            </Reference>
+        </SignedInfo>
+        <SignatureValue>
+            Dh3PiiITD2wwMxAcBJLgg4kpnus5kAOjvqW/QmkDftKwB36G9LX+pu3DVwnY6Zj5LhQKCvtRoozbJTOinkaqsUEa/Udk3rBWm5SJuxBOzCyoVX5p1kpWXRMT1fzPvefZk61h7m9bWH7Ia41kuLgehq51OO7Us8QrFaExCAoWX898s1yelYdHXIDiIa7UzW+BcuJfS7LEqY3nsyBPFVZqK2UZWEh5rsVbdziIhFVAI1aQdGAhxoxbk6p/mF8YPKx7I6v7aqooXYFPn4yF9xHXMCeqkge/wluohxsTa0dAkaT5EBrRUE+RzrkQV83LzQwMkF78pBcCAN3QZj5AcCJSCQ==
+        </SignatureValue>
+        <KeyInfo>
+            <X509Data>
+                <X509SubjectName>2.5.4.5=#130a30303030323939363933+CN=MARCOS JAVIER VERA CEDENO,L=QUITO,OU=ENTIDAD DE
+                    CERTIFICACION DE INFORMACION-ECIBCE,O=BANCO CENTRAL DEL ECUADOR,C=EC
+                </X509SubjectName>
+                <X509Certificate>
+                    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
+                </X509Certificate>
+            </X509Data>
+        </KeyInfo>
+    </Signature>
+</factura>

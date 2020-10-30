@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:camel="http://camel.apache.org/schema/spring"
+       xsi:schemaLocation="
+         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+         http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
+
+    <import resource="persistence-config.xml"/>
+
+    <bean id="facturasProcessor" class="ec.redcode.tas.on.facturacion.processor.FacturasProcessor" init-method="initProcessor">
+        <property name="solicitudEnvioService" ref="solicititudService"/>
+        <property name="clienteService" ref="clienteService"/>
+        <property name="catalogoItemService" ref="catalogoItemService"/>
+        <property name="secuenciaService" ref="secuenciaService"/>
+        <property name="ofertaService" ref="ofertaService"/>
+        <property name="facturaManualService" ref="facturaManualService"/>
+    </bean>
+
+    <bean id="notaCreditoProcessor" class="ec.redcode.tas.on.facturacion.processor.NotaCreditoProcessor" init-method="initProcessor">
+        <property name="ofertaService" ref="ofertaService"/>
+        <property name="notaCreditoService" ref="notaCreditoService"/>
+        <property name="facturaDetalleService" ref="facturaDetalleService"/>
+        <property name="clienteService" ref="clienteService"/>
+        <property name="facturaService" ref="facturaService"/>
+        <property name="catalogoItemService" ref="catalogoItemService"/>
+        <property name="secuenciaService" ref="secuenciaService"/>
+        <property name="facturaManualService" ref="facturaManualService"/>
+    </bean>
+
+    <bean id="updateNotaCreditoProcessor" class="ec.redcode.tas.on.facturacion.processor.UpdateNotaCreditoProcessor">
+        <property name="notaCreditoService" ref="notaCreditoService"/>
+    </bean>
+
+    <bean id="signXmlProcessor" class="ec.redcode.tas.on.facturacion.processor.SignXMLProcessor"/>
+
+    <bean id="signEBillingProcessor" class="ec.redcode.tas.on.facturacion.processor.SignEBillingXMLProcessor"/>
+
+    <bean id="recepcionComprobanteProcessor" class="ec.redcode.tas.on.facturacion.processor.RecepcionComprobanteProcessor" init-method="init">
+        <property name="catalogoItemService" ref="catalogoItemService"/>
+        <property name="ebillingService" ref="ebillingService"/>
+        <property name="facturaManualService" ref="facturaManualService"/>
+    </bean>
+
+    <bean id="autorizacionComprobantesProcessor" class="ec.redcode.tas.on.facturacion.processor.AutorizacionComprobantesProcessor" init-method="init">
+        <property name="catalogoItemService" ref="catalogoItemService"/>
+        <property name="ebillingService" ref="ebillingService"/>
+        <property name="facturaManualService" ref="facturaManualService"/>
+    </bean>
+
+    <bean id="updateFacturaProcessor" class="ec.redcode.tas.on.facturacion.processor.UpdateFacturaProcessor">
+        <property name="solicitudEnvioService" ref="solicititudService"/>
+        <property name="facturaDetalleService" ref="facturaDetalleService"/>
+        <property name="facturaService" ref="facturaService"/>
+        <property name="notaCreditoService" ref="notaCreditoService"/>
+        <property name="clienteService" ref="clienteService"/>
+    </bean>
+
+    <bean id="xMLWriterProcessor" class="ec.redcode.tas.on.facturacion.processor.XMLWriterProcessor"/>
+
+    <bean id="rideWriterProcessor" class="ec.redcode.tas.on.facturacion.processor.RideWriterProcessor">
+        <property name="solicitudEnvioService" ref="solicititudService"/>
+    </bean>
+
+    <bean id="rideNCWriterProcessor" class="ec.redcode.tas.on.facturacion.processor.RideNCWriterProcessor">
+        <property name="solicitudEnvioService" ref="solicititudService"/>
+    </bean>
+
+    <bean id="ebillingRideWriterProcessor" class="ec.redcode.tas.on.facturacion.processor.EbillingRideWriterProcessor">
+        <property name="solicitudEnvioService" ref="solicititudService"/>
+        <property name="ebillingService" ref="ebillingService"/>
+        <property name="usuarioEbillingService" ref="usuarioEbillingService"/>
+        <property name="catalogoItemService" ref="catalogoItemService"/>
+        <property name="usuarioService" ref="usuarioService"/>
+        <property name="adquirienteService" ref="adquirienteService"/>
+    </bean>
+
+    <bean id="retencionProcessor" class="ec.redcode.tas.on.facturacion.processor.retencion.RetencionProcessor" init-method="init">
+        <property name="catalogoItemService" ref="catalogoItemService"/>
+        <property name="facturaService" ref="facturaService"/>
+        <property name="secuenciaService" ref="secuenciaService"/>
+        <property name="clienteService" ref="clienteService"/>
+        <property name="facturaProveedorService" ref="facturaProveedorService"/>
+    </bean>
+
+    <bean id="retencionWriterProcessor" class="ec.redcode.tas.on.facturacion.processor.retencion.RetencionWriterProcessor"/>
+
+    <bean id="retencionUpdateProcessor" class="ec.redcode.tas.on.facturacion.processor.retencion.RetencionUpdateProcessor">
+        <property name="facturaRetencionService" ref="facturaRetencionService"/>
+    </bean>
+
+    <bean id="reporteFacturaProcessor" class="ec.redcode.tas.on.facturacion.processor.ReporteFacturaProcessor">
+        <property name="ofertaService" ref="ofertaService"/>
+        <property name="solicitudEnvioService" ref="solicititudService"/>
+        <property name="clienteService" ref="clienteService"/>
+        <property name="usuarioService" ref="usuarioService"/>
+        <property name="localidadService" ref="localidadService"/>
+    </bean>
+
+    <bean id="facturaXMLProcessor" class="ec.redcode.tas.on.facturacion.processor.xml.FacturaXMLProcessor" init-method="initProcessor">
+        <property name="catalogoItemService" ref="catalogoItemService"/>
+        <property name="clienteService" ref="clienteService"/>
+        <property name="secuenciaService" ref="secuenciaService"/>
+        <property name="facturaManualService" ref="facturaManualService"/>
+    </bean>
+
+    <bean id="eBillingProcessor" class="ec.redcode.tas.on.facturacion.processor.EBillingProcessor">
+        <property name="catalogoItemService" ref="catalogoItemService"/>
+        <property name="usuarioService" ref="usuarioService"/>
+        <property name="localidadService" ref="localidadService"/>
+        <property name="usuarioEbillingService" ref="usuarioEbillingService"/>
+        <property name="ebillingService" ref="ebillingService"/>
+        <property name="ebillingDetalleService" ref="ebillingDetalleService"/>
+        <property name="clienteService" ref="clienteService"/>
+    </bean>
+
+    <bean id="facturacionRoute" class="ec.redcode.tas.on.facturacion.route.FacturacionRoute" init-method="initCron">
+        <property name="catalogoItemService" ref="catalogoItemService"/>
+    </bean>
+
+    <bean id="retencionRoute" class="ec.redcode.tas.on.facturacion.route.retencion.RetencionRoute"/>
+
+    <camel:camelContext id="tasOnCamel">
+        <camel:routeBuilder ref="facturacionRoute"/>
+        <camel:routeBuilder ref="retencionRoute"/>
+    </camel:camelContext>
+
+</beans>

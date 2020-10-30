@@ -1,0 +1,511 @@
+*{
+  color: black;
+}
+
+/*HEADER*/
+.logo {
+  max-width: 150px;
+  height: 50px;
+}
+
+#header{
+  z-index: 2;
+  position: absolute;
+  width: 100%;
+}
+
+.nav-item a{
+  color: #FFFFFF !important;
+  font-size: .9rem;
+  opacity: 0.44;
+}
+
+.red-social-icon a{
+  color: #222222 !important;
+}
+
+/*SECCION 1*/
+#seccion1{
+  top: 0;
+  width: 100%;
+  z-index: 1;
+  height: 600px;
+  background-image: url("../../../assets/images/background.png");
+  background-repeat: no-repeat;
+  background-size: 1300px 100%;
+}
+
+.columna-carrusel{
+  padding-top: 80px;
+  height: 550px;
+}
+
+/* circulos del carrusel seleccionado */
+.carousel-indicators li{
+  height: 11.04px;
+  width: 11.04px;
+  border-radius: 50%;
+}
+
+.texto-titulo-carrusel{
+  color: #FFFFFF;
+}
+
+.texto-descripcion-carrusel{
+  color: #FFFFFF;
+}
+
+.botonProbar{
+  color: #32519D;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+}
+
+#carrusel_TasOn{
+  position: relative;
+  margin-left: 150px;
+  width: 400px;
+  height: 250px;
+  top: 25%;
+}
+
+.carousel-inner{
+  min-height: 130px;
+}
+
+.img-cel-container{
+  min-height: 1000px;
+  padding-left: 50px;
+  overflow: hidden;
+}
+
+.img-2-celulares{
+  height: 800px;
+  margin-top: 115px;
+  margin-left: -50px;
+  position: relative;
+  z-index: 5;
+}
+
+.circulo-azul-350{
+  position: absolute;
+  z-index: 0;
+  height: 350px;
+  width: 350px;
+  border-radius: 50%;
+  background-color: #276DB3;
+  top: 400px;
+  left: 125px;
+}
+
+.circulo-azul-120{
+  position: absolute;
+  z-index: 0;
+  height: 120px;
+  width: 120px;
+  border-radius: 50%;
+  background-color: #276DB3;
+  left: 130px;
+  bottom: 120px;
+}
+.circulo-azul-100{
+  position: absolute;
+  z-index: 0;
+  height: 100px;
+  width: 100px;
+  border-radius: 50%;
+  background-color: #276DB3;
+  left: 270px;
+  bottom: 10px;
+}
+
+.fila1-info{
+  padding-top: 200px;
+}
+
+.fila-info{
+  padding-top: 100px;
+}
+
+.imagen-circular{
+  width: 250px;
+  height: 250px;
+}
+
+.linea-azul{
+  width: 50px;
+  height: 4px;
+  background-color: #276DB3;
+}
+
+.flecha-abajo{
+  top: -75px;
+}
+
+/*SECCION 3*/
+
+#seccion3{
+  height: 500px;
+  background-image: url("../../../assets/images/figura-seccion3.svg");
+  background-repeat: no-repeat;
+  background-size: contain;
+  margin-top: 100px;
+  padding-bottom: 100px;
+}
+
+.fila-tarjetas{
+  flex-wrap: nowrap;
+  overflow-y: hidden;
+  overflow-x: scroll;
+}
+
+.tarjeta{
+  height: 90%;
+  border-radius: 30px;
+  box-shadow: 0 3px 4px #a6a6a6;
+  display: flex;
+  align-items: center;
+  padding-left: 25px;
+  padding-right: 25px;
+}
+
+.color-texto-tarjeta-fondo-blanco{
+  color: #9AB1D0;
+}
+
+.tarjeta-imagen-fondo{
+  background-image: url("../../../assets/images/fondo-tarjeta.png");
+  background-repeat: round;
+  background-color: #276DB3;
+}
+
+.color-texto-tarjeta-fondo-imagen{
+  color: #FFFFFF;
+}
+
+/*SECCION 4*/
+
+#seccion4 {
+  height: 550px;
+}
+
+.video-tas-on{
+  height: 100%;
+  width: 100%;
+}
+
+/*SECCION 5*/
+
+#seccion5 {
+  height: 600px;
+}
+
+.imagen-logos{
+  height: 123px;
+  width: 160px;
+}
+
+.imagen-camion {
+  height: 500px;
+}
+
+/*SECCION 6*/
+
+#seccion6 {
+  height: 600px;
+}
+
+#seccion6 > .container-fluid{
+  background-image: url("../../../assets/images/fondo-seccion6.png");
+  background-repeat: round;
+}
+
+.circulo-azul{
+  height: 610px;
+  width: 610px;
+  background-color: #276DB3;
+  border-radius: 50%;
+}
+
+.logos-avalados{
+  width: 80px;
+}
+
+/*SECCION 7*/
+
+#seccion7 {
+  height: 600px;
+  overflow: hidden;
+}
+
+.codigo-qr{
+  height: 168px;
+  margin-top: 20%;
+}
+
+.google-play-logo{
+  height: 20%;
+}
+
+.logo-tason-circulo{
+  position: absolute;
+  top: 70%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.celular{
+  position: absolute;
+  top: 90%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Footer */
+footer{
+  min-height: 250px;
+  background-color: #FDFDFD;
+  border-style: solid;
+  border-color: #E4E4E4;
+  border-width: 1px;
+}
+
+.fila-contacto{
+  padding-top: 1rem;
+}
+
+.fila-encabezado-contacto{
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  height: 100px;
+}
+
+.copyright{
+  height: 30px;
+}
+
+/* Scrollbar */
+
+.scrollbar-primary::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+  background-color: #F5F5F5;
+}
+
+.scrollbar-primary::-webkit-scrollbar-thumb
+{
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+  background-color: #276DB3;
+}
+
+/*WHATSAPP*/
+
+.contenedor-whatsapp-button{
+  right: 20px;;
+  text-align: center;
+  position: fixed;
+  z-index: 16000160;
+  background-color: #4dc247;
+  bottom: 10px;
+  overflow: hidden;
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  display: flex;
+  box-shadow: 0 1px 3px #999;
+}
+
+.contenedor-whatsapp-button:hover{
+  box-shadow: 0 5px 6px #a6a6a6;
+}
+
+.whatsapp-button{
+  font-size: 40px;
+  flex: auto;
+}
+
+.fa-whatsapp{
+  color: white;
+}
+
+
+/* Media Query */
+/*
+// Extra small devices (portrait phones, less than 576px)
+@media (max-width: 575.98px) {}
+
+// Small devices (landscape phones, less than 768px)
+@media (max-width: 767.98px) {}
+
+// Medium devices (tablets, less than 992px)
+@media (max-width: 991.98px) {}
+
+// Large devices (desktops, less than 1200px)
+@media (max-width: 1199.98px) {}
+
+// Extra large devices (large desktops, 1200px and up)
+@media (min-width: 1200px) { ... }
+*/
+
+/* Extra large devices (large desktops, 1200px and up)*/
+@media (min-width: 1650px) {
+
+  .container-fluid{
+    max-width: 1140px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    width: 99% !important;
+  }
+
+  /*SECCION 1*/
+  #seccion1{
+    background-image: none;
+  }
+
+  #seccion1 > .container-fluid{
+    top: 0;
+    width: 100%;
+    z-index: 1;
+    height: 600px;
+    background-image: url("../../../assets/images/background.png");
+    background-repeat: no-repeat;
+    background-size: 1300px 100%;
+  }
+
+  /*SECCION 2*/
+  .flecha-abajo{
+    top: auto;
+  }
+
+  .img-cel-container {
+    overflow: visible;
+  }
+
+}
+
+/* Medium devices (tablets, less than 992px) */
+@media (max-width: 991.98px) {
+
+  /* Sección 1 */
+  #seccion1{
+    /*background-color: #276DB3;*/
+    background-size: 200% 100%;
+    height: 600px;
+  }
+
+  #carrusel_TasOn{
+    margin-left: auto !important;
+    margin-right: auto !important;
+    width: 80% !important;
+  }
+
+  /*SECCION 2*/
+  .flecha-abajo{
+    top: 0;
+  }
+
+  .fila1-info{
+    padding-top: 40px;
+  }
+
+  /* SECCION 4 */
+  #seccion4 {
+    height: 500px;
+  }
+
+  /* SECCION 5 */
+  #seccion5 {
+    height: 500px;
+  }
+
+  /* SECCION 6 */
+  #seccion6 {
+    height: auto;
+    padding-top: 8%;
+    padding-bottom: 8%;
+    margin-top: 8%;
+    background-color: #276DB3;
+  }
+
+  #seccion6 > .container-fluid{
+    background-image: none;
+  }
+
+  .circulo-azul{
+    height: auto;
+    width: auto;
+    border-radius: unset;
+  }
+
+  /* Sección 7 */
+  #seccion7{
+    height: 500px;
+  }
+
+  .codigo-qr{
+    margin-top: 50px;
+  }
+
+}
+
+
+/* Small devices (landscape phones, less than 768px) */
+@media (max-width: 767.98px) {
+
+  /* Sección 1 */
+  #seccion1{
+    height: 550px;
+  }
+
+
+  /* Sección 2 */
+  #seccion2{
+    margin-top: -100px;
+  }
+
+  .fila-info{
+    padding-top: 40px;
+  }
+
+  /* SECCION 3 */
+  #seccion3{
+    background-size: cover;
+  }
+
+  /* SECCION 4 */
+  #seccion4 {
+    height: 350px;
+  }
+
+  /* SECCION 5 */
+  #seccion5 {
+    height: 400px;
+    margin-top: 50px;
+  }
+
+
+  /* SECCION 6 */
+  #seccion6 {
+    padding-top: 15%;
+    padding-bottom: 15%;
+  }
+
+  /* Footer */
+  footer{
+    min-height: auto;
+  }
+
+
+}
+
+
+/* Extra small devices (portrait phones, less than 576px) */
+@media (max-width: 575.98px) {
+
+  #carrusel_TasOn{
+    width: 90% !important;
+  }
+
+}

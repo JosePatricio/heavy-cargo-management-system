@@ -1,0 +1,214 @@
+<ngx-loading [show]="loading"></ngx-loading>
+<div class="container-fluid margin-top-container">
+  <form novalidate #forma="ngForm">
+    <h3>Actualización de datos</h3>
+    <hr>
+
+    <div class="card-body margin">
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="row">
+            <div class="col-md-2">
+              <div class="form-group">
+                <label for="usuarioNumDoc">* RUC:</label>
+              </div>
+            </div>
+            <div class="col-md-5">
+              <div class="form-group"
+                   [ngClass]="{'has-danger': usuarioNumDoc.errors && usuarioNumDoc.touched}">
+                <input type="text" class="form-control" id="usuarioNumDoc" name="usuarioNumDoc"
+                       [(ngModel)]="usuarioRUC" #usuarioNumDoc="ngModel" required pattern="[0-9]+$"
+                       minlength="13" maxlength="13" [disabled]="true">
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group"
+                   [ngClass]="{'has-danger': usuarioNumDoc.errors && usuarioNumDoc.touched}">
+                <div *ngIf="usuarioNumDoc.errors?.required" class="form-control-feedback small-text-msg">{{appConfig.msgRequerido}}
+                </div>
+                <div *ngIf="usuarioNumDoc.errors?.pattern" class="form-control-feedback small-text-msg">{{appConfig.msgSoloNumeros}}
+                </div>
+                <div *ngIf="usuarioNumDoc.errors?.minlength" class="form-control-feedback small-text-msg">Mínimo de caracteres
+                  {{usuarioNumDoc.errors.minlength.requiredLength}}
+                </div>
+                <div *ngIf="usuarioNumDoc.errors?.maxlength" class="form-control-feedback small-text-msg">Máximo de caracteres
+                  {{usuarioNumDoc.errors.maxlength.requiredLength}}
+                </div>
+                <div *ngIf="usuarioNumDoc.errors?.numdoc" class="form-control-feedback small-text-msg">{{appConfig.msgNumDocUnico}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="row">
+            <div class="col-md-2">
+              <div class="form-group">
+                <label for="direccion">* Dirección:</label>
+              </div>
+            </div>
+            <div class="col-md-5">
+              <div class="form-group"
+                   [ngClass]="{'has-danger': direccion.errors && direccion.touched}">
+                <input type="text" class="form-control" id="direccion" name="direccion"
+                       [(ngModel)]="usuarioDireccion"
+                       #direccion="ngModel" required>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group"
+                   [ngClass]="{'has-danger': direccion.errors && direccion.touched}">
+                <div *ngIf="direccion.errors?.required" class="form-control-feedback small-text-msg">{{appConfig.msgRequerido}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="row">
+            <div class="col-md-2">
+              <div class="form-group">
+                <label for="actividadComercial">* Actividad Comercial:</label>
+              </div>
+            </div>
+            <div class="col-md-5">
+              <div class="form-group"
+                   [ngClass]="{'has-danger': actividadComercial.errors && actividadComercial.touched}">
+                <input type="text" class="form-control" id="actividadComercial" name="actividadComercial"
+                       [(ngModel)]="usuarioActividadComercial" maxlength="100"
+                       #actividadComercial="ngModel" required>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group"
+                   [ngClass]="{'has-danger': actividadComercial.errors && actividadComercial.touched}">
+                <div *ngIf="actividadComercial.errors?.required" class="form-control-feedback small-text-msg">{{appConfig.msgRequerido}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="row">
+            <div class="col-md-2">
+              <div class="form-group" data-toggle="tooltip" data-placement="top" title="001-punto de emisión-000000001">
+                <label for="puntoEmision">* Punto de emisión:</label>
+              </div>
+            </div>
+            <div class="col-md-5">
+              <div class="form-group"
+                   [ngClass]="{'has-danger': puntoEmision.errors && puntoEmision.touched}">
+                <input type="text" class="form-control" id="puntoEmision" name="puntoEmision"
+                       [(ngModel)]="usuarioPuntoEmision" minlength="3" maxlength="3"
+                       #puntoEmision="ngModel" required [disabled]="datosRegistrados || actualizacionDatosCorrecta" pattern="^\d{3}$">
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group"
+                   [ngClass]="{'has-danger': puntoEmision.errors && puntoEmision.touched}">
+                <div *ngIf="puntoEmision.errors?.required" class="form-control-feedback small-text-msg">{{appConfig.msgRequerido}}
+                </div>
+                <div *ngIf="puntoEmision.errors?.minlength" class="form-control-feedback small-text-msg">Mínimo de caracteres
+                  {{puntoEmision.errors.minlength.requiredLength}}
+                </div>
+                <div *ngIf="puntoEmision.errors?.pattern" class="form-control-feedback small-text-msg">
+                  {{appConfig.msgSoloNumeros}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="row">
+            <div class="col-md-2">
+              <div class="form-group">
+                <label for="logo">{{usuarioLogo.file == null ||  usuarioLogo.file == ''? "Subir logo:":"Actualizar logo:"}}</label>
+              </div>
+            </div>
+            <div class="col-md-5">
+              <div class="form-group" id="logo">
+                <input type="file" id="fileLogo" (change)="onFileChange($event)" accept="image/*" class="form-control">
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group" [ngClass]="{'has-danger': true}">
+                <div *ngIf="!formatoImagenCorrecto" class="form-control-feedback small-text-msg">{{mensajeFormatoImagenIncorrecto}}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row" *ngIf="usuarioEbilling.usuarioEbillingLogo != null &&  usuarioEbilling.usuarioEbillingLogo != ''">
+        <div class="col-md-12">
+          <div class="row">
+            <div class="col-md-2">
+              <div class="form-group">
+              </div>
+            </div>
+            <div class="col-md-5">
+              <div class="form-group" id="mostrarLogo">
+                <button class="btn btn-primary" (click)='showLogo("fileStart")'>Mostrar logo</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="row">
+            <div class="col-md-2">
+              <div class="form-group">
+                <label for="firma">{{usuarioFechaFirma == null ||  usuarioFechaFirma == ''? "* Subir firma electrónica:" : "Actualizar firma electrónica"}}</label>
+              </div>
+            </div>
+            <div class="col-md-5">
+              <div class="form-group" id="firma" [ngClass]="{'has-danger': fileSignatureStart.errors?.required  && fileSignatureStart.touched}">
+                <input type="file" id="fileSignatureStart" (change)="onFileSignatureChange($event)" accept="application/x-pkcs12" class="form-control">
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group" [ngClass]="{'has-danger': true}">
+                <div *ngIf="!formatoFirmaCorrecto" class="form-control-feedback small-text-msg">{{mensajeFormatoFirmaIncorrecto}}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row" *ngIf="usuarioFechaFirma != null && usuarioFechaFirma != ''" >
+        <div class="col-md-12">
+          <div class="row">
+            <div class="col-md-2">
+              <div class="form-group">
+              </div>
+            </div>
+            <div class="col-md-5">
+              <div class="form-group" id="fechaFirma">
+                <label for="fechaFirma">Última actualización de firma: {{usuarioFechaFirma | date: appConfig.formatoFecha}}</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <button type="button" class="btn btn-primary" [disabled]="!forma.valid || !formatoFirmaCorrecto || !existeFirma || actualizacionDatosCorrecta" (click)="actualizarDatos()">Actualizar</button>
+
+  </form>
+</div>

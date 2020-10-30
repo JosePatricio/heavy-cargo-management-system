@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    >
+
+    <TextView
+        android:id="@+id/ebilling_numero"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/padding_title_top"
+        android:text="@string/numero_factura" />
+
+    <TextView
+        android:id="@+id/ebilling_fecha_emision"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/fecha_emision" />
+
+    <TextView
+        android:id="@+id/ebilling_fecha_autorizacion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/fecha_autorizacion" />
+
+    <TextView
+        android:id="@+id/ebilling_clave_acceso"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/clave_acceso" />
+
+    <TextView
+        android:id="@+id/ebilling_estado"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/estado" />
+
+    <TextView
+        android:id="@+id/ebilling_total"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/total" />
+
+    <TextView
+        android:id="@+id/ebilling_adquiriente"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/adquiriente" />
+
+    <TextView
+        android:id="@+id/ebilling_razon_social_adquiriente"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/padding_title_bottom"
+        android:text="@string/razon_social" />
+
+</LinearLayout>

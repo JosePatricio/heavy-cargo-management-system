@@ -1,0 +1,85 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ebilling_step_zero"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="@dimen/activity_horizontal_margin"
+    android:visibility="gone"
+    tools:context="ec.redcode.tas.on.android.fragments.ebilling.EBillingFragment">
+
+    <LinearLayout
+        android:id="@+id/cont_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            style="@style/tasLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/padding_title_top"
+            android:layout_marginBottom="@dimen/nav_header_vertical_spacing"
+            android:text="@string/mensaje_usuario_no_habil_facturacion_electronica"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
+
+        <GridLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:columnCount="2"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="25dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill"
+                android:text="1"
+                style="@style/tasLabel"
+                android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill"
+                android:gravity="fill"
+                android:text="@string/paso_uno_habilitar_ebilling"
+                style="@style/tasLabel"
+                android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill"
+                android:text="2"
+                style="@style/tasLabel"
+                android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill"
+                android:gravity="fill"
+                android:text="@string/paso_dos_ebilling"
+                style="@style/tasLabel"
+                android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill"
+                android:text="3"
+                style="@style/tasLabel"
+                android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="fill"
+                android:gravity="fill"
+                android:text="@string/paso_tres_ebilling"
+                style="@style/tasLabel"
+                android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                />
+        </GridLayout>
+    </LinearLayout>
+</ScrollView>

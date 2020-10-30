@@ -1,0 +1,149 @@
+<ngx-loading [show]="loading"></ngx-loading>
+<div class="container-fluid margin-top-container">
+  <form novalidate #frmcata="ngForm">
+    <h3>Items cat&aacute;logo</h3>
+    <hr>
+    <div class="row">
+      <div class="col-md-2">
+        <div class="form-group">
+          <label for="idCatalogo">Id cat&aacute;logo</label>
+          <input class="form-control" id="idCatalogo" [disabled]="true" name="idCatalogo"
+                 [(ngModel)]="catalogo.catalogoId"
+                 value="{{catalogo.catalogoId}}">
+        </div>
+        <div class="form-group"
+             [ngClass]="{'has-danger': (nombCatalogo.errors?.required || nombCatalogo.errors?.minlength || nombCatalogo.errors?.pattern) && nombCatalogo.touched}">
+          <label for="nombCatalogo">Nombre cat&aacute;logo</label>
+          <input class="form-control" id="nombCatalogo" name="nombCatalogo" [disabled]="catalogo.catalogoId>0"
+                 [(ngModel)]="catalogo.catalogoDescripcion"
+                 #nombCatalogo="ngModel" value="{{catalogo.catalogoDescripcion}}" required maxlength="20" minlength="1"
+                 pattern="([A-Za-z0-9 ])+" style="text-transform: uppercase">
+          <div *ngIf="nombCatalogo.errors?.required" class="form-control-feedback">El campo es requerido.</div>
+          <div *ngIf="nombCatalogo.errors?.minlength" class="form-control-feedback">M&iacute;nimo de caracteres
+            {{nombCatalogo.errors.minlength.requiredLength}}
+          </div>
+          <div *ngIf="nombCatalogo.errors?.pattern" class="form-control-feedback">Ingrese un nombre correcto para el
+            catalogo.
+          </div>
+        </div>
+        <div class="form-group" *ngIf="catalogo.catalogoId==0">
+          <button type="button" class="btn btn-success" [disabled]="!frmcata.valid" (click)="grabarCatalogo()"><i
+            class="far fa-save"></i></button>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="catalogoItem" class="table-responsive">
+      <table class="table table-hover">
+        <thead>
+        <tr>
+          <th>Id &iacute;tem</th>
+          <th>Descripcion &iacute;tem</th>
+          <th>Valor &iacute;tem</th>
+          <th>Estado &iacute;tem</th>
+          <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let catalogoItem_ of catalogoItem;">
+          <td>{{catalogoItem_.catalogoItemId}}</td>
+          <td>{{catalogoItem_.catalogoItemDescripcion}}</td>
+          <td>{{catalogoItem_.catalogoItemValor}}</td>
+          <td>{{catalogoItem_.catalogoItemEstado}}</td>
+          <td>
+            <button type="button" class="btn btn-warning" (click)="vercatalogoitem(catalogos.catalogoId)"><i
+              class="fas fa-trash-alt"></i></button>
+          </td>
+        </tr>
+
+        </tbody>
+      </table>
+      <hr>
+      <button type="button" class="btn btn-primary" (click)="newItem()">Nuevo &iacute;tem</button>
+      <button type="button" class="btn btn-primary" (click)="cancelaItem()">Cancelar</button>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="modNewItem" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Ingreso de nuevo &iacute;tem cat&aacute;logo</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="cerrarMensaje()">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group"
+                     [ngClass]="{'has-danger': (descItem.errors?.required || descItem.errors?.minlength || descItem.errors?.pattern) && descItem.touched}">
+                  <label for="descItem">Descripci&oacute;n</label>
+                  <input class="form-control" id="descItem" name="descItem"
+                         [(ngModel)]="itemcatalogo.catalogoItemDescripcion"
+                         value="{{itemcatalogo.catalogoItemDescripcion}}"
+                         #descItem="ngModel" required maxlength="50" minlength="1"
+                         pattern="([A-Za-z0-9\u00C0-\u00FF ])+" style="text-transform: uppercase"/>
+                  <div *ngIf="descItem.errors?.required" class="form-control-feedback">El campo es requerido.</div>
+                  <div *ngIf="descItem.errors?.minlength" class="form-control-feedback">M&iacute;nimo de caracteres
+                    {{descItem.errors.minlength.requiredLength}}
+                  </div>
+                  <div *ngIf="descItem.errors?.pattern" class="form-control-feedback">Ingrese un nombre correcto para la
+                    localidad.
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="valItem">Valor</label>
+                  <input class="form-control" id="valItem" name="valItem" [(ngModel)]="itemcatalogo.catalogoItemValor"
+                         value="{{catalogo.catalogoItemValor}}"
+                         #valItem="ngModel" maxlength="100" minlength="1"/>
+                  <div *ngIf="valItem.errors?.minlength" class="form-control-feedback">M&iacute;nimo de caracteres
+                    {{valItem.errors.minlength.requiredLength}}
+                  </div>
+                </div>
+                <div class="form-group">
+                  <button type="button" class="btn btn-success" [disabled]="!frmcata.valid"
+                          (click)="grabarItemCatalog()"><i
+                    class="far fa-save"></i></button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer justify-content-md-center">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="cerrarMensaje()">Cerrar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="modalResult" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Alerta...!</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="cerrarMensaje()">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+
+            <div class="alert alert-success" role="alert"
+                 [ngClass]="{'alert-success': operacionCorrecta,'alert-danger': !operacionCorrecta}">
+              <strong>{{mensajeOperacion}}</strong>
+            </div>
+
+          </div>
+          <div class="modal-footer justify-content-md-center">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="cerrarMensaje()">Cerrar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+

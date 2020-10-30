@@ -1,0 +1,180 @@
+<ngx-loading [show]="loading"></ngx-loading>
+<form novalidate #forma="ngForm">
+  <div class="panel-group">
+    <div class="card">
+      <div class="card-header font-weight-bold">Oferta No: {{oferta.offer.idOferta}}</div>
+      <div class="card-body margin">
+        <h5>Ruta</h5>
+        <hr>
+        <div class="row">
+          <div class="col-md-5">
+            <div class="form-group">
+              <label for="origen" class="font-weight-bold">Origen:</label>
+              <label id="origen" class="form-control disable-text">{{oferta.origen}}</label>
+            </div>
+            <div class="form-group">
+              <label for="direccion" class="font-weight-bold">Direccion:</label>
+              <label id="direccion" class="form-control disable-text">{{oferta.direccion}}</label>
+            </div>
+            <div class="form-group">
+              <label for="personaEntrega" class="font-weight-bold">Persona Entrega:</label>
+              <label id="personaEntrega" class="form-control disable-text">{{oferta.personaEntrega}}</label>
+            </div>
+          </div>
+          <div class="col-md-2"></div>
+          <div class="col-md-5">
+            <div class="form-group">
+              <label for="destino" class="font-weight-bold">Destino:</label>
+              <label id="destino" class="form-control disable-text">{{oferta.destino}}</label>
+            </div>
+
+            <div class="form-group">
+              <label for="fechaSalida" class="font-weight-bold">Fecha de Recolección:</label>
+              <label id="fechaSalida" class="form-control disable-text">{{oferta.fechaEnvio | date: appConfig.formatoFechaHora}}</label>
+            </div>
+          </div>
+        </div>
+
+        <h5>Producto</h5>
+        <hr>
+        <div class="row">
+          <div class="col-md-5">
+            <div class="form-group">
+              <label for="tipo" class="font-weight-bold">Tipo:</label>
+              <label id="tipo" class="form-control disable-text">{{oferta.tipo}}</label>
+            </div>
+            <div class="form-group">
+              <label for="numero" class="font-weight-bold">Numero de Piezas:</label>
+              <label id="numero" class="form-control disable-text">{{oferta.numeroPiezas}}</label>
+            </div>
+            <div class="form-group">
+              <label for="peso" class="font-weight-bold">Peso:</label>
+              <label id="peso" class="form-control disable-text">{{oferta.peso}} {{oferta.tipoPeso}}</label>
+            </div>
+          </div>
+          <div class="col-md-2"></div>
+          <div class="col-md-5">
+            <div class="form-group">
+              <label for="estibadores" class="font-weight-bold">Numero de Estibadores:</label>
+              <label id="estibadores" class="form-control disable-text">{{oferta.numeroEstibadores}}</label>
+            </div>
+            <div class="form-group">
+              <label for="volumen" class="font-weight-bold">Volumen:</label>
+              <label id="volumen" class="form-control disable-text">{{oferta.volumen}} {{oferta.tipoVolumen}}</label>
+            </div>
+
+            <div class="form-group">
+              <label for="fecha" class="font-weight-bold">Fecha Entrega:</label>
+              <label id="fecha" class="form-control disable-text">{{oferta.fechaEntrega | date: appConfig.formatoFechaHora}}</label>
+            </div>
+          </div>
+        </div>
+
+        <h5>Receptor</h5>
+        <hr>
+        <div class="row">
+          <div class="col-md-5">
+            <div class="form-group">
+              <label for="personaRecibe" class="font-weight-bold">Persona Recibe:</label>
+              <label id="personaRecibe" class="form-control disable-text">{{oferta.personaRecibe}}</label>
+            </div>
+          </div>
+          <div class="col-md-2"></div>
+          <div class="col-md-5">
+            <div class="form-group">
+              <label for="direccionEntrega" class="font-weight-bold">Direccion entrega:</label>
+              <label id="direccionEntrega" class="form-control disable-text">{{oferta.direccionEntrega}}</label>
+            </div>
+          </div>
+        </div>
+        <h5>Oferta</h5>
+        <hr>
+        <div class="row">
+          <div class="col-md-5">
+            <div class="form-group">
+              <label for="valorOferta" class="font-weight-bold">Valor de la Oferta:</label>
+              <input type="text" class="form-control" id="valorOferta" placeholder="valorOferta" name="valorOferta" [(ngModel)]="oferta.offer.amount"
+                     #amount="ngModel" required maxlength="8" minlength="2" pattern="^[0-9]+([.][0-9]+)">
+            </div>
+            <div class="form-group" *ngIf="showData.course">
+              <label for="idConductor" class="font-weight-bold">Chofer:</label>
+              <select class="form-control" id="idConductor" name="idConductor" [(ngModel)]="oferta.offer.idConductor"
+                      #idConductor="ngModel" required>
+                <option></option>
+                <!--option *ngFor="let conductor of conductores" [value]="conductor.conductorId">
+                  {{conductor.conductorNombre}} {{conductor.conductorApellido}}
+                </option-->
+              </select>
+            </div>
+            <div class="form-group" *ngIf="showData.receive">
+              <label for="fileStart" class="font-weight-bold">Foto de Recolección:</label>
+              <input type="file" id="fileStart" (change)="onFileChange($event)" #fileInput class="form-control" required>
+              <button class="btn btn-primary" (click)='showFiles("recibir")'>Mostrar Imagen</button>
+            </div>
+            <div class="form-group">
+              <label for="comentarios" class="font-weight-bold">Comentarios:</label>
+              <textarea class="form-control" rows="5" id="comentarios" placeholder="Comentario sobre la  Oferta" name="comments" [(ngModel)]="oferta.offer.comments"
+                        #comentarios="ngModel" maxlength="100" minlength="10"></textarea>
+            </div>
+
+          </div>
+          <div class="col-md-2"></div>
+          <div class="col-md-5">
+            <div class="form-group">
+              <label for="fechaOferta" class="font-weight-bold">Fecha Oferta:</label>
+              <label id="fechaOferta" class="form-control disable-text">{{oferta.offer.date | date: appConfig.formatoFechaHora}}</label>
+            </div>
+            <div class="form-group" *ngIf="showData.course">
+              <label for="idVehiculo" class="font-weight-bold">Vehiculo:</label>
+              <select class="form-control" id="idVehiculo" name="idVehiculo" [(ngModel)]="oferta.offer.idVehiculo"
+                      #idVehiculo="ngModel" required>
+                <option></option>
+                <!--option *ngFor="let vehiculo of vehiculos" [value]="vehiculo.vehiculoId">
+                  {{vehiculo.vehiculoPlaca}}
+                </option-->
+              </select>
+            </div>
+            <div class="form-group" *ngIf="showData.receive">
+              <label for="fileFinish" class="font-weight-bold">Foto de Entrega:</label>
+              <input type="file" id="fileFinish" (change)="onFileChange($event)" #fileInput class="form-control">
+              <button class="btn btn-primary" (click)='showFiles("entregar")'>Mostrar Imagen</button>
+            </div>
+          </div>
+          <hr>
+        </div>
+
+      </div>
+    </div>
+    <hr>
+    <button type="button" class="btn btn-primary" (click)="updateOferta()">Actualizar</button>
+    <button type="button" class="btn btn-primary" (click)="cerrarMensaje()">Cerrar</button>
+
+  </div>
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+       aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Alerta...!</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="cerrarMensaje()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+
+          <div class="alert alert-success" role="alert"
+               [ngClass]="{'alert-success': operacionCorrecta,'alert-danger': !operacionCorrecta}">
+            <strong>{{mensajeOperacion}}</strong>
+          </div>
+
+        </div>
+        <div class="modal-footer justify-content-md-center">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="cerrarMensaje()">Cerrar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</form>

@@ -1,0 +1,69 @@
+<ngx-loading [show]="loading"></ngx-loading>
+<h3>Agendar una visita</h3>
+<hr>
+<div class="row mb-3">
+  <div class="col-md-6 mt-3">
+    <label for="fechaPedidos">* Fecha</label>
+    <input type="text"
+           id="fechaPedidos" name="fechaPedidos"
+           [(ngModel)]="visitaFecha"
+           class="form-control"
+           [bsConfig]="{ dateInputFormat: formatoFecha }"
+           bsDatepicker>
+  </div>
+</div>
+
+<div>
+  <ngx-datatable
+    class='material tableHeightFixed'
+    [columnMode]="'force'"
+    [headerHeight]="'auto'"
+    [footerHeight]="50"
+    [rowHeight]="'auto'"
+    [columns]="columns"
+    [rows]="clientesVisita"
+    [scrollbarH]="true"
+    [selectionType]="'single'"
+    [messages]="{emptyMessage:'Sin registros para mostrar...',totalMessage: 'total',selectedMessage: 'selected'}">
+  </ngx-datatable>
+
+  <div id="templates">
+    <ng-template #linkButton let-value="value" let-rowIndex="rowIndex" let-row="row">
+      <button type="button" class="btn btn-danger info-button-small" (click)="eliminar(rowIndex)">
+        <i class="fas fa-trash"></i>
+      </button>
+    </ng-template>
+  </div>
+</div>
+
+<div class="mt-3">
+  <button type="button" class="btn btn-primary mr-2" (click)="agendarmeVisitas()">Agendarme estas visitas</button>
+  <button type="button" class="btn btn-secondary" (click)="regresar()">Cancelar</button>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Alerta...!</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="cerrarMensaje()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        <div class="alert alert-success" role="alert"
+             [ngClass]="{'alert-success': operacionCorrecta,'alert-danger': !operacionCorrecta}">
+          <strong>{{mensajeOperacion}}</strong>
+        </div>
+
+      </div>
+      <div class="modal-footer justify-content-md-center">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="cerrarMensaje()">Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

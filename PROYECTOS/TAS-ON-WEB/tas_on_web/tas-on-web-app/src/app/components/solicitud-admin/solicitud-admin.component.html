@@ -1,0 +1,75 @@
+<ngx-loading [show]="loading"></ngx-loading>
+<div class="container-fluid margin-top-container">
+  <h3>Solicitudes</h3>
+  <hr>
+  <div class="container">
+    <div class="col-12 text-center">
+      <canvas baseChart #baseChart="base-chart"
+              [datasets]="barChartData"
+              [labels]="barChartLabels"
+              [options]="barChartOptions"
+              [legend]="barChartLegend"
+              [chartType]="barChartType">
+      </canvas>
+    </div>
+  </div>
+  <hr>
+
+  <div class="row">
+    <div class="col-md-6">
+      <label for="estado">Estado:</label>
+      <select class="form-control" id="estado" name="estado"
+              [(ngModel)]="estadoSelect"
+              #state="ngModel" (change)="getSolicitudes()">
+        <option [value]="null" label="--Selecione estado--" disabled selected="selected"></option>
+        <option *ngFor="let tipo of estados" [value]="tipo.catalogoItemId">
+          {{tipo.catalogoItemDescripcion}}
+        </option>
+      </select>
+    </div>
+
+    <div class="col-md-6">
+      <label for="cliente">Cliente:</label>
+      <select class="form-control" id="cliente" name="cliente"
+              [(ngModel)]="clienteSelect"
+              #client="ngModel" (change)="consultarDatosChartEmpresa()">
+        <option [value]="null" label="--Selecione cliente--" disabled selected="selected"></option>
+        <option *ngFor="let cliente of clientes" [value]="cliente.ruc">
+          {{cliente.razonSocial}}
+        </option>
+      </select>
+    </div>
+  </div>
+
+  <div>
+    <hr>
+    <ngx-datatable
+      class='material tableHeightFixed mb-3'
+      [columns]="columns"
+      [columnMode]="'force'"
+      [headerHeight]="'auto'"
+      [footerHeight]="50"
+      [rowHeight]="'auto'"
+      [limit]="25"
+      [rows]='listaSolicitudes'
+      [scrollbarH]="true"
+      [selectionType]="'single'"
+      [messages]="{emptyMessage:'Sin registros para mostrar...',totalMessage: 'total',selectedMessage: 'selected'}">
+    </ngx-datatable>
+  </div>
+
+  <div id="templates">
+    <ng-template #tmplIndex let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+      <strong>{{rowIndex+1}}</strong>
+    </ng-template>
+    <ng-template #tmplDate let-value="value">
+      <div>{{value | date: appConfig.formatoFecha}}</div>
+    </ng-template>
+    <ng-template #tmplDateTime let-value="value">
+      <div>{{value | date: appConfig.formatoFechaHora}}</div>
+    </ng-template>
+    <ng-template #tmpPeso let-value="value" let-rowIndex="rowIndex" let-row="row">
+      <div>{{row.peso}} {{row.medida}}</div>
+    </ng-template>
+  </div>
+</div>

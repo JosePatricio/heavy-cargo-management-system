@@ -1,0 +1,10 @@
+UPDATE catalogo_item SET catalogo_item_valor = '1' WHERE catalogo_item_id = 22;
+UPDATE catalogo_item SET catalogo_item_valor = '2' WHERE catalogo_item_id = 23;
+UPDATE catalogo_item SET catalogo_item_valor = '5' WHERE catalogo_item_id = 25;
+UPDATE catalogo_item SET catalogo_item_valor = '8' WHERE catalogo_item_id = 26;
+UPDATE catalogo_item SET catalogo_item_valor = '10' WHERE catalogo_item_id = 27;
+UPDATE catalogo_item SET catalogo_item_valor = '6' WHERE catalogo_item_id = 28;
+UPDATE catalogo_item SET catalogo_item_valor = '7' WHERE catalogo_item_id = 29;
+UPDATE catalogo_item SET catalogo_item_valor = '9' WHERE catalogo_item_id = 30;
+UPDATE catalogo_item SET catalogo_item_valor = '3' WHERE catalogo_item_id = 63;
+UPDATE catalogo_item SET catalogo_item_valor = '4' WHERE catalogo_item_id = 64;

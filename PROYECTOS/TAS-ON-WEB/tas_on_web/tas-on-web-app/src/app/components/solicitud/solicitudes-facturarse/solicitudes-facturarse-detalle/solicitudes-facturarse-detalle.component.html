@@ -1,0 +1,153 @@
+<ngx-loading [show]="loading"></ngx-loading>
+<div class="modal-content">
+  <div class="modal-header">
+    <h5 class="modal-title" id="mdMoreLabel">Información de la solicitud</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeDetail()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="card-body margin">
+      <h6>Transportista Asignado</h6>
+      <hr>
+      <div class="row">
+        <div class="col-md-4 form-group">
+          <label>Nombre empresa:</label>
+          <input type="text" class="form-control" [disabled]="true"
+                 value="{{solicitudesDetalle.offer.conductor}}">
+        </div>
+        <div class="col-md-4  form-group">
+          <label>Nombre transportista:</label>
+          <input type="text" class="form-control" [disabled]="true"
+                 value="{{solicitudesDetalle.offer.conductor}}">
+        </div>
+        <div class="col-md-4  form-group">
+          <label>Placa del camión:</label>
+          <input type="text" class="form-control" [disabled]="true"
+                 value="{{solicitudesDetalle.offer.vehiculo}}">
+        </div>
+      </div>
+    </div>
+    <div class="card-body margin">
+      <h6>Origen</h6>
+      <hr>
+      <div class="row">
+        <div class="col-md-4 form-group">
+          <label>Lugar:</label>
+          <input type="text" class="form-control" [disabled]="true" value="{{solicitudesDetalle.origen}}">
+        </div>
+        <div class="col-md-4 form-group">
+          <label>Fecha recepción mercadería:</label>
+          <input type="text" class="form-control" [disabled]="true"
+                 value="{{solicitudesDetalle.fechaEnvio | date: appConfig.formatoFechaHora}}">
+        </div>
+        <div class="col-md-4 form-group">
+          <label>Recolección:</label>
+          <button class="btn btn-primary w-100" (click)='verImagenesRecoleccion()' [disabled]="imagenesRecoleccion.length > 0">Ver imágenes</button>
+        </div>
+        <div class="col-12 form-group">
+          <div class="contenedor-imagenes">
+            <img class="imagen-oferta" alt="Imagen de recolección"
+                 *ngFor="let imagen of imagenesRecoleccion; index as i" [src]="imagen" (click)="verImagenRecoleccion(i)">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body margin">
+      <h6>Destino</h6>
+      <hr>
+      <div class="row">
+        <div class="col-md-4 form-group">
+          <label>Lugar:</label>
+          <input type="text" class="form-control" [disabled]="true" value="{{solicitudesDetalle.destino}}">
+        </div>
+        <div class="col-md-4 form-group">
+          <label>Fecha entrega mercadería:</label>
+          <input type="text" class="form-control" [disabled]="true"
+                 value="{{solicitudesDetalle.fechaEntrega | date: appConfig.formatoFechaHora}}">
+        </div>
+        <div class="col-md-4 form-group">
+          <label>Entrega:</label>
+          <button class="btn btn-primary w-100" (click)='verImagenesEntrega()' [disabled]="imagenesEntrega.length > 0">Ver imágenes</button>
+        </div>
+        <div class="col-12 form-group">
+          <div class="contenedor-imagenes">
+            <img class="imagen-oferta" alt="Imagen de entrega"
+                 *ngFor="let imagen of imagenesEntrega; index as i" [src]="imagen" (click)="verImagenEntrega(i)">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body margin">
+      <h6>Oferta ganadora</h6>
+      <hr>
+      <div class="row align-content-center">
+        <div class="col-md-4 form-group">
+          <input type="text" class="form-control" [disabled]="true" value="{{solicitudesDetalle.offer.amount}}">
+        </div>
+      </div>
+    </div>
+    <div class="card-body margin">
+      <h6>Valor y porcentaje ahorro generado</h6>
+      <hr>
+      <div class="row align-content-center">
+        <div class="col-md-4 form-group">
+          <label>Valor:</label>
+          <input type="text" class="form-control" [disabled]="true"
+                 value="{{solicitudesDetalle.maxValorOferta}}">
+        </div>
+        <div class="col-md-4 form-group">
+          <label>Porcentaje ahorro:</label>
+          <input type="text" class="form-control" [disabled]="true"
+                 value="{{solicitudesDetalle.porcentajeAhorre}}">
+        </div>
+      </div>
+    </div>
+    <div class="card-body margin">
+      <h6>Histórico de ofertas</h6>
+      <hr>
+      <ngx-datatable
+        #table1
+        class='material tableHeightFixed'
+        [columns]="columns1"
+        [columnMode]="'force'"
+        [headerHeight]="'auto'"
+        [footerHeight]="50"
+        [rowHeight]="'auto'"
+        [limit]="25"
+        [rows]='rows1'
+        [selectionType]="'single'"
+        [scrollbarH]="true">
+      </ngx-datatable>
+
+      <ng-template #date_ let-value="value">
+        <div>{{value | date: appConfig.formatoFecha}}</div>
+      </ng-template>
+      <ng-template #amount_ let-value="value">
+        <div class="amount-text wm-100">{{value | currency:'USD':'symbol'}}</div>
+      </ng-template>
+    </div>
+  </div>
+  <div class="modal-footer justify-content-md-center">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeDetail()">Cerrar
+    </button>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <img class="img-order" width="100%" height="100%" alt="Imagen"
+             [src]="imagenSeleccionada"/>
+      </div>
+    </div>
+  </div>
+</div>

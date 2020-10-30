@@ -1,0 +1,139 @@
+<ngx-loading [show]="loading"></ngx-loading>
+<div class="container-fluid margin-top-container">
+  <h3>Ofertas pagadas</h3>
+  <hr>
+
+    <form novalidate #forma="ngForm">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="row">
+            <div class="col-md-3">
+              <div class="form-group">
+                <label for="razonSocialTransporte">Compañía de transporte:</label>
+              </div>
+            </div>
+            <div class="col-md-8">
+              <div class="form-group">
+                <input type="text" id="razonSocialTransporte" name="razonSocialTransporte" class="form-control"
+                       [(ngModel)]="razonSocial" #razonSocialTransporte="ngModel">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <div class="row">
+            <div class="col-md-3">
+              <div class="form-group">
+                <label for="nroFactura">Factura:</label>
+              </div>
+            </div>
+            <div class="col-md-8">
+              <div class="form-group">
+                <input type="text" id="nroFactura" class="form-control" name="nroFactura"
+                       [(ngModel)]="factura" #nroFactura="ngModel">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="row">
+            <div class="col-md-3">
+              <div class="form-group">
+                <label for="nroSolicitud">Solicitud:</label>
+              </div>
+            </div>
+            <div class="col-md-8">
+              <div class="form-group">
+                <input type="text" id="nroSolicitud" class="form-control" name="nroSolicitud"
+                       [(ngModel)]="solicitud" #nroSolicitud="ngModel">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <div class="row">
+            <div class="col-md-3">
+              <div class="form-group">
+                <label for="fechaOfertaDesde">Desde:</label>
+              </div>
+            </div>
+            <div class="col-md-8">
+              <div class="form-group">
+                <input type="text" class="form-control" id="fechaOfertaDesde" name="fechaOfertaDesde"
+                       [(ngModel)]="fechaDesde" #fechaOfertaDesde="ngModel" dateTimePicker
+                       placeholder="Fecha de pago"
+                       [value]="fechaDesde | date: appConfig.formatoFecha" [locale]="'es'">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="row">
+            <div class="col-md-3">
+              <div class="form-group">
+                <label for="fechaOfertaHasta">Hasta:</label>
+              </div>
+            </div>
+            <div class="col-md-8">
+              <div class="form-group">
+                <input type="text" class="form-control" id="fechaOfertaHasta" name="fechaOfertaHasta"
+                       [(ngModel)]="fechaHasta" #fechaOfertaHasta="ngModel" dateTimePicker
+                       placeholder="Fecha de pago"
+                       [value]="fechaHasta | date: appConfig.formatoFecha" [locale]="'es'">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <button type="button" class="btn btn-primary" (click)="buscarOfertas()">Buscar</button>
+      <button type="button" class="btn btn-primary" (click)="limpiarDatos()">Limpiar campos</button>
+      <br/>
+      <br/>
+
+    </form>
+
+    <div>
+      <ngx-datatable
+        #table
+        class='material tableHeightFixed'
+        [columns]="columns"
+        [columnMode]="'force'"
+        [headerHeight]="'auto'"
+        [footerHeight]="50"
+        [rowHeight]="'auto'"
+        [rows]='rows'
+        [selectionType]="'single'"
+        [scrollbarH]="true">
+      </ngx-datatable>
+
+      <div id="templates">
+        <ng-template #tmplIndex let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+          <strong>{{rowIndex+1}}</strong>
+        </ng-template>
+        <ng-template #tmplDate let-value="value">
+          <div>{{value | date: appConfig.formatoFecha}}</div>
+        </ng-template>
+        <ng-template #tmplAmount let-value="value" let-row="row">
+          <div class="amount-text wm-100">
+            {{value| currency:'USD':'symbol'}}
+          </div>
+        </ng-template>
+        <ng-template #tmplTypePay let-value="value" let-rowIndex="rowIndex" let-row="row">
+          <strong>{{value}}</strong>
+        </ng-template>
+        <ng-template #tmplFiltro let-column="column" let-sort="sortFn" ngx-datatable-header-template>
+          <span class="datatable-header-cell-label draggable" (click)="sort()" role="button">{{column.name}}</span>
+          <input type='text' style="float: left; width: 100%"
+                 (keyup)='updateFilter($event)'/>
+        </ng-template>
+      </div>
+    </div>
+</div>

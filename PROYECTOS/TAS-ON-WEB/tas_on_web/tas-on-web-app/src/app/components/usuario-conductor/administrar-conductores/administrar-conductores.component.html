@@ -1,0 +1,165 @@
+<ngx-loading [show]="loading"></ngx-loading>
+
+<div class="container-fluid margin-top-container">
+  <form>
+    <h3>Conductores</h3>
+    <button type="button" *ngIf="_authService.getTypeUser() != appConfig.idUsuarioEnviosAdmin " class="btn btn-primary" (click)="nuevoConductor()">Nuevo</button>
+    <hr>
+    <div>
+      <ngx-datatable
+        class='material tableHeightFixed'
+        [columnMode]="'force'"
+        [headerHeight]="'auto'"
+        [footerHeight]="50"
+        [rowHeight]="'auto'"
+        [limit]="25"
+        [rows]='conductores'
+        [columns]='columns'
+        [scrollbarH]="true"
+        [selectionType]="'single'"
+        [messages]="{emptyMessage:'Sin registros para mostrar...',totalMessage: 'total',selectedMessage: 'selected'}">
+      </ngx-datatable>
+    </div>
+
+    <div id="templates">
+      <ng-template #tmplIndex let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+        <strong>{{rowIndex+1}}</strong>
+      </ng-template>
+      <ng-template #tmplTipoLicencia  let-value="value" ngx-datatable-cell-template>
+        <div>{{consultarDescTipoLicencia(value)}}</div>
+      </ng-template>
+      <ng-template #tmplNombres let-row="row" ngx-datatable-cell-template>
+        <div>{{concatenarTexto(row.conductorNombre, row.conductorApellido)}}</div>
+      </ng-template>
+      <ng-template #linkButton let-row="row">
+        <button type="button" class="btn btn-primary info-button-small" (click)="editarConductor(row)">
+          <i class="fas fa-eye"></i>
+        </button>
+      </ng-template>
+    </div>
+  </form>
+</div>
+
+
+
+<form novalidate #formaConductor="ngForm">
+  <div class="modal" id="modNewConductor" tabindex="-1" role="dialog" aria-labelledby="conductorModal"
+       aria-hidden="true">
+    <div class="modal-dialog forma" role="document">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="panel-group">
+            <div class="card">
+              <div class="card-header font-weight-bold">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="cerrarMensaje()">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+                <h5>Datos del conductor</h5>
+              </div>
+              <div class="card-body margin">
+                <div class="row">
+                  <div class="col-md-5">
+                    <div class="form-group">
+                      <label for="conductorNombre">Nombres*</label>
+                      <input type="text" class="form-control form-control-danger" id="conductorNombre"
+                             name="conductorNombre" [(ngModel)]="conductor.conductorNombre"
+                             [disabled]="conductor.conductorId && conductor.conductorId>0"
+                             #conductorNombre="ngModel" required maxlength="50"
+                             pattern="[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1 ]+$"
+                             [ngClass]="{'is-invalid': (conductorNombre.errors?.required || conductorNombre.errors?.pattern) && conductorNombre.touched}">
+                      <div *ngIf="conductorNombre.errors?.pattern" class="invalid-feedback">
+                        {{appConfig.msgSoloLetras}}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-5">
+                    <div class="form-group">
+                      <label for="conductorApellido">Apellidos*</label>
+                      <input type="text" class="form-control" id="conductorApellido"
+                             name="conductorApellido" [(ngModel)]="conductor.conductorApellido"
+                             [disabled]="conductor.conductorId && conductor.conductorId>0"
+                             #conductorApellido="ngModel" required maxlength="50"
+                             pattern="[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1 ]+$"
+                             [ngClass]="{'is-invalid': (conductorApellido.errors?.required || conductorApellido.errors?.pattern) && conductorApellido.touched}">
+                      <div *ngIf="conductorApellido.errors?.pattern" class="invalid-feedback">
+                        {{appConfig.msgSoloLetras}}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-5">
+                    <div class="form-group">
+                      <label for="conductorCedula">Cédula*</label>
+                      <input type="text" class="form-control" id="conductorCedula"
+                             name="conductorCedula" [(ngModel)]="conductor.conductorCedula"
+                             #conductorCedula="ngModel" required minlength="10" maxlength="10" pattern="[0-9]+"
+                             [disabled]="conductor.conductorId && conductor.conductorId>0 && yaTieneCedula"
+                             [ngClass]="{'is-invalid': (conductorCedula.errors?.required ||
+                             conductorCedula.errors?.pattern || conductorCedula.errors?.minlength) && conductorCedula.touched}">
+                      <div *ngIf="conductorCedula.errors?.pattern" class="invalid-feedback">
+                        {{appConfig.msgSoloNumeros}}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-5">
+                    <div class="form-group">
+                      <label for="conductorTipoLicencia">Tipo de licencia*</label>
+                      <select class="form-control" id="conductorTipoLicencia" name="conductorTipoLicencia"
+                              [(ngModel)]="conductor.conductorTipoLicencia"
+                              #conductorTipoLicencia="ngModel" required
+                              [ngClass]="{'is-invalid': conductorTipoLicencia.errors  && conductorTipoLicencia.touched}">
+                        <option *ngFor="let tipoLicencia of tiposLicencia" [value]="tipoLicencia.catalogoItemId">
+                          {{tipoLicencia.catalogoItemDescripcion}}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-md-5">
+                    <div class="form-group">
+                      <label for="conductorEmail">Correo electrónico*</label>
+                      <input type="text" class="form-control" id="conductorEmail"
+                             name="conductorEmail" [(ngModel)]="conductor.conductorEmail"
+                             #conductorEmail="ngModel" required maxlength="50"
+                             pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
+                             [ngClass]="{'is-invalid': (conductorEmail.errors?.required || conductorEmail.errors?.pattern || conductorEmail.errors?.emailUsuario ) && conductorEmail.touched}">
+                      <div *ngIf="conductorEmail.errors?.pattern" class="invalid-feedback">
+                        {{appConfig.msgCorreoValido}}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-5">
+                    <div class="form-group">
+                      <label for="conductorTelefono">Teléfono*</label>
+                      <input type="text" class="form-control" id="conductorTelefono"
+                             name="conductorTelefono" [(ngModel)]="conductor.conductorTelefono"
+                             #conductorTelefono="ngModel" required minlength="10" maxlength="10" pattern="[0-9]+"
+                             [ngClass]="{'is-invalid': conductorTelefono.errors && conductorTelefono.touched}">
+                      <div *ngIf="conductorTelefono.errors?.pattern" class="invalid-feedback">
+                        {{appConfig.msgSoloNumeros}}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer justify-content-md-center">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                  (click)="cerrarMensaje()">
+            Cancelar
+          </button>
+          <button *ngIf="conductor.conductorId && conductor.conductorId>0" type="button" class="btn btn-primary"
+                  (click)="actualizarConductor(conductor)" data-dismiss="modal"
+                  [disabled]="!formaConductor.valid || formaConductor.pristine">
+            Actualizar
+          </button>
+          <button *ngIf="!conductor.conductorId" type="button" class="btn btn-primary"
+                  (click)="guardarConductor(conductor)" data-dismiss="modal"
+                  [disabled]="!formaConductor.valid">
+            Guardar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,20 @@
+.fondoTabla{
+  background-color: #f2f2f2;
+}
+
+.alto-total{
+  height: 60px;
+}
+
+.card{
+  margin-top: 10px;
+}
+
+.card-text, .list-group-item{
+  color: black;
+}
+
+
+.col-md-6{
+  margin-bottom: 1rem;
+}

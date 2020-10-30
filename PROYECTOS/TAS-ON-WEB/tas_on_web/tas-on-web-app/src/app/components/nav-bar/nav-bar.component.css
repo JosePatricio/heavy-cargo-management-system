@@ -1,0 +1,36 @@
+.navbar-tason {
+  background: #FDFDFD;
+  border-style: solid;
+  border-color: #F4F4F4;
+  height: 75px;
+}
+
+
+.bg-faded {
+  background: linear-gradient(to right, #5aafe3, #00549e, #566695) !important;
+}
+
+.logo {
+  max-width: 150px;
+  height: 50px;
+  background-color:  #566695;
+}
+
+.container-dropdown-tas-on{
+  height: 2rem;
+  width: 2rem;
+  border-radius: 50%;
+  display: inline-block;
+  background-color: #4A5F8E;
+  text-align: center;
+}
+
+.dropdown-tas-on{
+  height: 1rem;
+  display: inline-flex;
+  vertical-align: bottom;
+}
+
+.texto14{
+  font-size: 14px;
+}

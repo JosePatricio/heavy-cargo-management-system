@@ -1,0 +1,184 @@
+<ngx-loading [show]="loading"></ngx-loading>
+
+<div class="container-fluid margin-top-container">
+  <form>
+    <h3>Vehículos</h3>
+    <button type="button" class="btn btn-primary" (click)="nuevoVehiculo()">Nuevo</button>
+    <hr>
+    <div>
+      <ngx-datatable
+        class='material tableHeightFixed'
+        [columnMode]="'force'"
+        [headerHeight]="'auto'"
+        [footerHeight]="50"
+        [rowHeight]="'auto'"
+        [limit]="25"
+        [rows]='vehiculos'
+        [columns]='columns'
+        [scrollbarH]="true"
+        [selectionType]="'single'"
+        [messages]="{emptyMessage:'Sin registros para mostrar...',totalMessage: 'total',selectedMessage: 'selected'}">
+      </ngx-datatable>
+    </div>
+
+    <div id="templates">
+      <ng-template #tmplIndex let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+        <strong>{{rowIndex+1}}</strong>
+      </ng-template>
+      <ng-template #tmplCapacidad let-row="row">
+        <div>{{row.vehiculoCapacidad}} {{consultarDescCapacidad(row.vehiculoTipoCapacidad)}}</div>
+      </ng-template>
+      <ng-template #tmplTrueFalse let-value="value">
+        <div>{{value ? "Sí" : "No"}} </div>
+      </ng-template>
+      <ng-template #tmplTipoCamion let-value="value">
+        <div>{{consultarDescTipoCamion(value)}}</div>
+      </ng-template>
+      <ng-template #tmplTipoCarga let-value="value">
+        <div>{{consultarDescTipoCarga(value)}}</div>
+      </ng-template>
+      <ng-template #tmplCertificados let-row="row">
+        <div>{{consultarCertificados(row)}}</div>
+      </ng-template>
+      <ng-template #linkButton let-row="row">
+        <button type="button" class="btn btn-primary info-button-small" (click)="editarVehiculo(row)">
+          <i class="fas fa-eye"></i>
+        </button>
+      </ng-template>
+    </div>
+  </form>
+</div>
+
+
+<form novalidate #formaVehiculo="ngForm">
+  <div class="modal" id="modNewVehiculo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+       aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="panel-group">
+            <div class="card">
+              <div class="card-header font-weight-bold">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="cerrarModal()">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+                <h5>Datos del vehículo</h5></div>
+              <div class="card-body margin">
+                <div class="row">
+                  <div class="col-md-5">
+                    <div class="form-group">
+                      <label for="vehiculoPlaca">Placa*</label>
+                      <input type="text" class="form-control" id="vehiculoPlaca"
+                             name="vehiculoPlaca" [(ngModel)]="vehiculo.vehiculoPlaca"
+                             style="text-transform: uppercase"
+                             [disabled]="vehiculo.vehiculoId && vehiculo.vehiculoId>0"
+                             #vehiculoPlaca="ngModel" required maxlength="8"
+                             [ngClass]="{'is-invalid': vehiculoPlaca.errors && vehiculoPlaca.touched}">
+                    </div>
+                  </div>
+                  <div class="col-md-5">
+                    <div class="form-group">
+                      <label for="vehiculoModelo">Modelo*</label>
+                      <input type="text" class="form-control" id="vehiculoModelo"
+                             name="vehiculoModelo"
+                             [(ngModel)]="vehiculo.vehiculoModelo"
+                             #vehiculoModelo="ngModel" required maxlength="20"
+                             [ngClass]="{'is-invalid': vehiculoModelo.errors?.required && vehiculoModelo.touched}">
+                    </div>
+                  </div>
+                  <div class="col-md-5">
+                    <div class="form-group">
+                      <label for="vehiculoAnio">Año*</label>
+                      <input type="text" class="form-control" id="vehiculoAnio"
+                             name="vehiculoAnio" [(ngModel)]="vehiculo.vehiculoAnio"
+                             #vehiculoAnio="ngModel" required maxlength="4" pattern="[0-9]+"
+                             [ngClass]="{'is-invalid': (vehiculoAnio.errors?.required || vehiculoAnio.errors?.pattern) && vehiculoAnio.touched}">
+                      <div *ngIf="vehiculoAnio.errors?.pattern" class="invalid-feedback">{{appConfig.msgSoloNumeros}}</div>
+                    </div>
+                  </div>
+                  <div class="col-md-5">
+                    <div class="form-group">
+                      <label for="vehiculoTipoCamion">Tipo de camión*</label>
+                      <select class="form-control" id="vehiculoTipoCamion" name="vehiculoTipoCamion"
+                              [(ngModel)]="vehiculo.vehiculoTipoCamion"
+                              #vehiculoTipoCamion="ngModel" required
+                              [ngClass]="{'is-invalid': vehiculoTipoCamion.errors?.required  && vehiculoTipoCamion.touched}">
+                        <option *ngFor="let tipoCamion of tiposCamion" [value]="tipoCamion.catalogoItemId">
+                          {{tipoCamion.catalogoItemDescripcion}}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-md-5">
+                    <div class="form-group">
+                      <label for="vehiculoTipoCarga">Tipo de carga*</label>
+                      <select class="form-control" id="vehiculoTipoCarga" name="vehiculoTipoCarga"
+                              [(ngModel)]="vehiculo.vehiculoTipoCarga" #vehiculoTipoCarga="ngModel"
+                              required
+                              [ngClass]="{'is-invalid': vehiculoTipoCarga.errors?.required  && vehiculoTipoCarga.touched}">
+                        <option *ngFor="let tipoCarga of tiposCarga" [value]="tipoCarga.catalogoItemId">
+                          {{tipoCarga.catalogoItemDescripcion}}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-md-5">
+                    <div class="form-group">
+                      <label for="vehiculoCapacidad">Capacidad*</label>
+                      <div class="input-group input-group-one-line">
+                        <input type="text" class="form-control input-select-group" id="vehiculoCapacidad"
+                             name="vehiculoCapacidad" [(ngModel)]="vehiculo.vehiculoCapacidad"
+                             #vehiculoCapacidad="ngModel" required maxlength="7" pattern="^[0-9]{1,4}(\.[0-9]{0,1})?$"
+                             [ngClass]="{'is-invalid': (vehiculoCapacidad.errors?.required || vehiculoCapacidad.errors?.pattern)  && vehiculoCapacidad.touched}">
+                        <div class="input-group-append">
+                          <select class="form-control select-input-group" id="vehiculoTipoCapacidad" name="vehiculoTipoCapacidad"
+                                  [(ngModel)]="vehiculo.vehiculoTipoCapacidad"
+                                  #vehiculoTipoCapacidad="ngModel" required
+                                  [ngClass]="{'is-invalid': vehiculoTipoCapacidad.errors?.required  && vehiculoTipoCapacidad.touched}">
+                            <option disabled [value]="null" selected>Seleccione unidad</option>
+                            <option *ngFor="let tipoUnidade of unidadesCapacidad" [value]="tipoUnidade.catalogoItemId">
+                              {{tipoUnidade.catalogoItemDescripcion}}
+                            </option>
+                          </select>
+                        </div>
+                      </div>
+                      <small *ngIf="vehiculoCapacidad.errors?.pattern && vehiculoTipoCapacidad.touched" class="error-input">
+                        {{appConfig.msgSoloNumerosDecimales}}
+                      </small>
+                    </div>
+                  </div>
+                  <div class="col-md-5">
+                    <div class="form-group">
+                      <label>Certificados</label>
+                      <angular4-multiselect [data]="dropdownList" [(ngModel)]="selectedItems" name="selectedItems" id="selectedItems"
+                                            [settings]="dropdownSettings"
+                                            (onSelect)="onItemSelect($event)"
+                                            (onDeSelect)="OnItemDeSelect($event)"
+                                            (onSelectAll)="onSelectAll($event)"
+                                            (onDeSelectAll)="onDeSelectAll($event)">
+                      </angular4-multiselect>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer justify-content-md-center">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="cerrarModal()">
+            Cancelar
+          </button>
+          <button *ngIf="vehiculo.vehiculoId && vehiculo.vehiculoId>0" data-dismiss="modal"
+                  type="button" class="btn btn-primary" (click)="actualizarVehiculo()"
+                  [disabled]="!formaVehiculo.valid || formaVehiculo.pristine">
+            Actualizar
+          </button>
+          <button *ngIf="!vehiculo.vehiculoId" type="button" class="btn btn-primary" data-dismiss="modal"
+                  (click)="guardarVehiculo()" [disabled]="!formaVehiculo.valid">
+            Guardar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

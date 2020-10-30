@@ -1,0 +1,165 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <title>TAS-ON</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+</head>
+
+<table align="center" border="1" cellpadding="0" cellspacing="0" width="100%">
+
+    <tr>
+        <td bgcolor="#215CA9" style="padding: 30px 30px 30px 30px;">
+            <table border="0" cellpadding="0" cellspacing="0" width="100%">
+
+                <tr>
+
+                    <td>
+
+                        <img src="https://www.tas-on.com/assets/images/logo.png" alt="TAS-ON S.A." width="150" height="50"
+                             style="display: block;"/>
+
+                    </td>
+
+                    <td align="left" width="60%">
+
+                        <font color="white" size="6">Conductor y vehículo asignado</font>
+
+                    </td>
+
+                </tr>
+
+            </table>
+        </td>
+
+    </tr>
+
+    <tr>
+
+        <td bgcolor="#ffffff" style="padding: 40px 30px 40px 30px;">
+
+            <table border="0" cellpadding="0" cellspacing="0" width="100%">
+
+                <tr>
+
+                    <td style="padding: 20px 0 30px 0;">
+
+                        <table align="center" border="0" cellpadding="10" cellspacing="0" style="text-align:center">
+                            <tr bgcolor="#215CA9">
+                                <th colspan="2">
+                                    <font color="white">
+                                        <b>${body.solicitudId}</b>
+                                    </font>
+                                </th>
+                            </tr>
+                            <tr bgcolor="#215CA9">
+                                <td colspan="2">
+                                    <font color="white">
+                                        Cliente: <b>${body.cliente}</b><br/>
+                                        <b>$!{body.solicitudNumDoc}</b><br/>
+                                    </font>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    Producto: <b>$!{body.producto}</b>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    Transportista: ${body.transportista}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>${body.origen}</td>
+                                <td>${body.destino}</td>
+                            </tr>
+                            <tr>
+                                <td>${body.fechaRecoleccion}</td>
+                                <td>${body.fechaEntrega}</td>
+                            </tr>
+                            <tr>
+                                <td><img height="150px" width="250px" src="${body.imagenConductor}"
+                                         alt="Conductor" /></td>
+                                <td><img height="150px" width="250px" src="${body.imagenVehiculo}"
+                                         alt="Vehículo" /></td>
+                            </tr>
+                            <tr>
+                                <td><b>${body.nombresConductor}</b></td>
+                                <td><b>$!{body.modeloVehiculo} $!{body.capacidadVehiculo} A. $!{body.anioVehiculo}</b></td>
+                            </tr>
+                            <tr bgcolor="#215CA9" style="color: white">
+                                <td><b>Tipo $!{body.tipoLicenciaConductor} - $!{body.cedulaConductor}</b></td>
+                                <td><b>Placa $!{body.placaVehiculo}</b></td>
+                            </tr>
+                            <tr>
+                                <td>$!{body.calificacionConductor}</td>
+                                <td>Telef. <a href="tel:$!{body.telefonoConductor}" target="_blank">$!{body.telefonoConductor}</a></td>
+                            </tr>
+                            <tr>
+                                <td>$!{body.fletesConductor}</td>
+                                <td>$!{body.certificacionARCSA}</td>
+                            </tr>
+                        </table>
+                        <br/>
+
+                        Cualquier cambio, requerimiento o duda, comunicarse al teléfono <a href="tel:0984993418" target="_blank">0984993418</a> o al correo <a href="mailto:info@tas-on.com">info@tas-on.com</a>
+
+                        <br/><br/>
+                        Gracias por usar nuestros servicios.<br/>
+                        &reg; TAS-ON S.A.
+
+                    </td>
+
+
+                </tr>
+
+            </table>
+
+        </td>
+
+    </tr>
+
+    <tr>
+
+        <td bgcolor="#59C3F9" style="padding: 30px 30px 30px 30px;">
+
+            <table border="0" cellpadding="0" cellspacing="0" width="100%">
+
+                <tr>
+
+                    <td>
+
+                        &reg; TAS-ON S.A.,<br/>
+
+                        Este correo fue enviado automáticamente, por favor no responder.
+
+                    </td>
+
+                </tr>
+
+            </table>
+
+        </td>
+
+    </tr>
+
+</table>
+
+<br/>
+<h6>
+    <i>
+        * Cláusula de Confidencialidad: La información contenida en el presente  mensaje es confidencial, está dirigida exclusivamente a su destinatario. Su distribución o copia está prohibida. TASON S.A., no se responsabiliza  por su uso y deja expresa constancia que en los registros consta la  información originalmente enviada o criterios técnicos facilitados a pedido del destinatario, quien es responsable por su uso y destino. Este mensaje está protegido por el Código Orgánico de la Economía Social de los Conocimientos, Creatividad e Innovación, Ley de Comercio Electrónico, Firmas y Mensajes de Datos, reglamentos, acuerdos y convenios internacionales relacionados.
+        Si usted no es el destinatario de este mensaje, recomendamos su eliminación inmediata. La distribución, reproducción del mismo, está  prohibida y será sancionada de acuerdo al Código Orgánico Integral Penal  y demás normas aplicables.
+    </i>
+
+</h6>
+
+</html>

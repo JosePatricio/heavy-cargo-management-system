@@ -1,0 +1,210 @@
+<ngx-loading [show]="loading"></ngx-loading>
+<form novalidate #forma="ngForm">
+  <div class="panel-group">
+    <div class="card">
+      <div class="card-header font-weight-bold"><h5>Nuevo cliente</h5></div>
+      <div class="card-body">
+        <hr>
+        <div class="row text-center">
+          <div class="form-group is-invalid wm-50 element-center" ng-reflect-klass="form-group"
+               ng-reflect-ng-class="[object Object]"
+               [ngClass]="{'is-invalid': usuarioEmpresa.errors  && usuarioEmpresa.touched}">
+            <label class="col-md-12" for="usuarioEmpresa">RUC de la empresa a la que pertenece:</label>
+
+            <div class="col-md-6 element-center">
+              <input type="text" class="form-control text-center" id="usuarioEmpresa" name="usuarioEmpresa"
+                     [(ngModel)]="usuario.usuarioRuc" #usuarioEmpresa="ngModel" maxlength="13" minlength="13"
+                     (input)="buscarRuc()" pattern="^\d+$" required
+                     [ngClass]="{'is-invalid': usuarioEmpresa.errors && usuarioEmpresa.touched}">
+              <div class="invalid-feedback">
+                <div *ngIf="usuarioEmpresa.errors?.minlength">Mínimo de caracteres {{usuarioEmpresa.errors.minlength.requiredLength}}</div>
+                <div *ngIf="usuarioEmpresa.errors?.pattern">{{appConfig.msgSoloNumeros}}</div>
+              </div>
+            </div>
+            <br/>
+            <label *ngIf="this.empresa.clienteRazonSocial != null && this.empresa.clienteRazonSocial != ''"><b>{{empresa.clienteRazonSocial}}</b></label>
+          </div>
+        </div>
+
+        <div *ngIf="existeEmpresa">
+          <hr>
+          <!-- FILA 1 -->
+          <div class="row">
+            <div class="col-md-6">
+              <div class="row">
+                <div class="col-md-5">
+                  <div class="form-group">
+                    <label for="usuarioTipoDocumento">* Tipo de documento:</label>
+                  </div>
+                </div>
+                <div class="col-md-7">
+                  <div class="form-group">
+                    <select class="form-control" id="usuarioTipoDocumento" name="usuarioTipoDocumento"
+                            [(ngModel)]="usuario.usuarioTipoDocumento"
+                            #usuarioTipoDocumento="ngModel" required
+                            [ngClass]="{'is-invalid': usuarioTipoDocumento.errors  && usuarioTipoDocumento.touched}">
+                      <option *ngFor="let tipoDocumento of tiposDocumento" [value]="tipoDocumento.catalogoItemId">
+                        {{tipoDocumento.catalogoItemDescripcion}}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="row">
+                <div class="col-md-5">
+                  <div class="form-group">
+                    <label for="usuarioNumDoc">* Número de documento:</label>
+                  </div>
+                </div>
+                <div class="col-md-7">
+                  <div class="form-group">
+                    <input type="text" class="form-control" id="usuarioNumDoc" name="usuarioNumDoc"
+                           [(ngModel)]="usuario.usuarioIdDocumento"
+                           #usuarioNumDoc="ngModel" required pattern="[0-9]+$"
+                           minlength="{{usuario.usuarioTipoDocumento==appConfig.idRuc?13:10}}"
+                           maxlength="{{usuario.usuarioTipoDocumento==appConfig.idRuc?13:10}}"
+                           numDocUserVal [ngClass]="{'is-invalid': usuarioNumDoc.errors && usuarioNumDoc.touched}">
+                    <div class="invalid-feedback">
+                      <div *ngIf="usuarioNumDoc.errors?.pattern">{{appConfig.msgSoloNumeros}}</div>
+                      <div *ngIf="usuarioNumDoc.errors?.minlength">Mínimo de caracteres {{usuarioNumDoc.errors.minlength.requiredLength}}</div>
+                      <div *ngIf="usuarioNumDoc.errors?.maxlength">Máximo de caracteres {{usuarioNumDoc.errors.maxlength.requiredLength}}</div>
+                      <div *ngIf="usuarioNumDoc.errors?.numdoc">{{appConfig.msgNumDocUnico}}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <!-- /FILA 1 -->
+
+          <!-- FILA 2 -->
+            <div class="col-md-6">
+              <div class="row">
+                <div class="col-md-5">
+                  <div class="form-group">
+                    <label for="usuarioNombres">* Nombres:</label>
+                  </div>
+                </div>
+                <div class="col-md-7">
+                  <div class="form-group">
+                    <input type="text" class="form-control" id="usuarioNombres" name="usuarioNombres"
+                           [(ngModel)]="usuario.usuarioNombres"
+                           #usuarioNombres="ngModel" required maxlength="50" pattern="([A-Za-z\u00C0-\u00FF ])+"
+                           [ngClass]="{'is-invalid': usuarioNombres.errors && usuarioNombres.touched}">
+                    <div class="invalid-feedback">
+                      <div *ngIf="usuarioNombres.errors?.pattern">{{appConfig.msgSoloLetras}}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="row">
+                <div class="col-md-5">
+                  <div class="form-group">
+                    <label for="usuarioApellidos">* Apellidos:</label>
+                  </div>
+                </div>
+                <div class="col-md-7">
+                  <div class="form-group">
+                    <input type="text" class="form-control" id="usuarioApellidos"
+                           name="usuarioApellidos" [(ngModel)]="usuario.usuarioApellidos"
+                           #usuarioApellidos="ngModel" required maxlength="50" pattern="([A-Za-z\u00C0-\u00FF ])+"
+                           [ngClass]="{'is-invalid': usuarioApellidos.errors && usuarioApellidos.touched}">
+                    <div class="invalid-feedback">
+                      <div *ngIf="usuarioApellidos.errors?.pattern">{{appConfig.msgSoloLetras}}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <!-- /FILA 2 -->
+
+          <!-- FILA 3 -->
+            <div class="col-md-6">
+              <div class="row">
+                <div class="col-md-5">
+                  <div class="form-group">
+                    <label for="usuarioNombreUsuario">* Nombre de usuario:</label>
+                  </div>
+                </div>
+                <div class="col-md-7">
+                  <div class="form-group">
+                    <input type="text" class="form-control" id="usuarioNombreUsuario" name="usuarioNombreUsuario"
+                         [(ngModel)]="usuario.usuarioNombreUsuario" #usuarioNombreUsuario="ngModel" required
+                         maxlength="12" pattern="([A-Za-z0-9_])+" userNameValidator
+                         [ngClass]="{'is-invalid': usuarioNombreUsuario.errors && usuarioNombreUsuario.touched}">
+                    <div class="invalid-feedback">
+                      <div *ngIf="usuarioNombreUsuario.errors?.username">{{appConfig.msgUserNameUnico}}</div>
+                      <div *ngIf="usuarioNombreUsuario.errors?.pattern">{{appConfig.msgSoloLetras}}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="row">
+                <div class="col-md-5">
+                  <div class="form-group">
+                    <label for="usuarioMail">* Correo electrónico:</label>
+                  </div>
+                </div>
+                <div class="col-md-7">
+                  <div class="form-group">
+                    <input type="text" class="form-control" id="usuarioMail"
+                           name="usuarioMail" [(ngModel)]="usuario.usuarioMail"
+                           #usuarioMail="ngModel" required maxlength="100" emailPattern emailUsuarioValidator
+                           [ngClass]="{'is-invalid': usuarioMail.errors && usuarioMail.touched}">
+                    <div class="invalid-feedback">
+                      <div *ngIf="usuarioMail.errors?.emailUsuario">{{appConfig.msgEmailUnico}}</div>
+                      <div *ngIf="usuarioMail.errors?.emailPattern">{{appConfig.msgEmailValido}}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <!-- /FILA 3 -->
+
+          <!-- FILA 4 -->
+            <div class="col-md-6">
+              <div class="row">
+                <div class="col-md-5">
+                  <div class="form-group">
+                    <label for="usuarioCelular">* Teléfono:</label>
+                  </div>
+                </div>
+                <div class="col-md-7">
+                  <div class="form-group">
+                    <input type="text" class="form-control" id="usuarioCelular"
+                           name="usuarioCelular" [(ngModel)]="usuario.usuarioCelular"
+                           #usuarioCelular="ngModel" required minlength="6" maxlength="10" pattern="[0-9]+"
+                           [ngClass]="{'is-invalid': usuarioCelular.errors && usuarioCelular.touched}">
+                    <div class="invalid-feedback">
+                      <div *ngIf="usuarioCelular.errors?.pattern">{{appConfig.msgSoloNumeros}}</div>
+                      <div *ngIf="usuarioCelular.errors?.minlength">Mínimo de caracteres {{usuarioCelular.errors.minlength.requiredLength}}</div>
+                      <div *ngIf="usuarioCelular.errors?.maxlength">Máximo de caracteres {{usuarioCelular.errors.maxlength.requiredLength}}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- /FILA 4 -->
+
+        </div>
+        <hr>
+
+        <div class="col text-right">
+          <button *ngIf="existeEmpresa" type="button" class="btn btn-primary" [disabled]="!forma.valid"
+                  (click)="agregarCliente()">Aceptar
+          </button>
+          <button type="button" class="btn btn-secondary" routerLink="/login">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

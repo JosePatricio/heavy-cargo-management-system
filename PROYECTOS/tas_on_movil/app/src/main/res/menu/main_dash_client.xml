@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+    <item
+        android:id="@+id/solicitudItem"
+        android:icon="@drawable/ic_user_circle"
+        android:title="@string/solicitudes" />
+    <group
+        android:id="@+id/solicitudGroup"
+        android:checkableBehavior="none"
+        android:left="25dp"
+        android:paddingLeft="25dp">
+        <item
+            android:id="@+id/solicidNew"
+            android:icon="@drawable/ic_ambulance"
+            android:left="25dp"
+            android:paddingLeft="25dp"
+            android:title="@string/solic_new" />
+    </group>
+    <item
+        android:id="@+id/solicidOffer"
+        android:icon="@drawable/ic_th_list"
+        android:title="@string/solic_offer" />
+    <item
+        android:id="@+id/termsConditions"
+        android:icon="@drawable/ic_pencil_square_o"
+        android:title="@string/Terms_and_conditions" />
+    <item
+        android:id="@+id/nav_close_sesion"
+        android:icon="@drawable/ic_sign_out"
+        android:title="@string/cierra_sess" />
+</menu>

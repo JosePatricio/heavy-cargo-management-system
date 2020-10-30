@@ -1,0 +1,39 @@
+<ngx-loading [show]="loading"></ngx-loading>
+<div class="container-fluid margin-top-container">
+  <form>
+    <h3>Mis ofertas por cobrar</h3>
+    <hr/>
+    <div>
+      <ngx-datatable
+        class='material tableHeightFixed'
+        [columnMode]="'force'"
+        [headerHeight]="'auto'"
+        [footerHeight]="50"
+        [rowHeight]="'auto'"
+        [limit]="25"
+        [rows]='ofertas'
+        [columns]='columns'
+        [scrollbarH]="true"
+        [selectionType]="'single'"
+        [messages]="{emptyMessage:'Sin registros para mostrar...',totalMessage: 'total',selectedMessage: 'selected'}">
+      </ngx-datatable>
+    </div>
+
+    <div id="templates">
+      <ng-template #ordinal let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+        <strong>{{rowIndex+1}}</strong>
+      </ng-template>
+      <ng-template #tmplDate let-value="value">
+        <div>{{value | date: appConfig.formatoFecha}}</div>
+      </ng-template>
+      <ng-template #linkButton let-value="value" let-rowIndex="rowIndex" let-row="row">
+        <button type="button" class="btn btn-primary info-button-small" (click)="callDetailSolicitud(value)">
+          <i class="fas fa-info-circle"></i>
+        </button>
+      </ng-template>
+      <ng-template #tmplAmount let-value="value">
+        <div class="amount-text wm-100">{{value | currency:'USD':'symbol'}}</div>
+      </ng-template>
+    </div>
+  </form>
+</div>

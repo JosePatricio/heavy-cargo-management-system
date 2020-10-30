@@ -1,0 +1,84 @@
+<ngx-loading [show]="loading"></ngx-loading>
+<div class="container-fluid margin-top-container">
+  <form>
+    <h3>Desvincular conductores</h3>
+    <hr>
+    <div class="col-md-5">
+      <div class="form-group" *ngIf="catUsers">
+        <label for="usuarioTipo">Tipo de Usuario</label>
+        <select class="form-control" id="usuarioTipo" name="usuarioTipo" [(ngModel)]="idCatUser"
+                #usuarioTipo="ngModel" required (ngModelChange)="getUser(idCatUser,idCatState)">
+          <option></option>
+          <option *ngFor="let _usuarioTipo of catUsers" [value]="_usuarioTipo.catalogoItemId">
+            {{_usuarioTipo.catalogoItemDescripcion}}
+          </option>
+        </select>
+        <label for="usuarioEstado">Estado de Usuario</label>
+        <select class="form-control" id="usuarioEstado" name="usuarioEstado" [(ngModel)]="idCatState"
+                #usuarioEstado="ngModel" required (ngModelChange)="getUser(idCatUser,idCatState)">
+          <option></option>
+          <option *ngFor="let _usuarioState of catState" [value]="_usuarioState.catalogoItemId">
+            {{_usuarioState.catalogoItemDescripcion}}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="table-responsive" *ngIf="usuarios">
+      <table class="table table-hover">
+        <thead>
+        <tr>
+          <th>#</th>
+          <th>ID Documento</th>
+          <th>Nombres</th>
+          <th>Apellidos</th>
+          <th>Tipo Usuario</th>
+          <th>Estado</th>
+          <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let _usuarios of usuarios;let i=index">
+          <th scope="row">{{i+1}}</th>
+          <td>{{_usuarios.idDocumento}}</td>
+          <td>{{_usuarios.nombres}}</td>
+          <td>{{_usuarios.apellidos}}</td>
+          <td>{{_usuarios.tipoUsuario}}</td>
+          <td>{{_usuarios.estado}}</td>
+          <td>
+            <button type="button" class="btn btn-success" (click)="restablece(_usuarios)"><i
+              class="fas fa-retweet"></i></button>
+          </td>
+        </tr>
+
+        </tbody>
+      </table>
+      <hr>
+    </div>
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="restableceModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+      <div class="modal-dialog forma" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Restablecer Cliente</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            Está seguro en RESTABLECER la contraseña de: {{userSelec.nombres}} {{userSelec.apellidos}}
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="restUserPass()">Restablecer
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </form>
+</div>

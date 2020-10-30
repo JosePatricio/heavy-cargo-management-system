@@ -1,0 +1,224 @@
+<ngx-loading [show]="loading"></ngx-loading>
+<form novalidate #forma="ngForm">
+  <div class="panel-group">
+    <div class="card">
+      <div class="card-header font-weight-bold">Nuevo usuario cliente</div>
+      <div class="card-body margin">
+        <h6>Datos del usuario</h6>
+        <hr>
+        <div class="row">
+          <div class="col-md-5">
+            <div class="form-group" [ngClass]="{'has-danger': usuarioTipoDocumento.errors?.required  && usuarioTipoDocumento.touched}">
+              <label for="usuarioTipoDocumento">Tipo de documento</label>
+              <select class="form-control" id="usuarioTipoDocumento" name="usuarioTipoDocumento" [(ngModel)]="cliente.usuarioTipoDocumento"
+                #usuarioTipoDocumento="ngModel" required>
+                <option></option>
+                <option *ngFor="let tipoDocumento of tiposDocumento" [value]="tipoDocumento.catalogoItemId">
+                  {{tipoDocumento.catalogoItemDescripcion}}
+                </option>
+              </select>
+              <div *ngIf="usuarioTipoDocumento.errors?.required" class="form-control-feedback">
+                {{appConfig.msgRequerido}}
+              </div>
+            </div>
+
+            <div class="form-group" [ngClass]="{'has-danger': (usuarioNombres.errors?.required || usuarioNombres.errors?.pattern) && usuarioNombres.touched}">
+              <label for="usuarioNombres">Nombres</label>
+              <input type="text" class="form-control" id="usuarioNombres" placeholder="Nombres" name="usuarioNombres" [(ngModel)]="cliente.usuarioNombres"
+                #usuarioNombres="ngModel" required maxlength="50" pattern="[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1 ]+$">
+              <div *ngIf="usuarioNombres.errors?.required" class="form-control-feedback">{{appConfig.msgRequerido}}
+              </div>
+              <div *ngIf="usuarioNombres.errors?.pattern" class="form-control-feedback">{{appConfig.msgSoloLetras}}
+              </div>
+            </div>
+
+            <div class="form-group" [ngClass]="{'has-danger': (usuarioNombreUsuario.errors?.required || usuarioNombreUsuario.errors?.username) && usuarioNombreUsuario.touched}">
+              <label for="usuarioNombreUsuario">Nombre usuario</label>
+              <input type="text" class="form-control" id="usuarioNombreUsuario" placeholder="Nombre usuario" name="usuarioNombreUsuario"
+                [(ngModel)]="cliente.usuarioNombreUsuario" #usuarioNombreUsuario="ngModel" required maxlength="10" userNameValidator [disabled]="editParam!==1">
+              <div *ngIf="usuarioNombreUsuario.errors?.required" class="form-control-feedback">
+                {{appConfig.msgRequerido}}
+              </div>
+              <div *ngIf="usuarioNombreUsuario.errors?.username" class="form-control-feedback">{{appConfig.msgUserNameUnico}}</div>
+            </div>
+
+            <div class="form-group" [ngClass]="{'has-danger': (usuarioCelular.errors?.required || usuarioCelular.errors?.pattern)  && usuarioCelular.touched}">
+              <label for="usuarioCelular">Tel&eacute;fono celular</label>
+              <input type="text" class="form-control" id="usuarioCelular" placeholder="Tel&eacute;fono celular" name="usuarioCelular" [(ngModel)]="cliente.usuarioCelular"
+                #usuarioCelular="ngModel" required maxlength="10" pattern="[0-9]+">
+              <div *ngIf="usuarioCelular.errors?.required" class="form-control-feedback">{{appConfig.msgRequerido}}
+              </div>
+              <div *ngIf="usuarioCelular.errors?.pattern" class="form-control-feedback">{{appConfig.msgSoloNumeros}}
+              </div>
+            </div>
+
+
+
+          </div>
+          <div class="col-md-2"></div>
+          <div class="col-md-5">
+
+            <div class="form-group" [ngClass]="{'has-danger': (usuarioIdDocumento.errors?.required || usuarioIdDocumento.errors?.identificadorUsuarioTamanio || usuarioIdDocumento.errors?.identificadorUsuario) && usuarioIdDocumento.touched}">
+              <label for="usuarioIdDocumento">N&uacute;mero de documento</label>
+              <input type="text" class="form-control" id="usuarioIdDocumento" placeholder="Identificador usuario" name="usuarioIdDocumento"
+                [(ngModel)]="cliente.usuarioIdDocumento" #usuarioIdDocumento="ngModel" required maxlength="13" [disabled]="editParam!==1"
+                identificadorUsuarioLengthValidator identificadorUsuarioValidator/>
+              <div *ngIf="usuarioIdDocumento.errors?.required" class="form-control-feedback">{{appConfig.msgRequerido}}</div>
+              <div *ngIf="usuarioIdDocumento.errors?.identificadorUsuarioTamanio" class="form-control-feedback">{{appConfig.msgIdUsuarioTamanio}}</div>
+              <div *ngIf="usuarioIdDocumento.errors?.identificadorUsuario" class="form-control-feedback">{{appConfig.msgIdUsuarioUnico}}</div>
+            </div>
+
+            <div class="form-group" [ngClass]="{'has-danger': (usuarioApellidos.errors?.required || usuarioApellidos.errors?.pattern) && usuarioApellidos.touched}">
+              <label for="usuarioApellidos">Apellidos</label>
+              <input type="text" class="form-control" id="usuarioApellidos" placeholder="Apellidos" name="usuarioApellidos" [(ngModel)]="cliente.usuarioApellidos"
+                #usuarioApellidos="ngModel" required maxlength="50" pattern="[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1 ]+$">
+              <div *ngIf="usuarioApellidos.errors?.required" class="form-control-feedback">{{appConfig.msgRequerido}}
+              </div>
+              <div *ngIf="usuarioApellidos.errors?.pattern" class="form-control-feedback">{{appConfig.msgSoloLetras}}
+              </div>
+            </div>
+
+            <div class="form-group" [ngClass]="{'has-danger': (usuarioMail.errors?.required || usuarioMail.errors?.pattern || usuarioMail.errors?.emailUsuario) && usuarioMail.touched}">
+              <label for="usuarioMail">Correo electr&oacute;nico</label>
+              <input type="text" class="form-control" id="usuarioMail" placeholder="Correo electr&oacute;nico" name="usuarioMail" [(ngModel)]="cliente.usuarioMail"
+                #usuarioMail="ngModel" required maxlength="100" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" emailUsuarioValidator>
+              <div *ngIf="usuarioMail.errors?.required" class="form-control-feedback">{{appConfig.msgRequerido}}</div>
+              <div *ngIf="usuarioMail.errors?.pattern" class="form-control-feedback">{{appConfig.msgCorreoValido}}</div>
+              <div *ngIf="usuarioMail.errors?.emailUsuario" class="form-control-feedback">{{appConfig.msgEmailUnico}}</div>
+            </div>
+
+            <div class="form-group" [ngClass]="{'has-danger': usuarioConvecional.errors?.pattern && usuarioConvecional.touched}">
+              <label for="usuarioConvecional">Tel&eacute;fono convencional</label>
+              <input type="text" class="form-control" id="usuarioConvecional" placeholder="Tel&eacute;fono convencional" name="usuarioConvecional"
+                [(ngModel)]="cliente.usuarioConvecional" #usuarioConvecional="ngModel" maxlength="10" pattern="[0-9]+">
+              <div *ngIf="usuarioConvecional.errors?.pattern" class="form-control-feedback">{{appConfig.msgSoloNumeros}}
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+        <h6>Datos de la empresa cliente</h6>
+        <hr>
+        <div class="row">
+          <div class="col-md-5">
+            <div class="form-group" [ngClass]="{'has-danger': empresaClienteSeleccionadaM.errors?.required  && empresaClienteSeleccionadaM.touched}">
+              <label for="empresaClienteSeleccionada">Empresa cliente</label>
+              <select class="form-control" id="empresaClienteSeleccionada" name="empresaClienteSeleccionada" [(ngModel)]="empresaClienteSeleccionada"
+                #empresaClienteSeleccionadaM="ngModel" required (change)="cargarDatosCliente()">
+                <option></option>
+                <option *ngFor="let cliente of clienteCombo" [value]="cliente.ruc">
+                  {{cliente.razonSocial}}
+                </option>
+              </select>
+              <div *ngIf="empresaClienteSeleccionadaM.errors?.required" class="form-control-feedback">
+                {{appConfig.msgRequerido}}
+              </div>
+            </div>
+            <div class="form-group" [ngClass]="{'has-danger': usuarioTipoPersona.errors?.required  && usuarioTipoPersona.touched}">
+              <label for="usuarioTipoPersona">Tipo persona</label>
+              <input type="text" class="form-control" id="usuarioTipoPersona" placeholder="Tipo de persona" name="usuarioTipoPersona" [(ngModel)]="temporal.usuarioTipoPersona"
+                #usuarioTipoPersona="ngModel" required maxlength="100" [disabled]="1">
+              <div *ngIf="usuarioTipoPersona.errors?.required" class="form-control-feedback">{{appConfig.msgRequerido}}
+              </div>
+            </div>
+
+            <div class="form-group" [ngClass]="{'has-danger': usuarioRazonSocial.errors?.required  && usuarioRazonSocial.touched}">
+              <label for="usuarioRazonSocial">Raz&oacute;n social</label>
+              <input type="text" class="form-control" id="usuarioRazonSocial" placeholder="Raz&oacute;n social" name="usuarioRazonSocial" [(ngModel)]="temporal.usuarioRazonSocial"
+                #usuarioRazonSocial="ngModel" required maxlength="150" [disabled]="1">
+              <div *ngIf="usuarioRazonSocial.errors?.required" class="form-control-feedback">{{appConfig.msgRequerido}}
+              </div>
+            </div>
+
+            <div class="form-group" [ngClass]="{'has-danger': usuarioPeriodoFacturacion.errors?.required  && usuarioPeriodoFacturacion.touched}">
+              <label for="usuarioPeriodoFacturacion">Per&iacute;odo facturaci&oacute;n en d&iacute;as:</label>
+              <input type="text" class="form-control" id="usuarioPeriodoFacturacion" placeholder="Per&iacute;odo de facturaci&oacute;n" name="usuarioPeriodoFacturacion" [(ngModel)]="temporal.usuarioPeriodoFacturacion"
+                #usuarioPeriodoFacturacion="ngModel" required maxlength="3" [disabled]="1">
+              <div *ngIf="usuarioPeriodoFacturacion.errors?.required" class="form-control-feedback">{{appConfig.msgRequerido}}
+              </div>
+            </div>
+
+          </div>
+          <div class="col-md-2"></div>
+          <div class="col-md-5">
+
+            <div class="form-group" [ngClass]="{'has-danger': (usuarioRuc.errors?.required || usuarioRuc.errors?.minlength || usuarioRuc.errors?.pattern) && usuarioRuc.touched}">
+              <label for="usuarioRuc">N&uacute;mero de RUC</label>
+              <input type="text" class="form-control" id="usuarioRuc" placeholder="N&uacute;mero de RUC" name="usuarioRuc" [(ngModel)]="cliente.usuarioRuc"
+                #usuarioRuc="ngModel" required maxlength="13" minlength="13" pattern="[0-9]+" [disabled]="1">
+              <div *ngIf="usuarioRuc.errors?.required" class="form-control-feedback">{{appConfig.msgRequerido}}</div>
+              <div *ngIf="usuarioRuc.errors?.minlength" class="form-control-feedback">M&iacute;nimo de caracteres {{usuarioRuc.errors.minlength.requiredLength}}
+              </div>
+              <div *ngIf="usuarioRuc.errors?.pattern" class="form-control-feedback">{{appConfig.msgSoloNumeros}}</div>
+            </div>
+
+            <div class="form-group" [ngClass]="{'has-danger': usuarioDireccion.errors?.required  && usuarioDireccion.touched}">
+              <label for="usuarioDireccion">Direcci&oacute;n</label>
+              <input type="text" class="form-control" id="usuarioDireccion" placeholder="Direcci&oacute;n" name="usuarioDireccion" [(ngModel)]="temporal.usuarioDireccion"
+                #usuarioDireccion="ngModel" required maxlength="250" [disabled]="1">
+              <div *ngIf="usuarioDireccion.errors?.required" class="form-control-feedback">{{appConfig.msgRequerido}}
+              </div>
+            </div>
+            <div class="form-group" [ngClass]="{'has-danger': usuarioLocalidad.errors?.required  && usuarioLocalidad.touched}">
+              <label for="usuarioLocalidad">Ciudad</label>
+              <input type="text" class="form-control" id="usuarioLocalidad" placeholder="Ciudad" name="usuarioLocalidad" [(ngModel)]="temporal.usuarioLocalidad"
+                #usuarioLocalidad="ngModel" required maxlength="100" [disabled]="1">
+              <div *ngIf="usuarioLocalidad.errors?.required" class="form-control-feedback">{{appConfig.msgRequerido}}
+              </div>
+            </div>
+            <div class="form-group" [ngClass]="{'has-danger': usuarioDiasCredito.errors?.required  && usuarioDiasCredito.touched}">
+              <label for="usuarioDiasCredito">Días de cr&eacute;dito</label>
+              <input type="text" class="form-control" id="usuarioDiasCredito" placeholder="Días de cr&eacute;dito" name="usuarioDiasCredito" [(ngModel)]="temporal.usuarioDiasCredito"
+                #usuarioDiasCredito="ngModel" required maxlength="3" [disabled]="1">
+              <div *ngIf="usuarioDiasCredito.errors?.required" class="form-control-feedback">{{appConfig.msgRequerido}}
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+        <hr>
+
+        <button type="button" class="btn btn-primary" (click)="agregarCliente()" *ngIf="editParam===1" [disabled]="!forma.valid">
+          Crear
+        </button>
+        <button type="button" class="btn btn-primary" (click)="editarCliente()" *ngIf="editParam===2" [disabled]="true">
+          Editar
+        </button>
+        <button type="button" class="btn btn-primary" (click)="closePage()">Cancelar</button>
+
+
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Alerta...!</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="cerrarMensaje()">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+
+                <div class="alert alert-success" role="alert" [ngClass]="{'alert-success': operacionCorrecta,'alert-danger': !operacionCorrecta}">
+                  <strong>{{mensajeOperacion}}</strong>
+                </div>
+
+              </div>
+              <div class="modal-footer justify-content-md-center">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="cerrarMensaje()">Cerrar
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+</form>

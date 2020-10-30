@@ -1,0 +1,51 @@
+<ngx-loading [show]="loading"></ngx-loading>
+<div class="container-fluid margin-top-container">
+  <form>
+    <h2>Ofertas listas para el pago</h2>
+    <hr>
+
+    <div>
+      <div style="text-align: right;" *ngIf="ofertas">
+        <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="generaCashManagement()"
+                [disabled]="selOfert.length<1">
+          Generar archivo de cash management
+        </button>
+      </div>
+      <hr />
+      <ngx-datatable
+        class='material tableHeightFixed'
+        [columnMode]="'force'"
+        [headerHeight]="'auto'"
+        [footerHeight]="50"
+        [rowHeight]="'auto'"
+        [columns]="columns"
+        [rows]='ofertas'
+        [scrollbarH]="true"
+        [selected]="selOfert"
+        [selectionType]="'checkbox'"
+        (select)='onSelect($event)'
+        [messages]="{emptyMessage:'Sin registros para mostrar...',totalMessage: 'total',selectedMessage: 'selected'}">
+      </ngx-datatable>
+    </div>
+
+    <div id="templates">
+      <ng-template #tmplIndex let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+        <strong>{{rowIndex+1}}</strong>
+      </ng-template>
+      <ng-template #tmplAmount let-value="value" let-row="row">
+        <div class="amount-text wm-100">
+          {{(row.invoicesTypePay==appConfig.idPagoInmediato?value-row.descuento:value ) | currency:'USD':'symbol'}}
+        </div>
+      </ng-template>
+      <ng-template #tmplDiscount let-value="value" let-row="row">
+        <div class="amount-text wm-100">{{value | currency:'USD':'symbol'}}</div>
+      </ng-template>
+      <ng-template #tmplTypePay let-value="value" let-rowIndex="rowIndex" let-row="row">
+        <strong>{{row.invoicesTypePay===0?'Normal':value}}</strong>
+      </ng-template>
+      <ng-template #tmplDate let-value="value">
+        <div>{{value | date: appConfig.formatoFecha}}</div>
+      </ng-template>
+    </div>
+  </form>
+</div>

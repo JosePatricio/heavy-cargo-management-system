@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!-- JPAAccountDAO has JPA annotations to access EntityManager -->
+    <context:annotation-config/>
+
+    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalEntityManagerFactoryBean">
+        <property name="persistenceUnitName" value="TasOnPersistenceUnit"/>
+    </bean>
+
+    <bean id="txManager" class="org.springframework.transaction.jta.JtaTransactionManager">
+        <property name="transactionManagerName" value="java:/TransactionManager"/>
+        <!--<property name="userTransactionName" value="UserTransaction"/>-->
+    </bean>
+
+    <!-- The transactional advice (i.e. what 'happens'; see the <aop:advisor/> bean below) -->
+    <tx:advice id="txAdvice" transaction-manager="txManager">
+        <!-- the transactional semantics... -->
+        <tx:attributes>
+            <!-- all methods starting with 'get' are read-only transactions -->
+            <tx:method name="get*,read*" read-only="true"/>
+            <!-- other methods use the default transaction settings (see below) -->
+            <tx:method name="*"/>
+        </tx:attributes>
+    </tx:advice>
+
+
+    <!-- ensure that the above transactional advice runs for execution
+      of any operation defined by the AccountManager interface -->
+    <aop:config>
+        <aop:pointcut id="loginOperation" expression="execution(* ec.net.redcode.tas.on.persistence.dao.*.*(..))"/>
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="loginOperation"/>
+    </aop:config>
+
+    <!-- DAOS -->
+    <bean id="usuarioDAO" class="ec.net.redcode.tas.on.persistence.dao.impl.UsuariosDAOImpl"/>
+    <bean id="catalogoDAO" class="ec.net.redcode.tas.on.persistence.dao.impl.CatalogoDAOImpl"/>
+    <bean id="catalogoItemDAO" class="ec.net.redcode.tas.on.persistence.dao.impl.CatalogoItemDAOImpl"/>
+    <bean id="localidadDAO" class="ec.net.redcode.tas.on.persistence.dao.impl.LocalidadDAOImpl"/>
+    <bean id="solicitudEnvioDAO" class="ec.net.redcode.tas.on.persistence.dao.impl.SolicitudEnvioDAOImpl"/>
+    <bean id="secuenciaDAO" class="ec.net.redcode.tas.on.persistence.dao.impl.SecuenciaDAOImpl"/>
+    <bean id="ofertaDAO" class="ec.net.redcode.tas.on.persistence.dao.impl.OfertasDAOImpl"/>
+    <bean id="clienteDAO" class="ec.net.redcode.tas.on.persistence.dao.impl.ClienteDAOImpl"/>
+    <bean id="vehiculoDAO" class="ec.net.redcode.tas.on.persistence.dao.impl.VehiculoDAOImpl"/>
+    <bean id="conductorDAO" class="ec.net.redcode.tas.on.persistence.dao.impl.ConductorDAOImpl"/>
+    <bean id="facturaDAO" class="ec.net.redcode.tas.on.persistence.dao.impl.FacturaDAOImpl"/>
+    <bean id="facturaDetalleDAO" class="ec.net.redcode.tas.on.persistence.dao.impl.FacturaDetalleDAOImpl"/>
+    <bean id="pagoDAO" class="ec.net.redcode.tas.on.persistence.dao.impl.PagoDAOImpl"/>
+    <bean id="fcmDispositivoDAO" class="ec.net.redcode.tas.on.persistence.dao.impl.FcmDispositivoDAOImpl"/>
+    <bean id="facturaRetencionDAO" class="ec.net.redcode.tas.on.persistence.dao.impl.FacturaRetencionDAOImpl"/>
+    <bean id="facturaProveedorDAO" class="ec.net.redcode.tas.on.persistence.dao.impl.FacturaProveedorDAOImpl"/>
+    <bean id="solicitudEnvioAuditDAO" class="ec.net.redcode.tas.on.persistence.dao.impl.SolicitudEnvioAuditDAOImpl"/>
+    <bean id="adquirienteDAO" class="ec.net.redcode.tas.on.persistence.dao.impl.AdquirienteDAOImpl"/>
+    <bean id="usuarioEbillingDAO" class="ec.net.redcode.tas.on.persistence.dao.impl.UsuarioEbillingDAOImpl"/>
+    <bean id="ebillingDAO" class="ec.net.redcode.tas.on.persistence.dao.impl.EbillingDAOImpl"/>
+    <bean id="ebillingDetalleDAO" class="ec.net.redcode.tas.on.persistence.dao.impl.EbillingDetalleDAOImpl"/>
+    <bean id="calificacionTransportistaDAO" class="ec.net.redcode.tas.on.persistence.dao.impl.CalificacionTransportistaDAOImpl"/>
+    <bean id="facturaManualDAO" class="ec.net.redcode.tas.on.persistence.dao.impl.FacturaManualDAOImpl"/>
+    <bean id="notaCreditoDAO" class="ec.net.redcode.tas.on.persistence.dao.impl.NotaCreditoDAOImpl"/>
+    <bean id="requestDAO" class="ec.net.redcode.tas.on.persistence.dao.impl.RequestDAOImpl"/>
+    <bean id="fileDAO" class="ec.net.redcode.tas.on.persistence.dao.impl.FileDAOImpl"/>
+    <bean id="ofertaFileDAO" class="ec.net.redcode.tas.on.persistence.dao.impl.OfertaFileDAOImpl"/>
+    <bean id="envioDAO" class="ec.net.redcode.tas.on.persistence.dao.impl.EnvioDAOImpl"/>
+    <bean id="envioFileDAO" class="ec.net.redcode.tas.on.persistence.dao.impl.EnvioFileDAOImpl"/>
+    <bean id="clientePedidosDAO" class="ec.net.redcode.tas.on.persistence.dao.impl.ClientePedidosDAOImpl"/>
+    <bean id="categoriaProductoDAO" class="ec.net.redcode.tas.on.persistence.dao.impl.CategoriaProductoDAOImpl"/>
+    <bean id="productoDAO" class="ec.net.redcode.tas.on.persistence.dao.impl.ProductoDAOImpl"/>
+    <bean id="visitaDAO" class="ec.net.redcode.tas.on.persistence.dao.impl.VisitaDAOImpl"/>
+    <bean id="pedidoDAO" class="ec.net.redcode.tas.on.persistence.dao.impl.PedidoDAOImpl"/>
+    <bean id="pedidoDetalleDAO" class="ec.net.redcode.tas.on.persistence.dao.impl.PedidoDetalleDAOImpl"/>
+    <bean id="pedidoDocumentosCreditoDAO" class="ec.net.redcode.tas.on.persistence.dao.impl.PedidoDocumentosCreditoDAOImpl"/>
+
+    <!-- Services -->
+    <bean id="usuarioService" class="ec.net.redcode.tas.on.persistence.service.impl.UsuarioServiceImpl">
+        <property name="usuariosDAO" ref="usuarioDAO"/>
+    </bean>
+    <bean id="catalogoService" class="ec.net.redcode.tas.on.persistence.service.impl.CatalogoServiceImpl">
+        <property name="catalogoDAO" ref="catalogoDAO"/>
+    </bean>
+    <bean id="catalogoItemService" class="ec.net.redcode.tas.on.persistence.service.impl.CatalogoItemServiceImpl">
+        <property name="catalogoItemDAO" ref="catalogoItemDAO"/>
+    </bean>
+    <bean id="localidadService" class="ec.net.redcode.tas.on.persistence.service.impl.LocalidadServiceImpl">
+        <property name="localidadDAO" ref="localidadDAO"/>
+    </bean>
+    <bean id="solicititudService" class="ec.net.redcode.tas.on.persistence.service.impl.SolicitudEnvioServiceImpl">
+        <property name="solicitudEnvioDAO" ref="solicitudEnvioDAO"/>
+    </bean>
+    <bean id="secuenciaService" class="ec.net.redcode.tas.on.persistence.service.impl.SecuenciaServiceImpl">
+        <property name="secuenciaDAO" ref="secuenciaDAO"/>
+    </bean>
+    <bean id="ofertaService" class="ec.net.redcode.tas.on.persistence.service.impl.OfertaServiceImpl">
+        <property name="ofertaDAO" ref="ofertaDAO"/>
+    </bean>
+    <bean id="clienteService" class="ec.net.redcode.tas.on.persistence.service.impl.ClienteServiceImpl">
+        <property name="clienteDAO" ref="clienteDAO"/>
+    </bean>
+    <bean id="vehiculoService" class="ec.net.redcode.tas.on.persistence.service.impl.VehiculoServiceImpl">
+        <property name="vehiculoDAO" ref="vehiculoDAO"/>
+    </bean>
+    <bean id="conductorService" class="ec.net.redcode.tas.on.persistence.service.impl.ConductorServiceImpl">
+        <property name="conductorDAO" ref="conductorDAO"/>
+    </bean>
+    <bean id="facturaService" class="ec.net.redcode.tas.on.persistence.service.impl.FacturaServiceImpl">
+        <property name="facturaDAO" ref="facturaDAO"/>
+    </bean>
+    <bean id="facturaDetalleService" class="ec.net.redcode.tas.on.persistence.service.impl.FacturaDetalleServiceImpl">
+        <property name="facturaDetalleDAO" ref="facturaDetalleDAO"/>
+    </bean>
+    <bean id="pagoService" class="ec.net.redcode.tas.on.persistence.service.impl.PagoServiceImpl">
+        <property name="pagoDAO" ref="pagoDAO"/>
+    </bean>
+    <bean id="fcmDispositivoService" class="ec.net.redcode.tas.on.persistence.service.impl.FcmDispositivoServiceImpl">
+        <property name="fcmDispositivoDAO" ref="fcmDispositivoDAO"/>
+    </bean>
+    <bean id="facturaRetencionService" class="ec.net.redcode.tas.on.persistence.service.impl.FacturaRetencionServiceImpl">
+        <property name="facturaRetencionDAO" ref="facturaRetencionDAO"/>
+    </bean>
+    <bean id="facturaProveedorService" class="ec.net.redcode.tas.on.persistence.service.impl.FacturaProveedorServiceImpl">
+        <property name="facturaProveedorDAO" ref="facturaProveedorDAO"/>
+    </bean>
+    <bean id="solicitudEnvioAuditService" class="ec.net.redcode.tas.on.persistence.service.impl.SolicitudEnvioAuditServiceImpl">
+        <property name="solicitudEnvioAuditDAO" ref="solicitudEnvioAuditDAO"/>
+    </bean>
+    <bean id="adquirienteService" class="ec.net.redcode.tas.on.persistence.service.impl.AdquirienteServiceImpl">
+        <property name="adquirienteDAO" ref="adquirienteDAO"/>
+    </bean>
+    <bean id="usuarioEbillingService" class="ec.net.redcode.tas.on.persistence.service.impl.UsuarioEbillingServiceImpl">
+        <property name="usuarioEbillingDAO" ref="usuarioEbillingDAO"/>
+    </bean>
+    <bean id="ebillingService" class="ec.net.redcode.tas.on.persistence.service.impl.EbillingServiceImpl">
+        <property name="ebillingDAO" ref="ebillingDAO"/>
+    </bean>
+    <bean id="ebillingDetalleService" class="ec.net.redcode.tas.on.persistence.service.impl.EbillingDetalleServiceImpl">
+        <property name="ebillingDetalleDAO" ref="ebillingDetalleDAO"/>
+    </bean>
+    <bean id="calificacionTransportistaService" class="ec.net.redcode.tas.on.persistence.service.impl.CalificacionTransportistaServiceImpl">
+        <property name="calificacionTransportistaDAO" ref="calificacionTransportistaDAO"/>
+    </bean>
+    <bean id="facturaManualService" class="ec.net.redcode.tas.on.persistence.service.impl.FacturaManualServiceImpl">
+        <property name="facturaManualDAO" ref="facturaManualDAO"/>
+    </bean>
+    <bean id="notaCreditoService" class="ec.net.redcode.tas.on.persistence.service.impl.NotaCreditoServiceImpl">
+        <property name="notaCreditoDAO" ref="notaCreditoDAO"/>
+    </bean>
+    <bean id="requestService" class="ec.net.redcode.tas.on.persistence.service.impl.RequestServiceImpl">
+        <property name="requestDAO" ref="requestDAO"/>
+    </bean>
+    <bean id="estadisticasService" class="ec.net.redcode.tas.on.persistence.service.impl.EstadisticasServiceImpl">
+        <property name="localidadDAO" ref="localidadDAO"/>
+        <property name="solicitudEnvioDAO" ref="solicitudEnvioDAO"/>
+    </bean>
+    <bean id="fileService" class="ec.net.redcode.tas.on.persistence.service.impl.FileServiceImpl">
+        <property name="fileDAO" ref="fileDAO"/>
+    </bean>
+    <bean id="ofertaFileService" class="ec.net.redcode.tas.on.persistence.service.impl.OfertaFileServiceImpl">
+        <property name="ofertaFileDAO" ref="ofertaFileDAO"/>
+    </bean>
+    <bean id="envioService" class="ec.net.redcode.tas.on.persistence.service.impl.EnvioServiceImpl">
+        <property name="envioDAO" ref="envioDAO"/>
+    </bean>
+    <bean id="envioFileService" class="ec.net.redcode.tas.on.persistence.service.impl.EnvioFileServiceImpl">
+        <property name="envioFileDAO" ref="envioFileDAO"/>
+    </bean>
+    <bean id="clientePedidosService" class="ec.net.redcode.tas.on.persistence.service.impl.ClientePedidosServiceImpl">
+        <property name="clientePedidosDAO" ref="clientePedidosDAO"/>
+    </bean>
+    <bean id="categoriaProductoService" class="ec.net.redcode.tas.on.persistence.service.impl.CategoriaProductoServiceImpl">
+        <property name="categoriaProductoDAO" ref="categoriaProductoDAO"/>
+    </bean>
+    <bean id="productoService" class="ec.net.redcode.tas.on.persistence.service.impl.ProductoServiceImpl">
+        <property name="productoDAO" ref="productoDAO"/>
+    </bean>
+    <bean id="visitaService" class="ec.net.redcode.tas.on.persistence.service.impl.VisitaServiceImpl">
+        <property name="visitaDAO" ref="visitaDAO"/>
+    </bean>
+    <bean id="pedidoService" class="ec.net.redcode.tas.on.persistence.service.impl.PedidoServiceImpl">
+        <property name="pedidoDAO" ref="pedidoDAO"/>
+    </bean>
+    <bean id="pedidoDetalleService" class="ec.net.redcode.tas.on.persistence.service.impl.PedidoDetalleServiceImpl">
+        <property name="pedidoDetalleDAO" ref="pedidoDetalleDAO"/>
+    </bean>
+    <bean id="pedidoDocumentosCreditoService" class="ec.net.redcode.tas.on.persistence.service.impl.PedidoDocumentosCreditoServiceImpl">
+        <property name="pedidoDocumentosCreditoDAO" ref="pedidoDocumentosCreditoDAO"/>
+    </bean>
+</beans>

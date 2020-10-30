@@ -1,0 +1,67 @@
+<ngx-loading [show]="loading"></ngx-loading>
+
+<!-- Header -->
+<nav id="headerLogin" class="navbar navbar-expand pt-4">
+  <div class="container">
+    <div class="navbar-collapse" id="navbar">
+      <ul class="navbar-nav mr-auto d-flex">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/login"><i class="fas fa-arrow-left color-inherit"></i> Volver</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<!-- /Header -->
+
+<!-- Recuperar contraseña -->
+<div class="container mt-4 pr-2">
+  <form novalidate #forma="ngForm">
+    <div class="row">
+      <div class="col-12 col-md-6 offset-md-3 col-lg-5">
+
+        <div class="pb-3 pt-1">
+          <img class="mx-auto d-block" src="../../../assets/images/logo/logo-texto.png" alt="Tas-On">
+        </div>
+        <div class="text-center mb-4">
+          <h4>Recuperar contraseña</h4>
+        </div>
+
+        <div class="form-group">
+          <label for="correoRecupera">Correo electrónico:</label>
+          <input id="correoRecupera" name="correoRecupera" [(ngModel)]="usuario.correoRecupera"
+                 #correoRecupera="ngModel" class="form-control" required maxlength="100" emailPattern
+                 [ngClass]="{'is-invalid': correoRecupera.errors?.required  && correoRecupera.touched}">
+          <div class="invalid-feedback">
+            <div *ngIf="correoRecupera.errors?.required">{{appConfig.msgRequerido}}</div>
+            <div *ngIf="correoRecupera.errors?.emailPattern">{{appConfig.msgEmailValido}}</div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="docId">Documento de identidad:</label>
+          <input id="docId" name="docId" [(ngModel)]="usuario.identificador"
+                 #docId="ngModel" class="form-control" required maxlength="13" onlyNumber
+                 [ngClass]="{'is-invalid': docId.errors?.required  && docId.touched}">
+          <div class="invalid-feedback">
+            <div *ngIf="docId.errors?.required">{{appConfig.msgRequerido}}</div>
+            <div *ngIf="docId.errors?.onlyNumber">{{appConfig.msgSoloNumeros}}</div>
+          </div>
+        </div>
+
+        <div class="form-group text-center">
+          <re-captcha name="captcha" class="d-inline-block"(resolved)="resolved($event)" required [(ngModel)]="usuario.captcha"
+            #captchaControl="ngModel">
+          </re-captcha>
+        </div>
+
+
+        <button type="button" class="btn btn-tas-on mx-auto d-block btn-sm-w-100 mt-4" (click)="sendRequest()"
+                [disabled]="!forma.valid">Continuar
+        </button>
+      </div>
+    </div>
+  </form>
+
+</div>
+<!-- /Recuperar contraseña -->

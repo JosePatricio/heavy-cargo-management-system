@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_search_freight"
+            android:icon="@drawable/ic_menu_search_freight"
+            android:title="@string/search_freight" />
+        <item
+            android:id="@+id/nav_my_freights"
+            android:icon="@drawable/ic_menu_my_freight"
+            android:title="@string/my_freights" />
+
+        <item
+            android:id="@+id/menu_facturacion_electronica"
+            android:title="@string/facturacion_electronica"
+            android:visible="false"
+            >
+            <menu>
+                <item
+                    android:id="@+id/nav_e_billing"
+                    android:icon="@drawable/ic_receipt_black_24dp"
+                    android:title="@string/e_billing" />
+                <item
+                    android:id="@+id/nav_my_billings"
+                    android:icon="@drawable/ic_receipt_black_24dp"
+                    android:title="@string/my_ebilling_generated" />
+            </menu>
+        </item>
+
+        <!--
+            android:icon="@drawable/ic_chevron_right_black_24dp"
+            android:icon="@drawable/ic_list_alt"
+        -->
+    </group>
+
+    <item android:title="">
+        <menu>
+            <item
+                android:id="@+id/nav_terms_and_conditions"
+                android:icon="@drawable/ic_receipt_black_24dp"
+                android:title="@string/Terms_and_conditions" />
+            <item
+                android:id="@+id/nav_close_sesion"
+                android:icon="@drawable/ic_power_settings_new_black_24dp"
+                android:title="@string/cierra_sess" />
+        </menu>
+    </item>
+
+</menu>

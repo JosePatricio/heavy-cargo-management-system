@@ -1,0 +1,41 @@
+<ngx-loading [show]="loading"></ngx-loading>
+<div class="container-fluid margin-top-container">
+  <form>
+
+    <h3>Por facturarse</h3>
+    <hr>
+    <div *ngIf="solFact">
+      <ngx-datatable
+        #table
+        class='material tableHeightFixed'
+        [columns]="columns"
+        [columnMode]="'force'"
+        [headerHeight]="'auto'"
+        [footerHeight]="50"
+        [rowHeight]="'auto'"
+        [rows]='rows'
+        [scrollbarH]="true"
+        [selectionType]="'single'"
+        [sorts]="[{prop: 'fechaEntrega', dir: 'desc'}]">
+      </ngx-datatable>
+    </div>
+
+    <div [ngClass]="{'hide-element': solFact}">
+      <ng-template #dynamicInsert></ng-template>
+    </div>
+
+    <div id="templates">
+      <ng-template #tmplDate let-value="value">
+        <div>{{value | date: appConfig.formatoFecha}}</div>
+      </ng-template>
+      <ng-template #linkButton let-value="value" let-rowIndex="rowIndex" let-row="row">
+        <button type="button" class="btn btn-primary info-button-small" (click)="showDetail(row)">
+          <i class="fas fa-info-circle"></i>
+        </button>
+      </ng-template>
+      <ng-template #tmplAmount let-value="value" let-row="row">
+        <div class="amount-text wm-100">{{value+row.comision | currency:'USD':'symbol'}}</div>
+      </ng-template>
+    </div>
+  </form>
+</div>

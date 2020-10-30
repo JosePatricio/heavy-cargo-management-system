@@ -1,0 +1,1 @@
+ALTER TABLE conductor MODIFY COLUMN conductor_email VARCHAR(50);

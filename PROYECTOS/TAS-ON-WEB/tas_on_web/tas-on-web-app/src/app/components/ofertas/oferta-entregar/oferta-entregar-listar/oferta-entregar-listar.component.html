@@ -1,0 +1,56 @@
+<ngx-loading [show]="loading"></ngx-loading>
+<div class="container-fluid margin-top-container">
+  <form>
+    <h3>Mis ofertas para entregar</h3>
+    <hr/>
+    <div>
+      <ngx-datatable
+        class='material tableHeightFixed'
+        [columnMode]="'force'"
+        [headerHeight]="'auto'"
+        [footerHeight]="50"
+        [rowHeight]="'auto'"
+        [limit]="25"
+        [rows]='ofertas'
+        [scrollbarH]="true"
+        [selectionType]="'single'"
+        [messages]="{emptyMessage:'Sin registros para mostrar...',totalMessage: 'total',selectedMessage: 'selected'}">
+        <ngx-datatable-column name="#" width="50">
+          <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+            <strong>{{rowIndex+1}}</strong>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column prop="idSolicitud" name=" " headerClass="table-header" width="70">
+          <ng-template let-value="value" ngx-datatable-cell-template>
+            <button type="button" class="btn btn-primary" (click)="callDetailSolicitud(value)">
+              <i class="fas fa-eye"></i>
+            </button>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column prop="idSolicitud" name="Solicitud" headerClass="table-header">
+        </ngx-datatable-column>
+        <ngx-datatable-column prop="origen" name="Origen" headerClass="table-header">
+        </ngx-datatable-column>
+        <ngx-datatable-column prop="destino" name="Destino" headerClass="table-header">
+        </ngx-datatable-column>
+        <ngx-datatable-column prop="peso" name="Peso" headerClass="table-header" width="80">
+          <ng-template let-value="value" ngx-datatable-cell-template>
+            <div class="text-right">{{value}}</div>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column prop="tipoPeso" name="Tipo peso" headerClass="table-header" width="80">
+          <ng-template let-value="value" ngx-datatable-cell-template>
+            <div class="text-left">{{value}}</div>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column prop="amount" name="Monto" headerClass="table-header">
+          <ng-template let-value="value" ngx-datatable-cell-template>
+            <div class="amount-text wm-100">{{value | currency:'USD':'symbol'}}</div>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column prop="date" name="Fecha" headerClass="table-header">
+        </ngx-datatable-column>
+      </ngx-datatable>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,24 @@
+<ngx-loading [show]="loading"></ngx-loading>
+<div class="container-fluid margin-top-container">
+  <form>
+    <h3>Generar token usuario</h3>
+    <hr>
+    <div id="tokenGen" *ngIf="!generado">
+      <div class="col-md-4 element-center">
+        <button type="button" class="btn btn-primary" (click)="generarToken()"><i class="fas fa-key"></i> Generar token
+        </button>
+      </div>
+    </div>
+    <div class="row" *ngIf="generado">
+      <div class="col-md-7">
+        <div id="tokenUser">
+          <textarea class="form-control" rows="10" id="token_" name="token_" [(ngModel)]="tokenUser" disabled></textarea>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <button type="button" class="btn btn-primary" (click)="toClickBoard()"><i class="far fa-copy"></i> Copiar
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

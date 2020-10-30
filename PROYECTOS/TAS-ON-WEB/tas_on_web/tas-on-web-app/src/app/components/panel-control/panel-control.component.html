@@ -1,0 +1,76 @@
+<!--Notifications-->
+<simple-notifications [options]="options"></simple-notifications>
+<!--End Notifications-->
+<div class="row w-100 m-0">
+  <nav class="navbar-light col-lg-3 ml-0 pl-0 navbar-lateral-tas-on" [ngClass]="{'navbar-lateral-tas-on-oculto':isCollapsed, '':!isCollapsed}">
+
+    <button type="button" class="displayContents" (click)="colapsarMenu()">
+      <span class="navbar-toggler-icon botonColapsarMenu ml-0 mb-4"></span>
+    </button>
+
+    <div id="navbarMenu" [ngClass]="{'ocultar':isCollapsed, '':!isCollapsed}">
+      <div class="col" *ngIf="menu">
+
+        <div class="list-group" *ngFor="let menu_ of menu">
+          <a *ngIf="menu_.link" class="list-group-item list-group-item-action" routerLinkActive="active"
+             routerLink="{{menu_.link}}" id="{{menu_.id_}}">
+            <div class="row w-100">
+              <div class="col">{{menu_.menu}}</div>
+            </div>
+          </a>
+
+          <a *ngIf="!menu_.link" class="list-group-item collapsed" data-remote="true" href="#sub_{{menu_.id_}}"
+             id="{{menu_.id_}}" data-toggle="collapse" style="padding-left: 25px;">
+            <div class="row w-100">
+              <div class="col-10">{{menu_.menu}}</div>
+              <div class="col-1">
+                <span *ngIf="menu_.items" class="menu-ico-collapse">
+                  <i class="fas fa-chevron-down color-texto"></i>
+                  <i class="fas fa-chevron-up color-texto"></i>
+                </span>
+              </div>
+            </div>
+          </a>
+
+          <div *ngIf="menu_.items" class="collapse list-group-submenu" id="sub_{{menu_.id_}}">
+            <div *ngFor="let itemSm of menu_.items">
+              <a *ngIf="itemSm.link" class="list-group-item list-group-item-action" style="padding-left: 50px;"
+                 routerLinkActive="active" routerLink="{{itemSm.link}}">
+                <div class="row">
+                  <div class="col">{{itemSm.menuItem}}</div>
+                </div>
+              </a>
+
+              <a *ngIf="!itemSm.link" class="list-group-item collapsed" data-remote="true" href="#sub_{{itemSm.id}}"
+                 id="{{itemSm.id}}" data-toggle="collapse" style="padding-left: 50px;">
+                <div class="row">
+                  <div class="col-10">{{itemSm.menuItem}}</div>
+                  <div class="col-1">
+                    <span class="menu-ico-collapse">
+                      <i class="fas fa-chevron-down color-texto"></i>
+                      <i class="fas fa-chevron-up color-texto"></i>
+                    </span>
+                  </div>
+                </div>
+              </a>
+              <div class="collapse list-group-submenu" id="sub_{{itemSm.id}}">
+                <a *ngFor="let itemSm_ of itemSm.items" class="list-group-item list-group-item-action"
+                   style="padding-left: 75px;" routerLinkActive="active" routerLink="{{itemSm_.link}}">
+                  <div class="row">
+                    <div class="col">{{itemSm_.menuItem}}</div>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div [ngClass]="{'col-12':isCollapsed,'col-lg-9':!isCollapsed}">
+    <router-outlet></router-outlet>
+  </div>
+
+</div>

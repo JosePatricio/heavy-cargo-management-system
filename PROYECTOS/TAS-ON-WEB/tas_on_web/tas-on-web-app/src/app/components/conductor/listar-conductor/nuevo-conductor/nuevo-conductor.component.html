@@ -1,0 +1,679 @@
+<ngx-loading [show]="loading"></ngx-loading>
+<form novalidate #forma="ngForm">
+  <div class="panel-group">
+    <div class="card">
+      <div class="card-header font-weight-bold">Nuevo Proveedor</div>
+      <div class="card-body margin"
+           style="margin-bottom: 20px; margin-top: 20px; margin-left: 20px; margin-right: 20px;">
+
+        <h5>Datos proveedor</h5>
+        <hr>
+        <div class="row">
+          <div class="col-md-5">
+            <div class="form-group">
+              <label for="usuarioTipoDocumento">Tipo de documento</label>
+              <select class="form-control" id="usuarioTipoDocumento" name="usuarioTipoDocumento"
+                      [(ngModel)]="conductor.usuarioTipoDocumento"
+                      #usuarioTipoDocumento="ngModel"  [disabled]="indexEdit!=1" required
+                      [ngClass]="{'is-invalid': usuarioTipoDocumento.errors?.required  && usuarioTipoDocumento.touched}">
+                <option></option>
+                <option *ngFor="let tipoDocumento of tiposDocumento" [value]="tipoDocumento.catalogoItemId">
+                  {{tipoDocumento.catalogoItemDescripcion}}
+                </option>
+              </select>
+              <div *ngIf="usuarioTipoDocumento.errors?.required" class="invalid-feedback">
+                {{appConfig.msgRequerido}}
+              </div>
+            </div>
+          </div>
+          <div class="col-md-5">
+            <div class="form-group">
+              <label for="usuarioIdDocumento">N&uacute;mero de documento</label>
+              <input type="text" class="form-control" id="usuarioIdDocumento"
+                     name="usuarioIdDocumento"
+                     [(ngModel)]="conductor.usuarioIdDocumento" #usuarioIdDocumento="ngModel" required maxlength="13"
+                     minlength="10" [disabled]="indexEdit!=1"
+                     [ngClass]="{'is-invalid': (usuarioIdDocumento.errors?.required || usuarioIdDocumento.errors?.minlength) && usuarioIdDocumento.touched}">
+              <div *ngIf="usuarioIdDocumento.errors?.required" class="invalid-feedback">
+                {{appConfig.msgRequerido}}
+              </div>
+              <div *ngIf="usuarioIdDocumento.errors?.minlength" class="invalid-feedback">M&iacute;nimo de
+                caracteres {{usuarioIdDocumento.errors.minlength.requiredLength}}
+              </div>
+            </div>
+          </div>
+          <div class="col-md-5">
+            <div class="form-group">
+              <label for="usuarioNombres">Nombres</label>
+              <input type="text" class="form-control" id="usuarioNombres" name="usuarioNombres"
+                     [(ngModel)]="conductor.usuarioNombres" [disabled]="indexEdit!=1"
+                     #usuarioNombres="ngModel" required maxlength="50"
+                     pattern="[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1 ]+$"
+                     [ngClass]="{'is-invalid': (usuarioNombres.errors?.required || usuarioNombres.errors?.pattern) && usuarioNombres.touched}">
+              <div *ngIf="usuarioNombres.errors?.required" class="invalid-feedback">{{appConfig.msgRequerido}}
+              </div>
+              <div *ngIf="usuarioNombres.errors?.pattern" class="invalid-feedback">{{appConfig.msgSoloLetras}}
+              </div>
+            </div>
+          </div>
+          <div class="col-md-5">
+            <div class="form-group">
+              <label for="usuarioApellidos">Apellidos</label>
+              <input type="text" class="form-control" id="usuarioApellidos"
+                     name="usuarioApellidos" [(ngModel)]="conductor.usuarioApellidos"
+                     #usuarioApellidos="ngModel" required maxlength="50"  [disabled]="indexEdit!=1"
+                     pattern="[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1 ]+$"
+                     [ngClass]="{'is-invalid': (usuarioApellidos.errors?.required || usuarioApellidos.errors?.pattern) && usuarioApellidos.touched}">
+              <div *ngIf="usuarioApellidos.errors?.required" class="invalid-feedback">{{appConfig.msgRequerido}}
+              </div>
+              <div *ngIf="usuarioApellidos.errors?.pattern" class="invalid-feedback">{{appConfig.msgSoloLetras}}
+              </div>
+            </div>
+          </div>
+          <div class="col-md-5">
+            <div class="form-group">
+              <label for="usuarioNombreUsuario">Nombre usuario</label>
+              <input type="text" class="form-control" id="usuarioNombreUsuario"
+                     name="usuarioNombreUsuario" [disabled]="indexEdit!=1"
+                     [(ngModel)]="conductor.usuarioNombreUsuario" #usuarioNombreUsuario="ngModel" required
+                     maxlength="10"
+                     [ngClass]="{'is-invalid': usuarioNombreUsuario.errors?.required  && usuarioNombreUsuario.touched}">
+              <div *ngIf="usuarioNombreUsuario.errors?.required" class="invalid-feedback">
+                {{appConfig.msgRequerido}}
+              </div>
+            </div>
+          </div>
+          <div class="col-md-5">
+            <div class="form-group">
+              <label for="usuarioMail">Correo electr&oacute;nico</label>
+              <input type="text" class="form-control" id="usuarioMail"
+                     name="usuarioMail" [(ngModel)]="conductor.usuarioMail"  [disabled]="indexEdit!=1"
+                     #usuarioMail="ngModel" required maxlength="100" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
+                     [ngClass]="{'is-invalid': (usuarioMail.errors?.required || usuarioMail.errors?.pattern) && usuarioMail.touched}">
+              <div *ngIf="usuarioMail.errors?.required" class="invalid-feedback">{{appConfig.msgRequerido}}</div>
+              <div *ngIf="usuarioMail.errors?.pattern" class="invalid-feedback">{{appConfig.msgCorreoValido}}</div>
+            </div>
+          </div>
+          <div class="col-md-5" *ngIf="indexEdit!=3">
+            <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="elevarProveedor()">
+              Independiente
+            </button>
+          </div>
+          <div class="col-md-2"></div>
+        </div>
+        <br/>
+
+        <h5 *ngIf="indexEdit!=3">Datos empresa proveedor</h5>
+        <hr>
+        <div class="row" *ngIf="indexEdit!=3">
+          <div class="col-md-5">
+            <div class="form-group">
+              <label for="empresaClienteSeleccionada">Empresa cliente</label>
+              <select class="form-control" id="empresaClienteSeleccionada" name="empresaClienteSeleccionada"
+                      [(ngModel)]="empresaClienteSeleccionada"
+                      #empresaClienteSeleccionadaM="ngModel" (change)="cargarDatosCliente()"
+                      [ngClass]="{'is-invalid': empresaClienteSeleccionadaM.errors?.required  && empresaClienteSeleccionadaM.touched}">
+                <option></option>
+                <option *ngFor="let cliente of clienteCombo" [value]="cliente.ruc">
+                  {{cliente.razonSocial}}
+                </option>
+              </select>
+              <div *ngIf="empresaClienteSeleccionadaM.errors?.required" class="invalid-feedback">
+                {{appConfig.msgRequerido}}
+              </div>
+            </div>
+          </div>
+          <div class="col-md-5">
+            <div class="form-group">
+              <label for="usuarioRuc">N&uacute;mero de RUC</label>
+              <input type="text" class="form-control" id="usuarioRuc"
+                     name="usuarioRuc" disabled
+                     [(ngModel)]="conductor.usuarioRuc"
+                     #usuarioRuc="ngModel" maxlength="13" minlength="13" pattern="[0-9]+"
+                     [ngClass]="{'is-invalid': (usuarioRuc.errors?.required || usuarioRuc.errors?.minlength || usuarioRuc.errors?.pattern) && usuarioRuc.touched}">
+              <div *ngIf="usuarioRuc.errors?.required" class="invalid-feedback">{{appConfig.msgRequerido}}</div>
+              <div *ngIf="usuarioRuc.errors?.minlength" class="invalid-feedback">M&iacute;nimo de caracteres
+                {{usuarioRuc.errors.minlength.requiredLength}}
+              </div>
+              <div *ngIf="usuarioRuc.errors?.pattern" class="invalid-feedback">{{appConfig.msgSoloNumeros}}</div>
+            </div>
+          </div>
+          <div class="col-md-5">
+            <div class="form-group">
+              <label for="usuarioRazonSocial">Raz&oacute;n social</label>
+              <input type="text" class="form-control" id="usuarioRazonSocial"
+                     name="usuarioRazonSocial" [(ngModel)]="temporal.usuarioRazonSocial"
+                     #usuarioRazonSocial="ngModel" maxlength="100" [disabled]="1"
+                     [ngClass]="{'is-invalid': usuarioRazonSocial.errors?.required  && usuarioRazonSocial.touched}">
+              <div *ngIf="usuarioRazonSocial.errors?.required" class="invalid-feedback">{{appConfig.msgRequerido}}
+              </div>
+            </div>
+          </div>
+          <div class="col-md-5">
+            <div class="form-group">
+              <label for="usuarioTipoPersona">Tipo persona</label>
+              <input type="text" class="form-control" id="usuarioTipoPersona"
+                     name="usuarioTipoPersona" [(ngModel)]="temporal.usuarioTipoPersona"
+                     #usuarioTipoPersona="ngModel" maxlength="100" [disabled]="1"
+                     [ngClass]="{'is-invalid': usuarioTipoPersona.errors?.required  && usuarioTipoPersona.touched}">
+              <div *ngIf="usuarioTipoPersona.errors?.required" class="invalid-feedback">{{appConfig.msgRequerido}}
+              </div>
+            </div>
+          </div>
+          <div class="col-md-5">
+            <div class="form-group">
+              <label for="usuarioDireccion">Direcci&oacute;n</label>
+              <input type="text" class="form-control" id="usuarioDireccion"
+                     name="usuarioDireccion" [(ngModel)]="temporal.usuarioDireccion"
+                     #usuarioDireccion="ngModel" required maxlength="100" [disabled]="1"
+                     [ngClass]="{'is-invalid': usuarioDireccion.errors?.required  && usuarioDireccion.touched}">
+              <div *ngIf="usuarioDireccion.errors?.required" class="invalid-feedback">{{appConfig.msgRequerido}}
+              </div>
+            </div>
+          </div>
+          <div class="col-md-5">
+            <div class="form-group">
+              <label for="usuarioLocalidad">Ciudad</label>
+              <input type="text" class="form-control" id="usuarioLocalidad" name="usuarioLocalidad"
+                     [(ngModel)]="temporal.usuarioLocalidad"
+                     #usuarioLocalidad="ngModel" required maxlength="100" [disabled]="1"
+                     [ngClass]="{'is-invalid': usuarioLocalidad.errors?.required  && usuarioLocalidad.touched}">
+              <div *ngIf="usuarioLocalidad.errors?.required" class="invalid-feedback">{{appConfig.msgRequerido}}
+              </div>
+            </div>
+          </div>
+          <div class="col-md-5">
+            <div class="form-group">
+              <label for="usuarioPeriodoFacturacion">Per&iacute;odo facturaci&oacute;n en d&iacute;as:</label>
+              <input type="text" class="form-control" id="usuarioPeriodoFacturacion"
+                     name="usuarioPeriodoFacturacion"
+                     [(ngModel)]="temporal.usuarioPeriodoFacturacion" #usuarioPeriodoFacturacion="ngModel" maxlength="3"
+                     [disabled]="1"
+                     [ngClass]="{'is-invalid': usuarioPeriodoFacturacion.errors?.required  && usuarioPeriodoFacturacion.touched}">
+              <div *ngIf="usuarioPeriodoFacturacion.errors?.required" class="invalid-feedback">
+                {{appConfig.msgRequerido}}
+              </div>
+            </div>
+          </div>
+          <div class="col-md-5">
+            <div class="form-group">
+              <label for="usuarioDiasCredito">D&iacute;as de cr&eacute;dito</label>
+              <input type="text" class="form-control" id="usuarioDiasCredito"
+                     name="usuarioDiasCredito" [(ngModel)]="temporal.usuarioDiasCredito"
+                     #usuarioDiasCredito="ngModel" required maxlength="3" [disabled]="1"
+                     [ngClass]="{'is-invalid': usuarioDiasCredito.errors?.required  && usuarioDiasCredito.touched}">
+              <div *ngIf="usuarioDiasCredito.errors?.required" class="invalid-feedback">{{appConfig.msgRequerido}}
+              </div>
+            </div>
+          </div>
+          <div class="col-md-5 tbl-x-auto">
+            <div class="form-group">
+              <label for="usuarioDocumentoEscaneado">Documento permiso de funcionamiento</label>
+              <input type="file" class="form-control-file" id="usuarioDocumentoEscaneado">
+            </div>
+          </div>
+          <div class="col-md-2"></div>
+        </div>
+
+        <h5>Datos de contacto</h5>
+        <hr>
+        <div class="row">
+          <div class="col-md-5">
+            <div class="form-group">
+              <label for="provinciaSeleccionada">Provincia</label>
+              <select class="form-control" id="provinciaSeleccionada" name="provinciaSeleccionada"
+                      [(ngModel)]="provinciaSeleccionada"  [disabled]="indexEdit!=1"
+                      #provinciaSeleccionadaM="ngModel" required (change)="cargarCantones()"
+                      [ngClass]="{'is-invalid': provinciaSeleccionadaM.errors?.required  && provinciaSeleccionadaM.touched}">
+                <option></option>
+                <option *ngFor="let provincia of provincias" [value]="provincia.localidadId">
+                  {{provincia.localidadDescripcion}}
+                </option>
+              </select>
+              <div *ngIf="provinciaSeleccionadaM.errors?.required" class="invalid-feedback">
+                {{appConfig.msgRequerido}}
+              </div>
+            </div>
+          </div>
+          <div class="col-md-5">
+            <div class="form-group">
+              <label for="usuarioLocalidad">Cant&oacute;n</label>
+              <select class="form-control" id="usuarioLocalidad" name="usuarioLocalidad"
+                      [(ngModel)]="conductor.usuarioLocalidad" #usuarioLocalidad="ngModel"  [disabled]="indexEdit!=1"
+                      required
+                      [ngClass]="{'is-invalid': usuarioLocalidad.errors?.required  && usuarioLocalidad.touched}">
+                <option></option>
+                <option *ngFor="let canton of cantones" [value]="canton.localidadId">{{canton.localidadDescripcion}}
+                </option>
+              </select>
+              <div *ngIf="usuarioLocalidad.errors?.required" class="invalid-feedback">{{appConfig.msgRequerido}}
+              </div>
+            </div>
+          </div>
+          <div class="col-md-5">
+            <div class="form-group">
+              <label for="usuarioConvecional">Tel&eacute;fono convencional</label>
+              <input type="text" class="form-control" id="usuarioConvecional"
+                     name="usuarioConvecional"  [disabled]="indexEdit!=1"
+                     [(ngModel)]="conductor.usuarioConvecional" #usuarioConvecional="ngModel" maxlength="9"
+                     pattern="[0-9]+"
+                     [ngClass]="{'is-invalid': usuarioConvecional.errors?.pattern && usuarioConvecional.touched}">
+              <div *ngIf="usuarioConvecional.errors?.pattern" class="invalid-feedback">
+                {{appConfig.msgSoloNumeros}}
+              </div>
+            </div>
+          </div>
+          <div class="col-md-5">
+            <div class="form-group">
+              <label for="usuarioCelular">Tel&eacute;fono celular</label>
+              <input type="text" class="form-control" id="usuarioCelular"
+                     name="usuarioCelular" [(ngModel)]="conductor.usuarioCelular"  [disabled]="indexEdit!=1"
+                     #usuarioCelular="ngModel" required maxlength="10" pattern="[0-9]+"
+                     [ngClass]="{'is-invalid': (usuarioCelular.errors?.required || usuarioCelular.errors?.pattern)  && usuarioCelular.touched}">
+              <div *ngIf="usuarioCelular.errors?.required" class="invalid-feedback">{{appConfig.msgRequerido}}
+              </div>
+              <div *ngIf="usuarioCelular.errors?.pattern" class="invalid-feedback">{{appConfig.msgSoloNumeros}}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <h5 *ngIf="indexEdit!=3">Conductores</h5>
+        <hr *ngIf="indexEdit!=3">
+        <div class="row tbl-x-auto" *ngIf="indexEdit!=3">
+          <table class="table table-hover">
+            <thead>
+            <tr>
+              <th>Nombres</th>
+              <th>Apellidos</th>
+              <th>Email</th>
+              <th>Tel&eacute;fono</th>
+              <th>Estado</th>
+              <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let choferes of conductorsByUsuarioIdDocumento;let i=index">
+              <td>{{choferes.conductorNombre}}</td>
+              <td>{{choferes.conductorApellido}}</td>
+              <td>{{choferes.conductorEmail}}</td>
+              <td>{{choferes.conductorTelefono}}</td>
+              <td>{{choferes.conductorEstado == 0 ? "Inactivo":"Activo"}}</td>
+              <td *ngIf="indexEdit<3">
+                <button type="button" class="btn btn-success" (click)="editarChofer(choferes,i)">
+                  <i class="fas fa-eye"></i>
+                </button>
+
+              </td>
+            </tr>
+
+            </tbody>
+          </table>
+          <hr>
+          <button type="button" class="btn btn-primary" *ngIf="indexEdit<3" (click)="newItem()">Nuevo conductor</button>
+        </div>
+        <h5></h5>
+
+        <h5 *ngIf="indexEdit!=3">Veh&iacute;culos</h5>
+        <hr *ngIf="indexEdit!=3">
+        <div class="row tbl-x-auto" *ngIf="indexEdit!=3">
+          <table class="table table-hover">
+            <thead>
+            <tr>
+              <th>Modelo</th>
+              <th>Año</th>
+              <th>Placa</th>
+              <th>Estado</th>
+              <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let vehiculo of vehiculosByUsuarioIdDocumento;let i=index">
+              <td>{{vehiculo.vehiculoModelo}}</td>
+              <td>{{vehiculo.vehiculoAnio}}</td>
+              <td>{{vehiculo.vehiculoPlaca}}</td>
+              <td>{{vehiculo.vehiculoEstado == 0 ? "Inactivo":"Activo"}}</td>
+              <td *ngIf="indexEdit<3">
+                <button type="button" class="btn btn-success" (click)="editarVehiculo(vehiculo,i)">
+                  <i class="fas fa-eye"></i>
+                </button>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+          <hr>
+          <button type="button" class="btn btn-primary" (click)="abrirNuevo()" *ngIf="indexEdit<3">Nuevo
+            veh&iacute;culo
+          </button>
+        </div>
+
+        <hr>
+        <button type="button" class="btn btn-primary" (click)="agregarConductor()" *ngIf="indexEdit===1"
+                [disabled]="!forma.valid">Crear
+        </button>
+        <button type="button" class="btn btn-primary" (click)="editarConductor()" *ngIf="indexEdit===2"
+                [disabled]="true">Editar
+        </button>
+        <button type="button" class="btn btn-primary" (click)="closeWindow()">Cancelar</button>
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+             aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Alerta...!</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="cerrarMensaje()">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+
+                <div class="alert alert-success" role="alert"
+                     [ngClass]="{'alert-success': operacionCorrecta,'alert-danger': !operacionCorrecta}">
+                  <strong>{{mensajeOperacion}}</strong>
+                </div>
+              </div>
+              <div class="modal-footer justify-content-md-center">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="cerrarMensaje()">Cerrar
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Modal -->
+
+        <!--/form-->
+        <!--/div-->
+      </div>
+    </div>
+  </div>
+</form>
+
+
+<form novalidate #formaConductor="ngForm">
+  <div class="modal" id="modNewConductor" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+       aria-hidden="true">
+    <div class="modal-dialog forma" role="document">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="panel-group">
+            <div class="card">
+              <div class="card-header font-weight-bold">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                        (click)="cerrarMensaje()">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+                <h5>Datos de conductor</h5></div>
+              <div class="card-body margin">
+                <hr>
+                <div class="row">
+                  <div class="col-md-5">
+                    <div class="form-group">
+                      <label for="conductorNombre">Nombres</label>
+                      <input type="text" class="form-control" id="conductorNombre"
+                             name="conductorNombre" [(ngModel)]="choferes.conductorNombre"
+                             #conductorNombre="ngModel" required maxlength="50"
+                             pattern="[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1 ]+$"
+                             [ngClass]="{'is-invalid': (conductorNombre.errors?.required || conductorNombre.errors?.pattern) && conductorNombre.touched}">
+                      <div *ngIf="conductorNombre.errors?.required" class="invalid-feedback">
+                        {{appConfig.msgRequerido}}
+                      </div>
+                      <div *ngIf="conductorNombre.errors?.pattern" class="invalid-feedback">
+                        {{appConfig.msgSoloLetras}}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-5">
+                    <div class="form-group">
+                      <label for="conductorApellido">Apellidos</label>
+                      <input type="text" class="form-control" id="conductorApellido"
+                             name="conductorApellido" [(ngModel)]="choferes.conductorApellido"
+                             #conductorApellido="ngModel" required maxlength="50"
+                             pattern="[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1 ]+$"
+                             [ngClass]="{'is-invalid': (conductorApellido.errors?.required || conductorApellido.errors?.pattern) && conductorApellido.touched}">
+                      <div *ngIf="conductorApellido.errors?.required" class="invalid-feedback">
+                        {{appConfig.msgRequerido}}
+                      </div>
+                      <div *ngIf="conductorApellido.errors?.pattern" class="invalid-feedback">
+                        {{appConfig.msgSoloLetras}}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-5">
+                    <div class="form-group">
+                      <label for="conductorEmail">Correo electr&oacute;nico</label>
+                      <input type="text" class="form-control" id="conductorEmail"
+                             name="conductorEmail" [(ngModel)]="choferes.conductorEmail"
+                             #conductorEmail="ngModel" required maxlength="30"
+                             pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
+                             [ngClass]="{'is-invalid': (conductorEmail.errors?.required || conductorEmail.errors?.pattern || conductorEmail.errors?.emailUsuario ) && conductorEmail.touched}">
+                      <div *ngIf="conductorEmail.errors?.required" class="invalid-feedback">
+                        {{appConfig.msgRequerido}}
+                      </div>
+                      <div *ngIf="conductorEmail.errors?.pattern" class="invalid-feedback">
+                        {{appConfig.msgCorreoValido}}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-5">
+                    <div class="form-group">
+                      <label for="conductorTelefono">Tel&eacute;fono </label>
+                      <input type="text" class="form-control" id="conductorTelefono"
+                             name="conductorTelefono" [(ngModel)]="choferes.conductorTelefono"
+                             #conductorTelefono="ngModel" required maxlength="10" pattern="[0-9]+"
+                             [ngClass]="{'is-invalid': conductorTelefono.errors?.pattern && conductorTelefono.touched}">
+                      <div *ngIf="conductorTelefono.errors?.required" class="invalid-feedback">
+                        {{appConfig.msgRequerido}}
+                      </div>
+                      <div *ngIf="conductorTelefono.errors?.pattern" class="invalid-feedback">
+                        {{appConfig.msgSoloNumeros}}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-5">
+                    <div class="form-group">
+                      <label for="conductorCedula">Cédula*</label>
+                      <input type="text" class="form-control" id="conductorCedula"
+                             name="conductorCedula" [(ngModel)]="choferes.conductorCedula"
+                             #conductorCedula="ngModel" required minlength="10" maxlength="10" pattern="[0-9]+"
+                             [ngClass]="{'is-invalid': (conductorCedula.errors?.required ||
+                             conductorCedula.errors?.pattern || conductorCedula.errors?.minlength) && conductorCedula.touched}">
+                      <div *ngIf="conductorCedula.errors?.required" class="invalid-feedback">
+                        {{appConfig.msgRequerido}}
+                      </div>
+                      <div *ngIf="conductorCedula.errors?.pattern" class="invalid-feedback">
+                        {{appConfig.msgSoloNumeros}}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-5">
+                    <div class="form-group">
+                      <label for="conductorTipoLicencia">Tipo de licencia</label>
+                      <select class="form-control" id="conductorTipoLicencia" name="conductorTipoLicencia"
+                              [(ngModel)]="choferes.conductorTipoLicencia"
+                              #conductorTipoLicencia="ngModel" required
+                              [ngClass]="{'is-invalid': conductorTipoLicencia.errors?.required  && conductorTipoLicencia.touched}">
+                        <option></option>
+                        <option *ngFor="let tipoLicencia of tiposLicencia" [value]="tipoLicencia.catalogoItemId">
+                          {{tipoLicencia.catalogoItemDescripcion}}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-md-5">
+                    <div class="form-group">
+                      <label for="conductorEstado">Estado</label>
+                      <select class="form-control" id="conductorEstado" name="conductorEstado"
+                              [(ngModel)]="choferes.conductorEstado" #conductorEstado="ngModel"
+                              [ngClass]="{'is-invalid': conductorEstado.errors?.required  && conductorEstado.touched}">
+                        <option [value]=1>Activo</option>
+                        <option [value]=0>Inactivo</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer justify-content-md-center">
+          <button type="button" class="btn btn-danger" data-dismiss="modal"
+                (click)="cerrarMensaje()">Cancelar
+          </button>
+          <button type="button" class="btn btn-success" (click)="guardaChofer(choferes)"
+                [disabled]="!formaConductor.valid">
+            Guardar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+<form novalidate #formaVehiculo="ngForm">
+  <div class="modal" id="modNewVehiculo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+       aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="panel-group">
+            <div class="card">
+              <div class="card-header font-weight-bold">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="cerrarMensaje()">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+                <h5>Datos de vehículo</h5></div>
+              <div class="card-body margin">
+                <hr>
+                <div class="row">
+                  <div class="col-md-5">
+                    <div class="form-group">
+                      <label for="vehiculoModelo">Modelo</label>
+                      <input type="text" class="form-control" id="vehiculoModelo"
+                             name="vehiculoModelo"
+                             [(ngModel)]="vehiculo.vehiculoModelo"
+                             #vehiculoModelo="ngModel" required maxlength="20"
+                             [ngClass]="{'is-invalid': vehiculoModelo.errors?.required && vehiculoModelo.touched}">
+                      <div *ngIf="vehiculoModelo.errors?.required" class="invalid-feedback">
+                        {{appConfig.msgRequerido}}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-5">
+                    <div class="form-group">
+                      <label for="vehiculoAnio">Año</label>
+                      <input type="text" class="form-control" id="vehiculoAnio"
+                             name="vehiculoAnio" [(ngModel)]="vehiculo.vehiculoAnio"
+                             #vehiculoAnio="ngModel" required maxlength="4" pattern="[0-9]+"
+                             [ngClass]="{'is-invalid': (vehiculoAnio.errors?.required || vehiculoAnio.errors?.pattern) && vehiculoAnio.touched}">
+                      <div *ngIf="vehiculoAnio.errors?.required" class="invalid-feedback">
+                        {{appConfig.msgRequerido}}
+                      </div>
+                      <div *ngIf="vehiculoAnio.errors?.pattern" class="invalid-feedback">
+                        {{appConfig.msgSoloNumeros}}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-5">
+                    <div class="form-group">
+                      <label for="vehiculoPlaca">Placa</label>
+                      <input type="text" class="form-control" id="vehiculoPlaca"
+                             name="vehiculoPlaca" [(ngModel)]="vehiculo.vehiculoPlaca" mask="AAA-0000"
+                             style="text-transform: uppercase"
+                             #vehiculoPlaca="ngModel" required maxlength="8"
+                             [ngClass]="{'is-invalid': vehiculoPlaca.errors && vehiculoPlaca.touched}">
+                      <div *ngIf="vehiculoPlaca.errors?.required" class="invalid-feedback">
+                        {{appConfig.msgRequerido}}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-5">
+                    <div class="form-group">
+                      <label>Certificados</label>
+                      <angular4-multiselect [data]="dropdownList" [(ngModel)]="selectedItems" name="selectedItems" id="selectedItems"
+                                            [settings]="dropdownSettings">
+                      </angular4-multiselect>
+                    </div>
+                  </div>
+                  <div class="col-md-5">
+                    <div class="form-group">
+                      <label for="vehiculoTipoCamion">Tipo de cami&oacute;n</label>
+                      <select class="form-control" id="vehiculoTipoCamion" name="vehiculoTipoCamion"
+                              [(ngModel)]="vehiculo.vehiculoTipoCamion"
+                              #vehiculoTipoCamion="ngModel" required
+                              [ngClass]="{'is-invalid': vehiculoTipoCamion.errors?.required  && vehiculoTipoCamion.touched}">
+                        <option></option>
+                        <option *ngFor="let tipoCamion of tiposCamion" [value]="tipoCamion.catalogoItemId">
+                          {{tipoCamion.catalogoItemDescripcion}}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-md-5">
+                    <div class="form-group">
+                      <label for="vehiculoTipoCarga">Tipo de carga</label>
+                      <select class="form-control" id="vehiculoTipoCarga" name="vehiculoTipoCarga"
+                              [(ngModel)]="vehiculo.vehiculoTipoCarga" #vehiculoTipoCarga="ngModel"
+                              required
+                              [ngClass]="{'is-invalid': vehiculoTipoCarga.errors?.required  && vehiculoTipoCarga.touched}">
+                        <option></option>
+                        <option *ngFor="let tipoCarga of tiposCarga" [value]="tipoCarga.catalogoItemId">
+                          {{tipoCarga.catalogoItemDescripcion}}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-md-5">
+                    <div class="form-group">
+                      <label for="vehiculoCapacidad">Capacidad*</label>
+                      <div class="input-group input-group-one-line">
+                        <input type="text" class="form-control input-select-group" id="vehiculoCapacidad"
+                               name="vehiculoCapacidad" [(ngModel)]="vehiculo.vehiculoCapacidad"
+                               #vehiculoCapacidad="ngModel" required maxlength="7" pattern="^[0-9]{1,4}(\.[0-9]{0,1})?$"
+                               [ngClass]="{'is-invalid': (vehiculoCapacidad.errors?.required || vehiculoCapacidad.errors?.pattern)  && vehiculoCapacidad.touched}">
+                        <div class="input-group-append">
+                          <select class="form-control select-input-group" id="vehiculoTipoCapacidad" name="vehiculoTipoCapacidad"
+                                  [(ngModel)]="vehiculo.vehiculoTipoCapacidad"
+                                  #vehiculoTipoCapacidad="ngModel" required
+                                  [ngClass]="{'is-invalid': vehiculoTipoCapacidad.errors?.required  && vehiculoTipoCapacidad.touched}">
+                            <option disabled [value]="undefined" selected>Seleccione unidad</option>
+                            <option *ngFor="let tipoUnidade of tipoUnidades" [value]="tipoUnidade.catalogoItemId">
+                              {{tipoUnidade.catalogoItemDescripcion}}
+                            </option>
+                          </select>
+                        </div>
+                      </div>
+                      <small *ngIf="vehiculoCapacidad.errors?.required && vehiculoTipoCapacidad.touched" class="error-input">
+                        {{appConfig.msgRequerido}}
+                      </small>
+                      <small *ngIf="vehiculoCapacidad.errors?.pattern && vehiculoTipoCapacidad.touched" class="error-input">
+                        {{appConfig.msgSoloNumerosDecimales}}
+                      </small>
+                    </div>
+                  </div>
+                  <div class="col-md-5">
+                    <div class="form-group">
+                      <label for="vehiculoEstado">Estado</label>
+                      <select class="form-control" id="vehiculoEstado" name="vehiculoEstado"
+                              [(ngModel)]="vehiculo.vehiculoEstado" #vehiculoEstado="ngModel"
+                              [ngClass]="{'is-invalid': vehiculoEstado.errors?.required  && vehiculoEstado.touched}">
+                        <option [value]=1>Activo</option>
+                        <option [value]=0>Inactivo</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer justify-content-md-center">
+          <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="cerrarMensaje()">Cancelar</button>
+          <button type="button" class="btn btn-success" (click)="  guardarVehiculo(vehiculo)"
+                  [disabled]="!formaVehiculo.valid">Guardar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

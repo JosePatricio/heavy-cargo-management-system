@@ -1,0 +1,66 @@
+<ngx-loading [show]="loading"></ngx-loading>
+<div class="container-fluid margin-top-container">
+  <form>
+    <h3>Ofertas de la Solicitud: {{idSolicitud}}</h3>
+    <hr>
+    <div *ngIf="!viewOffer">
+      <ngx-datatable
+        class='material tableHeightFixed'
+        [columnMode]="'force'"
+        [headerHeight]="'auto'"
+        [footerHeight]="50"
+        [rowHeight]="'auto'"
+        [limit]="25"
+        [rows]='ofertas'
+        [columns]='columns'
+        [scrollbarH]="true"
+        [selectionType]="'single'"
+        [messages]="{emptyMessage:'Sin registros para mostrar...',totalMessage: 'total',selectedMessage: 'selected'}">
+      </ngx-datatable>
+    </div>
+
+    <div [ngClass]="{'hide-element': !viewOffer}">
+      <ng-template #dynamicInsert></ng-template>
+    </div>
+
+    <div id="templates">
+      <ng-template #tmplIndex let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+        <strong>{{rowIndex+1}}</strong>
+      </ng-template>
+      <ng-template #tmplDate let-value="value">
+        <div>{{value | date: appConfig.formatoFecha}}</div>
+      </ng-template>
+      <ng-template #tmpPeso let-value="value" let-rowIndex="rowIndex" let-row="row">
+        <div>{{row.peso}} {{row.tipoPeso}}</div>
+      </ng-template>
+      <ng-template #tmplAmount let-value="value">
+        <div class="amount-text wm-100">{{value | currency:'USD':'symbol'}}</div>
+      </ng-template>
+      <ng-template #linkButtonAceptar let-row="row">
+        <button type="button" class="btn btn-success info-button-small"
+                (click)="swalAlert(row.idSolicitud, row.idOferta, row.amount)">
+          <i class="far fa-hand-pointer" title="Elegir oferta"></i>
+        </button>
+      </ng-template>
+      <ng-template #tmplValorComic let-value="value" let-row="row">
+        <div class="amount-text wm-100">{{(row.amount + row.comision) | currency:'USD':'symbol'}}</div>
+      </ng-template>
+      <ng-template #tmplValorAhorro let-value="value" let-row="row">
+        <div class="amount-text wm-100">{{(row.valorObjetivo - (row.amount + row.comision)) | currency:'USD':'symbol'}}</div>
+      </ng-template>
+      <ng-template #tmplValorPorPieza let-value="value" let-row="row">
+        <div class="amount-text wm-100">{{(row.amount+row.comision)/row.numeroPiezas | currency:'USD':'symbol'}}</div>
+      </ng-template>
+      <ng-template #tmplBreakWord let-value="value">
+        <div class="break-word">{{value}}</div>
+      </ng-template>
+
+      <hr/>
+      <div *ngIf="!viewOffer" style="text-align: right;">
+        <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="navCorrectOP()">
+          Regresar
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

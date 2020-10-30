@@ -1,0 +1,148 @@
+<ngx-loading [show]="loading"></ngx-loading>
+<div class="container-fluid margin-top-container">
+  <h3>{{nuevoCliente ? 'Nuevo cliente' : 'Actualizar cliente'}}</h3>
+  <hr>
+  <form novalidate #forma="ngForm">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="pedidoRUC">* RUC</label>
+          <input type="text" class="form-control" id="pedidoRUC" name="pedidoRUC" maxlength="13"
+                 [(ngModel)]="clienteNuevosDatos.clienteRuc" required>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="pedidoRazonSocial">* RAZON SOCIAL</label>
+          <input type="text" class="form-control" id="pedidoRazonSocial" name="pedidoRazonSocial"
+                 [(ngModel)]="clienteNuevosDatos.clienteRazonSocial" required>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="pedidoCliente">* Cliente</label>
+          <input type="text" class="form-control" id="pedidoCliente" name="pedidoCliente"
+                 [(ngModel)]="clienteNuevosDatos.clienteNombre" required>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="pedidoDireccion">* Dirección</label>
+          <textarea type="text" class="form-control" id="pedidoDireccion" name="pedidoDireccion"
+                    [(ngModel)]="clienteNuevosDatos.clienteDireccion" required></textarea>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="pedidoTelefono">* Teléfono</label>
+          <input type="text" class="form-control" id="pedidoTelefono" name="pedidoTelefono" maxlength="10"
+                 [(ngModel)]="clienteNuevosDatos.clienteTelefono" required>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="pedidoCorreo">* Correo</label>
+          <input type="text" class="form-control" id="pedidoCorreo" name="pedidoCorreo"
+                 [(ngModel)]="clienteNuevosDatos.clienteCorreo" required>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <label for="dia">* Dia de visita</label>
+        <select class="form-control" id="dia" name="dia" [(ngModel)]="clienteNuevosDatos.diaSemanaVisita"
+                #vendedor="ngModel" required>
+          <option [ngValue]="null"> </option>
+          <option *ngFor="let _dia of diasSemana" [value]="_dia.diaId">
+            {{_dia.dia}}
+          </option>
+        </select>
+      </div>
+      <div class="col-md-6">
+        <label for="vendedor">* Vendedor asignado</label>
+        <select class="form-control" id="vendedor" name="vendedor" [(ngModel)]="cliente.clienteVendedorAsignado.vendedorId"
+                #vendedor="ngModel" required>
+          <option [ngValue]="null"> </option>
+          <option *ngFor="let _vendedor of vendedores" [value]="_vendedor.vendedorId">
+            {{_vendedor.vendedorNombres}}
+          </option>
+        </select>
+      </div>
+    </div>
+  </form>
+
+  <br/>
+  <button type="button" class="btn btn-link mb-1" (click)="obtenerMiUbicacion()">Obtener mi ubicación</button>
+  <button *ngIf="miUbicacionMarker.lat" type="button" class="btn btn-link mb-1" (click)="actualizarUbicacionCliente()"
+          [ngClass]="{'gray': ubicacionActualizada}" >Marcar mi ubicación como ubicación del cliente</button>
+  <br/>
+
+  <agm-map
+    [latitude]="lat"
+    [longitude]="lng"
+    [zoom]="zoom"
+    [disableDefaultUI]="false"
+    [streetViewControl]="false"
+    [zoomControl]="true"
+    (mapClick)="mapClicked($event)"
+    (mapReady)="mapReady($event)"
+  >
+    <agm-marker
+      (markerClick)="clickedMarker(clienteMarker.label)"
+      [latitude]="clienteMarker.lat"
+      [longitude]="clienteMarker.lng"
+      [label]="clienteMarker.label"
+      [markerDraggable]="clienteMarker.draggable"
+      (dragEnd)="markerDragEnd($event)">
+      >
+      <agm-info-window>
+        <strong>{{clienteMarker.label}}</strong>
+      </agm-info-window>
+    </agm-marker>
+    <agm-marker
+      (markerClick)="clickedMarker(miUbicacionMarker.label)"
+      [latitude]="miUbicacionMarker.lat"
+      [longitude]="miUbicacionMarker.lng"
+      [markerDraggable]="miUbicacionMarker.draggable"
+      [visible]="verMiUbicacion"
+    >
+      <agm-info-window>
+        <strong>{{miUbicacionMarker.label}}</strong>
+      </agm-info-window>
+    </agm-marker>
+
+  </agm-map>
+  <a class="d-block text-right" target="_blank" [href]="'https://www.google.com/maps/search/?api=1&query='+clienteMarker.lat+','+clienteMarker.lng">Ver en Google Maps</a>
+
+  <br/>
+  <div class="row mb-2">
+    <button type="button" class="btn btn-primary col-12 col-lg-3 mt-1 mr-2" (click)="guardarNuevoCliente()" *ngIf="nuevoCliente">Guardar</button>
+    <button type="button" class="btn btn-primary col-12 col-lg-3 mt-1 mr-2" (click)="actualizar()" *ngIf="!nuevoCliente">Actualizar</button>
+    <button type="button" class="btn btn-secondary col-12 col-lg-3 mt-1 mr-2" (click)="regresar()">Cancelar</button>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Alerta...!</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="cerrarMensaje()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        <div class="alert alert-success" role="alert"
+             [ngClass]="{'alert-success': operacionCorrecta,'alert-danger': !operacionCorrecta}">
+          <strong>{{mensajeOperacion}}</strong>
+        </div>
+
+      </div>
+      <div class="modal-footer justify-content-md-center">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="cerrarMensaje()">Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

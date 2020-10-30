@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activities.cliente.GeneraTokenActivity">
+
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:enabled="false"
+        android:text=" - " />
+
+    <LinearLayout
+        android:id="@+id/lySolNew"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/tokenGenera"
+            style="?android:textAppearanceSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ic_nfc_black_24dp"
+            android:drawableLeft="@drawable/ic_nfc_black_24dp"
+            android:text="Generar token" />
+
+        <Button
+            android:id="@+id/tokenMen"
+            style="?android:textAppearanceSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ic_content_copy_black_24dp"
+            android:drawableLeft="@drawable/ic_content_copy_black_24dp"
+            android:text="Copiar portapapeles" />
+    </LinearLayout>
+
+</LinearLayout>

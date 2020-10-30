@@ -1,0 +1,45 @@
+<ngx-loading [show]="loading"></ngx-loading>
+<div class="container-fluid margin-top-container">
+  <form>
+    <h3>Envíos pendientes</h3>
+    <hr/>
+    <div *ngIf="envioDetail">
+      <ngx-datatable
+        class='material tableHeightFixed'
+        [columns]="columns"
+        [columnMode]="'force'"
+        [headerHeight]="'auto'"
+        [footerHeight]="50"
+        [rowHeight]="'auto'"
+        [limit]="25"
+        [rows]='envios'
+        [scrollbarH]="true"
+        [selectionType]="'single'"
+        [sorts]="[{prop: 'envioFechaRecoleccion', dir: 'asc'}]"
+      >
+      </ngx-datatable>
+    </div>
+
+    <div [ngClass]="{'hide-element': envioDetail}">
+      <ng-template #dynamicInsert></ng-template>
+    </div>
+
+    <div id="templates">
+      <ng-template #tmplIndex let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+        <strong>{{rowIndex+1}}</strong>
+      </ng-template>
+      <ng-template #linkButton let-value="value" let-rowIndex="rowIndex" let-row="row">
+        <button type="button" class="btn btn-primary info-button-small"
+                (click)="verDetalle(row)">
+          <i class="fas fa-info-circle"></i>
+        </button>
+      </ng-template>
+      <ng-template #tmplDateTime let-value="value">
+        <div>{{value | date: appConfig.formatoFechaHora}}</div>
+      </ng-template>
+      <ng-template #tmplTipoEnvio let-value="value">
+        <div>{{value == "G" ? "Guía": value == "C" ? "Cobro" : value == "D" ? "Devolución" : "ERROR" }}</div>
+      </ng-template>
+    </div>
+  </form>
+</div>

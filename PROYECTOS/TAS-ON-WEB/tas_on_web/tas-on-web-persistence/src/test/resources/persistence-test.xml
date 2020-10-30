@@ -1,0 +1,43 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:ctx="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!-- DAOs -->
+    <bean id="usuariosDAO" class="ec.net.redcode.tas.on.persistence.dao.impl.UsuariosDAOImpl"/>
+
+    <bean id="localidadDAO" class="ec.net.redcode.tas.on.persistence.dao.impl.LocalidadDAOImpl"/>
+    <bean id="contratoDAO" class="ec.net.redcode.tas.on.persistence.dao.impl.ContratosDAOImpl"/>
+    <bean id="catalogoDAO" class="ec.net.redcode.tas.on.persistence.dao.impl.CatalogoDAOImpl"/>
+    <bean id="catalogoItemDAO" class="ec.net.redcode.tas.on.persistence.dao.impl.CatalogoItemDAOImpl"/>
+    <bean id="solicitudEnvioDAO" class="ec.net.redcode.tas.on.persistence.dao.impl.SolicitudEnvioDAOImpl"/>
+
+    <!-- Services -->
+    <bean id="usuarioService" class="ec.net.redcode.tas.on.persistence.service.impl.UsuarioServiceImpl">
+        <property name="usuariosDAO" ref="usuariosDAO"/>
+    </bean>
+    <!-- Cristhian Miranda Test-->
+    <bean id="localidadService" class="ec.net.redcode.tas.on.persistence.service.impl.LocalidadServiceImpl">
+        <property name="localidadDAO" ref="localidadDAO"/>
+    </bean>
+    <bean id="contratoService" class="ec.net.redcode.tas.on.persistence.service.impl.ContratoServiceImpl">
+        <property name="contratoDAO" ref="contratoDAO"/>
+    </bean>
+    <bean id="solicitudEnvioService" class="ec.net.redcode.tas.on.persistence.service.impl.SolicitudEnvioServiceImpl">
+        <property name="solicitudEnvioDAO" ref="solicitudEnvioDAO"/>
+    </bean>
+
+
+    <bean id="catalogoService" class="ec.net.redcode.tas.on.persistence.service.impl.CatalogoServiceImpl">
+        <property name="catalogoDAO" ref="catalogoDAO"/>
+    </bean>
+    <bean id="catalogoItemService" class="ec.net.redcode.tas.on.persistence.service.impl.CatalogoItemServiceImpl">
+        <property name="catalogoItemDAO" ref="catalogoItemDAO"/>
+    </bean>
+
+</beans>

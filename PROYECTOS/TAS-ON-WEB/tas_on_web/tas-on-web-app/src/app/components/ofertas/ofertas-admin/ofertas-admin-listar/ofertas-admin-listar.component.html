@@ -1,0 +1,64 @@
+<ngx-loading [show]="loading"></ngx-loading>
+<div class="container-fluid margin-top-container">
+  <form>
+    <h3>Ofertas</h3>
+    <hr>
+    <div class="row" *ngIf="ofertasIs">
+      <div class="col-md-5">
+        <div class="form-group">
+          <label for="clienteTipoCliente">Etapas</label>
+          <select class="form-control" id="clienteTipoCliente" name="clienteTipoCliente"
+                  [(ngModel)]="stateSelected.state"
+                  #state="ngModel" (change)="getOfertas()">
+            <option></option>
+            <option *ngFor="let tipo of etapasOfertas" [value]="tipo.catalogoItemId">
+              {{tipo.catalogoItemDescripcion}}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="col-md-2"></div>
+      <div class="col-md-5"></div>
+    </div>
+    <div *ngIf="ofertasIs">
+      <ngx-datatable
+        #table
+        class='material tableHeightFixed'
+        [columns]="columns"
+        [columnMode]="'force'"
+        [headerHeight]="'auto'"
+        [footerHeight]="50"
+        [rowHeight]="'auto'"
+        [limit]="25"
+        [rows]='ofertas'
+        [scrollbarH]="true"
+        [selectionType]="'single'"
+        [sorts]="[{prop: 'idSolicitud', dir: 'desc'},{prop: 'idOferta', dir: 'asc'}]">
+      </ngx-datatable>
+    </div>
+
+    <div [ngClass]="{'hide-element': ofertasIs}">
+      <ng-template #dynamicInsert></ng-template>
+    </div>
+
+    <div id="templates">
+      <ng-template #tmplIndex let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+        <strong>{{rowIndex+1}}</strong>
+      </ng-template>
+      <ng-template #tmplDate let-value="value">
+        <div>{{value | date: appConfig.formatoFecha}}</div>
+      </ng-template>
+      <ng-template #linkButton let-value="value" let-rowIndex="rowIndex" let-row="row">
+        <button type="button" class="btn btn-primary info-button-small" (click)="callDetailOferta(value)">
+          <i class="fas fa-info-circle"></i>
+        </button>
+      </ng-template>
+      <ng-template #tmplAmount let-value="value">
+        <div class="amount-text wm-100">{{value | currency:'USD':'symbol'}}</div>
+      </ng-template>
+      <ng-template #tmpPeso let-value="value" let-rowIndex="rowIndex" let-row="row">
+        <div>{{row.peso}} {{row.tipoPeso}}</div>
+      </ng-template>
+    </div>
+  </form>
+</div>

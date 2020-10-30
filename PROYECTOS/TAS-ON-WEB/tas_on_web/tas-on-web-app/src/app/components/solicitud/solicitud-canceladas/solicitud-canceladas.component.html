@@ -1,0 +1,52 @@
+<ngx-loading [show]="loading"></ngx-loading>
+<div class="container-fluid margin-top-container">
+  <form>
+    <h3>Solicitudes canceladas</h3>
+    <div *ngIf="solEdit">
+      <hr>
+      <ngx-datatable
+        class='material tableHeightFixed'
+        [columns]="columns"
+        [columnMode]="'force'"
+        [headerHeight]="'auto'"
+        [footerHeight]="50"
+        [rowHeight]="'auto'"
+        [limit]="25"
+        [rows]='listaSolicitudes'
+        [scrollbarH]="true"
+        [selectionType]="'single'"
+        [messages]="{emptyMessage:'Sin registros para mostrar...',totalMessage: 'total',selectedMessage: 'selected'}">
+      </ngx-datatable>
+      <hr>
+      <div style="text-align: right;" *ngIf="listaSolicitudes">
+        <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="refreshData()"
+                [disabled]="listaSolicitudes.length<1"><i
+          class="fas fa-retweet"></i> Refrescar documentos
+        </button>
+      </div>
+    </div>
+
+    <div [ngClass]="{'hide-element': solEdit}">
+      <ng-template #dynamicInsert></ng-template>
+    </div>
+
+    <div id="templates">
+      <ng-template #tmplIndex let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+        <strong>{{rowIndex+1}}</strong>
+      </ng-template>
+      <ng-template #tmplDate let-value="value">
+        <div>{{value | date: appConfig.formatoFecha}}</div>
+      </ng-template>
+      <ng-template #linkButton let-value="value" let-rowIndex="rowIndex" let-row="row">
+        <button type="button" class="btn btn-primary info-button-small" title="Editar"
+                (click)="viewDetail(row.idSolicitud)">
+          <i class="fas fa-info-circle"></i>
+        </button>
+      </ng-template>
+      <ng-template #tmpPeso let-value="value" let-rowIndex="rowIndex" let-row="row">
+        <div>{{row.peso}} {{row.medida}}</div>
+      </ng-template>
+    </div>
+  </form>
+</div>
+

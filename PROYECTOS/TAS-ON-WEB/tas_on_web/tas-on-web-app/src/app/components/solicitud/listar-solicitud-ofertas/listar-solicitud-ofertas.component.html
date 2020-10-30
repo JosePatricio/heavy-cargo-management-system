@@ -1,0 +1,63 @@
+<ngx-loading [show]="loading"></ngx-loading>
+<div class="container-fluid margin-top-container">
+  <form>
+    <h3>Solicitudes ofertadas</h3>
+    <hr>
+
+    <small class="color-black">
+      * Las solicitudes se cancelarán automáticamente {{horasCaducidad}} hora(s) antes de la fecha de recolección en caso de
+      no seleccionar una oferta como ganadora
+    </small>
+
+    <br/>
+
+    <ngx-datatable
+      #detailSolicitud
+      class='material tableHeightFixed'
+      [columnMode]="'force'"
+      [headerHeight]="'auto'"
+      [footerHeight]="50"
+      [rowHeight]="'auto'"
+      [limit]="25"
+      [rows]='solOffer'
+      [columns]='columns'
+      [selectionType]="'single'"
+      [scrollbarH]="true"
+      [messages]="{emptyMessage:'Sin registros para mostrar...',totalMessage: 'total',selectedMessage: 'selected'}">
+      <ngx-datatable-row-detail [rowHeight]="'auto'">
+        <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
+          <ng-template #dynamicInsert></ng-template>
+        </ng-template>
+      </ngx-datatable-row-detail>
+    </ngx-datatable>
+
+    <div id="templates">
+      <ng-template #tmplIndex let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+        <strong>{{rowIndex+1}}</strong>
+      </ng-template>
+
+      <ng-template #tmplDate let-value="value">
+        <div>{{value | date: appConfig.formatoFecha}}</div>
+      </ng-template>
+      <ng-template #tmplDateTime let-value="value">
+        <div>{{value | date: appConfig.formatoFechaHora}}</div>
+      </ng-template>
+      <ng-template #tmpPeso let-value="value" let-rowIndex="rowIndex" let-row="row">
+        <div>{{row.peso}} {{row.medida}}</div>
+      </ng-template>
+
+      <ng-template #linkButton let-value="value" let-rowIndex="rowIndex" let-row="row" let-expanded="expanded"
+                   ngx-datatable-cell-template>
+        <a href="javascript:void(0)"
+           class="btn btn-primary"
+           [class.datatable-icon-down]="!expanded"
+           [class.datatable-icon-up]="expanded"
+           title="Expand/Collapse Row"
+           (click)="seleccionarOferta(row.idSolicitud,row)">
+        </a>
+      </ng-template>
+    </div>
+
+  </form>
+</div>
+

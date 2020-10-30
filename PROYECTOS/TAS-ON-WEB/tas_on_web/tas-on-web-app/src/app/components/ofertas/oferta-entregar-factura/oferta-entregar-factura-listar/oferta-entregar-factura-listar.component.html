@@ -1,0 +1,211 @@
+<ngx-loading [show]="loading"></ngx-loading>
+<div class="container-fluid margin-top-container">
+  <form>
+    <h3>Por entregar factura</h3>
+    <hr/>
+    <div>
+      <ngx-datatable
+        class='material tableHeightFixed'
+        [columnMode]="'force'"
+        [headerHeight]="'auto'"
+        [footerHeight]="50"
+        [rowHeight]="'auto'"
+        [limit]="25"
+        [rows]='facturas'
+        [scrollbarH]="true"
+        [selectionType]="'single'"
+        [messages]="{emptyMessage:'Sin registros para mostrar...',totalMessage: 'total',selectedMessage: 'selected'}">
+        <ngx-datatable-column name="#" width="50">
+          <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+            <strong>{{rowIndex+1}}</strong>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column prop="invoiceId" name="Info." headerClass="table-header">
+          <ng-template let-value="value" ngx-datatable-cell-template>
+            <button type="button" class="btn btn-primary" (click)="callDetailInvoice(value)">
+              <i class="fas fa-eye"></i>
+            </button>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column prop="invoiceId" name="Id prefactura" headerClass="table-header">
+        </ngx-datatable-column>
+        <ngx-datatable-column prop="invoiceDatePrefactura" name="Fecha prefactura" headerClass="table-header">
+          <ng-template let-value="value" ngx-datatable-cell-template>
+            {{value | date: appConfig.formatoFecha}}
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column prop="invoiceAmount" name="Monto factura" headerClass="table-header">
+          <ng-template let-value="value" ngx-datatable-cell-template>
+            <div class="amount-text wm-100">{{value | currency:'USD':'symbol'}}</div>
+          </ng-template>
+        </ngx-datatable-column>
+      </ngx-datatable>
+    </div>
+  </form>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="modPreviewInvoice" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog forma" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">[ FACTURA ]</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h5 class="modal-title" id="ctDatos">Datos Compañía:</h5>
+        <div class="row">
+          <div class="col-md-5">
+            <div class="form-group">
+              <label>Nombre:</label>
+              <input class="form-control" id="nombreCt" name="nombreCt" [readonly]="true"
+                     [(ngModel)]="datosCompania.razonSocial" value="{{datosCompania.razonSocial}}">
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <label>RUC:</label>
+              <input class="form-control" id="rucCt" name="rucCt" [readonly]="true"
+                     [(ngModel)]="datosCompania.ruc" value="{{datosCompania.ruc}}">
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <label for="noFactCt">No. Factura:</label>
+              <input class="form-control" id="noFactCt" name="noFactCt" [readonly]="true"
+                     [(ngModel)]="numberDoc" value="{{numberDoc}}">
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <label>No. Autorizacion:</label>
+              <input class="form-control" id="noAutCt" name="noAutCt" [readonly]="true" value=" - ">
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Dirección:</label>
+              <input class="form-control" id="direccCt" name="direccCt" [readonly]="true"
+                     [(ngModel)]="datosCompania.direccion" value="{{datosCompania.direccion}}">
+            </div>
+          </div>
+        </div>
+
+        <h5 class="modal-title" id="tasDatos">Datos de TASON:</h5>
+        <div class="row">
+          <div class="col-md-5">
+            <div class="form-group">
+              <label>Nombre:</label>
+              <input class="form-control" id="nombreTas" name="nombreTas" [readonly]="true"
+                     [(ngModel)]="datosTasOn.razonSocial" value="{{datosTasOn.razonSocial}}">
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <label for="rucTas">RUC:</label>
+              <input class="form-control" id="rucTas" name="rucTas" [readonly]="true"
+                     [(ngModel)]="datosTasOn.ruc" value="{{datosTasOn.ruc}}">
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <label for="fechEmiTas">Fecha Emisión:</label>
+              <label class="form-control disable-element" id="fechEmiTas" name="fechEmiTas">{{dateInvoice |
+                date: appConfig.formatoFecha}}</label>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="form-group">
+              <label for="guiaEmiTas">Guía Remisión:</label>
+              <input class="form-control" id="guiaEmiTas" name="guiaEmiTas" [readonly]="true"
+                     value=" - ">
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="direccTas">Dirección:</label>
+              <input class="form-control" id="direccTas" name="direccTas" [readonly]="true"
+                     [(ngModel)]="datosTasOn.direccion" value="{{datosTasOn.direccion}}">
+            </div>
+          </div>
+        </div>
+
+        <div class="row table-responsive" *ngIf="selOfert">
+          <table class="table table-hover">
+            <thead>
+            <tr>
+              <th>Cantidad</th>
+              <th>Descripción</th>
+              <th>Precio Unitario</th>
+            </tr>
+            </thead>
+            <tfoot>
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td></td>
+              <td class="text-bold">Subtotal 12%</td>
+              <td>
+                <div class="amount-text"> -</div>
+              </td>
+            </tr>
+            <tr>
+              <td></td>
+              <td class="text-bold">Subtotal 0%</td>
+              <td>
+                <div class="amount-text">{{totalFactura | currency:'USD':'symbol'}}</div>
+              </td>
+            </tr>
+            <tr>
+              <td></td>
+              <td class="text-bold">Descuento</td>
+              <td>
+                <div class="amount-text">{{descuentos | currency:'USD':'symbol'}}</div>
+              </td>
+            </tr>
+            <tr>
+              <td></td>
+              <td class="text-bold">Subtotal</td>
+              <td>
+                <div class="amount-text">{{totalFactura| currency:'USD':'symbol'}}</div>
+              </td>
+            </tr>
+            <tr>
+              <td></td>
+              <td class="text-bold">IVA (12%)</td>
+              <td>
+                <div class="amount-text"> -</div>
+              </td>
+            </tr>
+            <tr>
+              <td></td>
+              <td class="text-bold">Total</td>
+              <td>
+                <div class="amount-text">{{totalFactura | currency:'USD':'symbol'}}</div>
+              </td>
+            </tr>
+            </tfoot>
+            <tbody>
+            <tr *ngFor="let oferta of selOfert;">
+              <td>1</td>
+              <td>{{oferta.comments}}</td>
+              <td>
+                <div class="amount-text">{{oferta.amount | currency:'USD':'symbol'}}</div>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>

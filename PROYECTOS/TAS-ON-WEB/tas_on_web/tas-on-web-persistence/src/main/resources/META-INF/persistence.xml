@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence" version="2.1">
+
+    <persistence-unit name="TasOnPersistenceUnit" transaction-type="JTA">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <jta-data-source>java:/TasOnAppDS</jta-data-source>
+        <class>ec.net.redcode.tas.on.persistence.entities.Adquiriente</class>
+        <class>ec.net.redcode.tas.on.persistence.entities.Catalogo</class>
+        <class>ec.net.redcode.tas.on.persistence.entities.Contrato</class>
+        <class>ec.net.redcode.tas.on.persistence.entities.FacturaDetalle</class>
+        <class>ec.net.redcode.tas.on.persistence.entities.Factura</class>
+        <class>ec.net.redcode.tas.on.persistence.entities.Localidad</class>
+        <class>ec.net.redcode.tas.on.persistence.entities.Oferta</class>
+        <class>ec.net.redcode.tas.on.persistence.entities.SolicitudEnvio</class>
+        <class>ec.net.redcode.tas.on.persistence.entities.Usuario</class>
+        <class>ec.net.redcode.tas.on.persistence.entities.CatalogoItem</class>
+        <class>ec.net.redcode.tas.on.persistence.entities.Secuencia</class>
+        <class>ec.net.redcode.tas.on.persistence.entities.Cliente</class>
+        <class>ec.net.redcode.tas.on.persistence.entities.Vehiculo</class>
+        <class>ec.net.redcode.tas.on.persistence.entities.Conductor</class>
+        <class>ec.net.redcode.tas.on.persistence.entities.Pago</class>
+        <class>ec.net.redcode.tas.on.persistence.entities.FcmDispositivo</class>
+        <class>ec.net.redcode.tas.on.persistence.entities.FacturaRetencion</class>
+        <class>ec.net.redcode.tas.on.persistence.entities.FacturaProveedor</class>
+        <class>ec.net.redcode.tas.on.persistence.entities.SolicitudEnvioAudit</class>
+        <class>ec.net.redcode.tas.on.persistence.entities.Ebilling</class>
+        <class>ec.net.redcode.tas.on.persistence.entities.UsuarioEbilling</class>
+        <class>ec.net.redcode.tas.on.persistence.entities.EbillingDetalle</class>
+        <class>ec.net.redcode.tas.on.persistence.entities.CalificacionTransportista</class>
+        <class>ec.net.redcode.tas.on.persistence.entities.FacturaManual</class>
+        <class>ec.net.redcode.tas.on.persistence.entities.NotaCredito</class>
+        <class>ec.net.redcode.tas.on.persistence.entities.ConductorAcreditado</class>
+        <class>ec.net.redcode.tas.on.persistence.entities.VehiculoAcreditado</class>
+        <class>ec.net.redcode.tas.on.persistence.entities.Request</class>
+        <class>ec.net.redcode.tas.on.persistence.entities.File</class>
+        <class>ec.net.redcode.tas.on.persistence.entities.OfertaFile</class>
+        <class>ec.net.redcode.tas.on.persistence.entities.Envio</class>
+        <class>ec.net.redcode.tas.on.persistence.entities.EnvioFile</class>
+        <class>ec.net.redcode.tas.on.persistence.entities.CategoriaProducto</class>
+        <class>ec.net.redcode.tas.on.persistence.entities.ClientePedidos</class>
+        <class>ec.net.redcode.tas.on.persistence.entities.Pedido</class>
+        <class>ec.net.redcode.tas.on.persistence.entities.PedidoDetalle</class>
+        <class>ec.net.redcode.tas.on.persistence.entities.PedidoDocumentosCredito</class>
+        <class>ec.net.redcode.tas.on.persistence.entities.Producto</class>
+        <class>ec.net.redcode.tas.on.persistence.entities.Visita</class>
+        <properties>
+            <property name="hibernate.transaction.manager_lookup_class" value="org.hibernate.transaction.JBossTransactionManagerLookup"/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
+            <property name="hibernate.enable_lazy_load_no_trans" value="true" />
+            <property name="hibernate.transaction.jta.platform" value="JBossAS" />
+            <property name="hibernate.id.new_generator_mappings" value="false"/>
+        </properties>
+        <!--properties>
+            <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/tason"/>
+            <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>
+            <property name="hibernate.connection.username" value="root"/>
+            <property name="hibernate.connection.password" value="password"/>
+            <property name="hibernate.archive.autodetection" value="class"/>
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.format_sql" value="true"/>
+            <property name="hbm2ddl.auto" value="update"/>
+        </properties-->
+    </persistence-unit>
+</persistence>

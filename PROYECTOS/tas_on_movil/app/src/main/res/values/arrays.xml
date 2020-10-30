@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="search_parameters">
+        <item>Origen</item>
+        <item>Destino</item>
+    </string-array>
+
+    <string-array name="region">
+        <item>Seleccione una región</item>
+        <item>Costa</item>
+        <item>Sierra</item>
+        <item>Oriente</item>
+        <item>Insular</item>
+    </string-array>
+
+    <string-array name="prov_sierra">
+        <item>Seleccione una Provincia</item>
+        <item>Carchi</item>
+        <item>Imbabura</item>
+        <item>Pichincha</item>
+        <item>Cotopaxi</item>
+        <item>Tungurahua</item>
+        <item>Bolívar</item>
+        <item>Chimborazo</item>
+        <item>Cañar</item>
+        <item>Azuay</item>
+        <item>Loja</item>
+        <item>Sto. Domingo de los Tsachilas</item>
+    </string-array>
+
+    <string-array name="prov_costa">
+        <item>Seleccione una Provincia</item>
+        <item>Esmeraldas</item>
+        <item>Manabí</item>
+        <item>Guayas</item>
+        <item>Los Ríos</item>
+        <item>El Oro</item>
+        <item>Santa Elena</item>
+    </string-array>
+
+    <string-array name="prov_oriente">
+        <item>Seleccione una Provincia</item>
+        <item>Sucumbíos</item>
+        <item>Napo</item>
+        <item>Pastaza</item>
+        <item>Orellana</item>
+        <item>Morona Santiago</item>
+        <item>Zamora Chinchipe</item>
+    </string-array>
+
+    <string-array name="prov_insular">
+        <item>Seleccione una Provincia</item>
+        <item>Galápagos</item>
+    </string-array>
+
+    <string-array name="cities">
+        <item>Guayaquil</item>
+        <item>Quito</item>
+        <item>Cuenca</item>
+        <item>Santo Domingo</item>
+        <item>Machala</item>
+        <item>Durán</item>
+        <item>Manta</item>
+        <item>Portoviejo</item>
+        <item>Loja</item>
+        <item>Ambato</item>
+        <item>Esmeraldas</item>
+        <item>Quevedo</item>
+        <item>Riobamba</item>
+        <item>Milagro</item>
+        <item>Ibarra</item>
+        <item>La Libertad</item>
+        <item>Babahoyo</item>
+        <item>Sangolquí</item>
+        <item>Daule</item>
+        <item>Latacunga</item>
+        <item>Tulcán</item>
+        <item>Chone</item>
+        <item>Pasaje</item>
+        <item>Santa Rosa</item>
+        <item>Nueva Loja</item>
+        <item>Huaquillas</item>
+        <item>El Carmen</item>
+        <item>Montecristi</item>
+        <item>Samborondón</item>
+        <item>Puerto Francisco de Orellana</item>
+        <item>Jipijapa</item>
+        <item>Santa Elena</item>
+        <item>Otavalo</item>
+        <item>Cayambe</item>
+        <item>Buena Fe</item>
+        <item>Ventanas</item>
+        <item>Velasco Ibarra (El Empalme)</item>
+        <item>La Troncal</item>
+        <item>El Triunfo</item>
+        <item>Salinas</item>
+        <item>General Villamil (Playas)</item>
+        <item>Azogues</item>
+        <item>Puyo</item>
+        <item>Vinces</item>
+        <item>La Concordia</item>
+        <item>Rosa Zárate (Quinindé)</item>
+        <item>Balzar</item>
+        <item>Naranjito</item>
+        <item>Naranjal</item>
+        <item>Guaranda</item>
+        <item>La Maná</item>
+        <item>Tena</item>
+        <item>San Lorenzo</item>
+        <item>Catamayo</item>
+        <item>El Guabo</item>
+        <item>Pedernales</item>
+        <item>Atuntaqui</item>
+        <item>Bahía de Caráquez</item>
+        <item>Pedro Carbo</item>
+        <item>Macas</item>
+        <item>Yaguachi</item>
+        <item>Calceta</item>
+        <item>Arenillas</item>
+        <item>Jaramijó</item>
+        <item>Valencia</item>
+        <item>Machachi</item>
+        <item>Shushufindi</item>
+        <item>Atacames</item>
+        <item>Piñas</item>
+        <item>San Gabriel</item>
+        <item>Gualaceo</item>
+        <item>Lomas de Sargentillo</item>
+        <item>Cañar</item>
+        <item>Cariamanga</item>
+        <item>Baños de Agua Santa</item>
+        <item>Montalvo</item>
+        <item>Macará</item>
+        <item>San Miguel (Salcedo)</item>
+        <item>Zamora</item>
+        <item>Puerto Ayora</item>
+        <item>La Joya de los Sachas</item>
+        <item>Salitre</item>
+        <item>Tosagua</item>
+        <item>Pelileo</item>
+        <item>Pujilí</item>
+        <item>Tabacundo</item>
+        <item>Puerto López</item>
+        <item>San Vicente</item>
+        <item>Santa Ana de Vuelta Larga</item>
+        <item>Zaruma</item>
+        <item>Balao</item>
+        <item>Rocafuerte</item>
+        <item>Yantzaza</item>
+        <item>Cotacachi</item>
+        <item>Santa Lucía</item>
+        <item>Cumandá</item>
+        <item>Palestina</item>
+        <item>Alfredo Baquerizo Moreno (Jujan)</item>
+        <item>Narcisa de Jesús (Nobol)</item>
+        <item>Mocache</item>
+        <item>Puebloviejo</item>
+        <item>Portovelo</item>
+        <item>Sucúa</item>
+        <item>Guano</item>
+        <item>Píllaro</item>
+        <item>Simón Bolívar</item>
+        <item>Gualaquiza</item>
+        <item>Paute</item>
+        <item>Saquisilí</item>
+        <item>Coronel Marcelino Maridueña</item>
+        <item>Paján</item>
+        <item>San Miguel</item>
+        <item>Puerto Baquerizo Moreno</item>
+        <item>Catacocha</item>
+        <item>Palenque</item>
+        <item>Alausí</item>
+        <item>Caluma</item>
+        <item>Catarama</item>
+        <item>Flavio Alfaro</item>
+        <item>Colimes</item>
+        <item>Echeandía</item>
+        <item>Jama</item>
+        <item>Bucay</item>
+        <item>Isidro Ayora</item>
+        <item>Muisne</item>
+        <item>Santa Isabel</item>
+        <item>Pedro Vicente Maldonado</item>
+        <item>Biblián</item>
+        <item>Archidona</item>
+        <item>Junín</item>
+        <item>Valdez</item>
+        <item>Baba</item>
+        <item>Pimampiro</item>
+        <item>Camilo Ponce Enríquez</item>
+        <item>San Miguel de Los Bancos</item>
+        <item>El Tambo</item>
+        <item>Quinsaloma</item>
+        <item>El Ángel</item>
+        <item>Alamor</item>
+        <item>Chambo</item>
+        <item>San José de Chimbo</item>
+        <item>Celica</item>
+        <item>Chordeleg</item>
+        <item>Balsas</item>
+        <item>Saraguro</item>
+        <item>El Chaco</item>
+        <item>Girón</item>
+        <item>Huaca</item>
+        <item>Pichincha</item>
+        <item>Chunchi</item>
+        <item>Pallatanga</item>
+        <item>Marcabelí</item>
+        <item>Sígsig</item>
+        <item>Limón</item>
+        <item>Urcuquí</item>
+        <item>Loreto</item>
+        <item>Rioverde</item>
+        <item>Zumba</item>
+        <item>Palora</item>
+        <item>Mira</item>
+        <item>El Pangui</item>
+        <item>Puerto Quito</item>
+        <item>Bolívar</item>
+        <item>Sucre</item>
+        <item>Chillanes</item>
+        <item>Quero</item>
+        <item>Guamote</item>
+        <item>Cevallos</item>
+        <item>Zapotillo</item>
+        <item>Villa La Unión (Cajabamba)</item>
+        <item>Santiago de Méndez</item>
+        <item>Zumbi</item>
+        <item>Puerto El Carmen de Putumayo</item>
+        <item>Patate</item>
+        <item>Olmedo</item>
+        <item>Puerto Villamil</item>
+        <item>El Dorado de Cascales</item>
+        <item>Lumbaqui</item>
+        <item>Palanda</item>
+        <item>Sigchos</item>
+        <item>Pindal</item>
+        <item>Guayzimi</item>
+        <item>Baeza</item>
+        <item>El Corazón</item>
+        <item>Paccha</item>
+        <item>Amaluza</item>
+        <item>Las Naves</item>
+        <item>Logroño</item>
+        <item>San Fernando</item>
+        <item>Gonzanamá</item>
+        <item>San Juan Bosco</item>
+        <item>28 de Mayo</item>
+        <item>Santa Clara</item>
+        <item>Arajuno</item>
+        <item>Tarapoa</item>
+        <item>Tisaleo</item>
+        <item>Suscal</item>
+        <item>Nabón</item>
+        <item>Mocha</item>
+        <item>La Victoria</item>
+        <item>Guachapala</item>
+        <item>Santiago</item>
+        <item>Chaguarpamba</item>
+        <item>Penipe</item>
+        <item>Taisha</item>
+        <item>Chilla</item>
+        <item>Paquisha</item>
+        <item>Carlos Julio Arosemena Tola</item>
+        <item>Sozoranga</item>
+        <item>Pucará</item>
+        <item>Huamboya</item>
+        <item>Quilanga</item>
+        <item>San Felipe de Oña</item>
+        <item>Sevilla de Oro</item>
+        <item>Mera</item>
+        <item>Pablo Sexto</item>
+        <item>Olmedo</item>
+        <item>Déleg</item>
+        <item>La Bonita</item>
+        <item>El Pan</item>
+        <item>Tiputini</item>
+
+    </string-array>
+</resources>

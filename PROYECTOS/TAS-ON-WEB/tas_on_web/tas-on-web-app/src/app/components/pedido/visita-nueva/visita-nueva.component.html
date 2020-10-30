@@ -1,0 +1,109 @@
+<ngx-loading [show]="loading"></ngx-loading>
+<div class="container margin-top-container" >
+  <div *ngIf="visitasDetail">
+    <form novalidate #forma="ngForm">
+      <h3>Registrar nueva visita</h3>
+      <hr>
+      <div class="row">
+        <div class="col-md-6 mt-3">
+          <label for="fechaPedidos">* Fecha</label>
+          <input type="text"
+                 id="fechaPedidos" name="fechaPedidos"
+                 [(ngModel)]="visita.visitaFecha"
+                 class="form-control"
+                 (bsValueChange)="onValueFechaChange($event)"
+                 [bsConfig]="{ dateInputFormat: formatoFecha }"
+                 bsDatepicker>
+        </div>
+        <div class="col-md-6 mt-3">
+          <label for="vendedor">* Vendedor</label>
+          <select class="form-control" id="vendedor" name="vendedor" [(ngModel)]="visita.visitaVendedorUsuario"
+                  #vendedor="ngModel" required>
+            <option *ngFor="let _vendedor of vendedores" [value]="_vendedor.vendedorId">
+              {{_vendedor.vendedorNombres}}
+            </option>
+          </select>
+        </div>
+        <div class="col-md-6 mt-3">
+          <label for="cliente">* Cliente</label>
+          <select class="form-control" id="cliente" name="cliente" [(ngModel)]="visita.visitaClientePedidos"
+                  #cliente="ngModel" required>
+            <option *ngFor="let _cliente of clientes" [value]="_cliente.clienteId">
+              {{_cliente.clienteRazonSocial}}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="mt-3 col-lg-5">
+          <button type="button" class="btn btn-primary w-100"  (click)="agendarVisita()">Agendar visita</button>
+        </div>
+      </div>
+    </form>
+    <hr>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <input type="checkbox" required [(ngModel)]="verVisitasPedidoTomado" id="visitasCompletadas" name="visitasCompletadas" #visitasCompletadas="ngModel">
+          <label for="visitasCompletadas">Ver visitas realizadas</label>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <input type="checkbox" required [(ngModel)]="verVisitasPendientes" id="visitasPendientes" name="visitasPendientes" #visitasPendientes="ngModel">
+          <label for="visitasPendientes">Ver visitas pendientes</label>
+        </div>
+      </div>
+    </div>
+
+    <ng-container *ngFor="let item of visitasGroupedByVendedor">
+      <div class="card mb-3">
+        <div class="card-header font-weight-bold">{{item.vendedorNombres}}</div>
+        <ng-container *ngFor="let visitaVendedor of item.visita">
+          <div class="card m-2" *ngIf="(verVisitasPendientes && appConfig.idVisitaPendiente == visitaVendedor.visitaEstadoId) || (verVisitasPedidoTomado && appConfig.idVisitaPedidoTomado == visitaVendedor.visitaEstadoId)">
+            <div class="card-body">
+              <p class="card-title font-weight-bold">{{visitaVendedor.cliente.clienteRazonSocial}}</p>
+              <p class="card-text" *ngIf="visitaVendedor.cliente.clienteLat && visitaVendedor.cliente.clienteLng"><a target="_blank" [href]="'https://www.google.com/maps/search/?api=1&query='+visitaVendedor.cliente.clienteLat+','+visitaVendedor.cliente.clienteLng">{{visitaVendedor.cliente.clienteDireccion}}</a></p>
+              <button *ngIf="visitaVendedor.visitaEstadoId == appConfig.idVisitaPendiente" type="button" class="btn btn-secondary">PENDIENTE</button>
+              <button *ngIf="visitaVendedor.visitaEstadoId == appConfig.idVisitaPedidoTomado" type="button" class="btn btn-primary" (click)="consultarPedido(visitaVendedor.visitaId)">VER PEDIDO</button>
+              <p class="card-text mt-2"><small class="text-muted">{{item.vendedorNombres}}</small></p>
+            </div>
+          </div>
+        </ng-container>
+        <hr>
+      </div>
+    </ng-container>
+
+  </div>
+</div>
+
+<div [ngClass]="{'hide-element': visitasDetail}">
+  <ng-template #dynamicInsert></ng-template>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Alerta...!</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="cerrarMensaje()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        <div class="alert alert-success" role="alert"
+             [ngClass]="{'alert-success': operacionCorrecta,'alert-danger': !operacionCorrecta}">
+          <strong>{{mensajeOperacion}}</strong>
+        </div>
+
+      </div>
+      <div class="modal-footer justify-content-md-center">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="cerrarMensaje()">Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

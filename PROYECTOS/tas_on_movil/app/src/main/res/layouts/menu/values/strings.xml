@@ -1,0 +1,10 @@
+<resources>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="welome_fragment"><b>Bienvenido:</b> #User</string>
+    <string name="dash_phrase_1">LA NUEVA ALTERNATIVA</string>
+    <string name="dash_phrase_2">PARA EL TRANSPORTE DE</string>
+    <string name="dash_phrase_3">CARGA EN EL ECUADOR</string>
+    <string name="cierra_sess">Cerrar sesión</string>
+
+</resources>

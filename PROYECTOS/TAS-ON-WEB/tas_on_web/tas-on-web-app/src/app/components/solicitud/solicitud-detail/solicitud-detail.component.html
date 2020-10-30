@@ -1,0 +1,166 @@
+<ngx-loading [show]="loading"></ngx-loading>
+<form novalidate #forma="ngForm">
+  <div class="panel-group">
+    <h3 class="text-center m-3">{{idSolicitud}}</h3>
+
+    <div class="card">
+      <div class="card-header font-weight-bold">Datos del envío</div>
+      <div class="card-body margin">
+        <div class="row">
+          <div class="col-md-6">
+            <h6 class="card-subtitle">Tipo de producto</h6>
+            <p class="card-text">{{solicitud.tipo}}</p>
+          </div>
+          <div class="col-md-6">
+            <h6 class="card-subtitle">Número de piezas</h6>
+            <p class="card-text">{{solicitud.numeroPiezas}}</p>
+          </div>
+          <div class="col-md-6">
+            <h6 class="card-subtitle">Peso</h6>
+            <p class="card-text">{{solicitud.peso}} {{solicitud.tipoPeso}}</p>
+          </div>
+          <div class="col-md-6">
+            <h6 class="card-subtitle">Volúmen</h6>
+            <p class="card-text">{{solicitud.volumen}} {{solicitud.tipoVolumen}}</p>
+          </div>
+          <div class="col-md-6">
+            <h6 class="card-subtitle">Estibadores</h6>
+            <p class="card-text">{{solicitud.numeroEstibadores}}</p>
+          </div>
+          <div class="col-md-6" *ngIf="solicitud.numeroDocCliente">
+            <h6 class="card-subtitle">Número de documento</h6>
+            <p class="card-text">{{solicitud.numeroDocCliente}}</p>
+          </div>
+          <div class="col-md-6" *ngIf="solicitud.observaciones">
+            <h6 class="card-subtitle">Observaciones</h6>
+            <p class="card-text">{{solicitud.observaciones}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header font-weight-bold">Origen</div>
+      <div class="card-body margin">
+        <div class="row">
+          <div class="col-md-6">
+            <h6 class="card-subtitle">Ciudad</h6>
+            <p class="card-text">{{solicitud.origen}}</p>
+          </div>
+          <div class="col-md-6">
+            <h6 class="card-subtitle">Dirección</h6>
+            <p class="card-text">{{solicitud.direccion}}</p>
+          </div>
+          <div class="col-md-6">
+            <h6 class="card-subtitle">Fecha de recolección</h6>
+            <p class="card-text">{{solicitud.fechaEnvio | date: appConfig.formatoFechaHora}}</p>
+          </div>
+          <div class="col-md-6">
+            <h6 class="card-subtitle">Persona entrega</h6>
+            <p class="card-text">{{solicitud.personaEntrega}}</p>
+          </div>
+          <div class="col-md-6">
+            <h6 class="card-subtitle">Teléfono</h6>
+            <p class="card-text"><a href="tel:{{solicitud.telefonoContacto}}" target="_blank">{{solicitud.telefonoContacto}}</a></p>
+          </div>
+          <div class="col-md-6">
+            <h6 class="card-subtitle">Correo</h6>
+            <p class="card-text"><a href="mailto:{{solicitud.correoContacto}}" target="_blank">{{solicitud.correoContacto}}</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header font-weight-bold">Destino</div>
+      <div class="card-body margin">
+        <div class="row">
+          <div class="col-md-6">
+            <h6 class="card-subtitle">Ciudad</h6>
+            <p class="card-text">{{solicitud.destino}}</p>
+          </div>
+          <div class="col-md-6">
+            <h6 class="card-subtitle">Dirección</h6>
+            <p class="card-text">{{solicitud.direccionEntrega}}</p>
+          </div>
+          <div class="col-md-6">
+            <h6 class="card-subtitle">Fecha de entrega</h6>
+            <p class="card-text">{{solicitud.fechaEntrega | date: appConfig.formatoFechaHora}}</p>
+          </div>
+          <div class="col-md-6">
+            <h6 class="card-subtitle">Recibe</h6>
+            <p class="card-text">{{solicitud.personaRecibe}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header font-weight-bold">Oferta</div>
+      <div class="card-body margin">
+        <div class="row">
+          <div class="col-md-6">
+            <h6 class="card-subtitle">Modo de subasta</h6>
+            <p class="card-text">{{solicitud.tipoSubastaDescripcion}}</p>
+          </div>
+          <div class="col-md-6" *ngIf="solicitud.valorObjetivo">
+            <h6 class="card-subtitle">Valor objetivo</h6>
+            <p class="card-text">{{solicitud.valorObjetivo | currency:'USD':'symbol'}}</p>
+          </div>
+          <div class="col-md-6">
+            <h6 class="card-subtitle">Ofertas recibidas</h6>
+            <p class="card-text">{{solicitud.totalOffer}}</p>
+          </div>
+          <div class="col-md-6" *ngIf="solicitud.averageOffer">
+            <h6 class="card-subtitle">Valor pomedio de las ofertas</h6>
+            <p class="card-text">{{solicitud.averageOffer | currency:'USD':'symbol'}}</p>
+          </div>
+          <div class="col-md-6" *ngIf="oferta.amount">
+            <h6 class="card-subtitle">Oferta ganadora</h6>
+            <p class="card-text">{{oferta.amount | currency:'USD':'symbol'}}</p>
+          </div>
+          <div class="col-md-6" *ngIf="oferta.empresaTransportista">
+            <h6 class="card-subtitle">Empresa transportista</h6>
+            <p class="card-text">{{oferta.empresaTransportista}}</p>
+          </div>
+          <div class="col-md-6" *ngIf="oferta.conductor">
+            <h6 class="card-subtitle">Chofer</h6>
+            <p class="card-text">{{oferta.conductor}}</p>
+          </div>
+          <div class="col-md-6" *ngIf="oferta.vehiculo">
+            <h6 class="card-subtitle">Vehículo</h6>
+            <p class="card-text">{{oferta.vehiculo}}</p>
+          </div>
+          <div class="col-md-6" *ngIf="oferta.telefonoContacto">
+            <h6 class="card-subtitle">Teléfono</h6>
+            <p class="card-text"><a href="tel:{{oferta.telefonoContacto}}" target="_blank">{{oferta.telefonoContacto}}</a></p>
+          </div>
+          <div class="col-md-6" *ngIf="oferta.correoContacto">
+            <h6 class="card-subtitle">Correo</h6>
+            <p class="card-text"><a href="mailto:{{oferta.correoContacto}}" target="_blank">{{oferta.correoContacto}}</a></p>
+          </div>
+          <div class="col-12" *ngIf="solicitud.fotosRecoleccion?.length>0">
+            <h6 class="card-subtitle">Fotos de recolección ({{solicitud.fotosRecoleccion.length}})</h6>
+            <button class="btn btn-link d-block pl-0" (click)='verFotosRecoleccion(); clickedVerFotosRecoleccion = true;' [disabled]="clickedVerFotosRecoleccion" *ngIf="imagenesRecoleccion.length == 0">Ver fotos de recolección</button>
+            <div class="contenedor-imagenes" *ngIf="imagenesRecoleccion.length > 0">
+              <img class="imagen-oferta" alt="Imagen de recolección"
+                   *ngFor="let imagen of imagenesRecoleccion; index as i" [src]="imagen" (click)="verImagenRecoleccion(i)">
+            </div>
+          </div>
+          <div class="col-12"  *ngIf="solicitud.fotosEntrega?.length>0">
+            <h6 class="card-subtitle">Fotos de entrega ({{solicitud.fotosEntrega.length}})</h6>
+            <button class="btn btn-link d-block pl-0" (click)='verFotosEntrega(); clickedVerFotosEntrega = true;' [disabled]="clickedVerFotosEntrega" *ngIf="imagenesEntrega.length == 0">Ver fotos de entrega</button>
+            <div class="contenedor-imagenes" *ngIf="imagenesEntrega.length > 0">
+              <img class="imagen-oferta" alt="Imagen de entrega"
+                   *ngFor="let imagen of imagenesEntrega; index as i" [src]="imagen" (click)="verImagenEntrega(i)">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <hr>
+    <button type="button" class="btn btn-primary" (click)="regresar()">Regresar</button>
+
+  </div>
+</form>

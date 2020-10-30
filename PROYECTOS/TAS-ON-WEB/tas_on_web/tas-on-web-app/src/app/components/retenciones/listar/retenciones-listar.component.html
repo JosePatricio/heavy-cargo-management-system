@@ -1,0 +1,145 @@
+<ngx-loading [show]="loading"></ngx-loading>
+<div class="container-fluid margin-top-container">
+  <h2>Retenciones emitidas</h2>
+  <hr>
+
+  <form novalidate #forma="ngForm">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="row">
+          <div class="col-md-3">
+            <div class="form-group">
+              <label for="razonSocial">Razon Social:</label>
+            </div>
+          </div>
+          <div class="col-md-8">
+            <div class="form-group">
+              <input type="text" id="razonSocial" name="razonSocial" class="form-control"
+                     [(ngModel)]="razonSocialCliente" #razonSocial="ngModel">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="row">
+          <div class="col-md-3">
+            <div class="form-group">
+              <label for="nroFactura">Factura cliente:</label>
+            </div>
+          </div>
+          <div class="col-md-8">
+            <div class="form-group">
+              <input type="text" id="nroFactura" class="form-control" name="nroFactura"
+                     [(ngModel)]="numeroFacturaCliente" #nroFactura="ngModel">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <div class="row">
+          <div class="col-md-3">
+            <div class="form-group">
+              <label for="fechaDesde">Fecha desde:</label>
+            </div>
+          </div>
+          <div class="col-md-8">
+            <div class="form-group">
+              <input type="text" class="form-control" id="fechaDesde" name="fechaDesde"
+                     [(ngModel)]="fechaAutorizacionDesde" #fechaDesde="ngModel" dateTimePicker
+                     placeholder="Fecha de autorización"
+                     [value]="fechaAutorizacionDesde | date: appConfig.formatoFecha" [locale]="'es'">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="row">
+          <div class="col-md-3">
+            <div class="form-group">
+              <label for="fechaHasta">Fecha hasta:</label>
+            </div>
+          </div>
+          <div class="col-md-8">
+            <div class="form-group">
+              <input type="text" class="form-control" id="fechaHasta" name="fechaHasta"
+                     [(ngModel)]="fechaAutorizacionHasta" #fechaHasta="ngModel" dateTimePicker
+                     placeholder="Fecha de autorización"
+                     [value]="fechaAutorizacionHasta | date: appConfig.formatoFecha" [locale]="'es'">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <div class="row">
+          <div class="col-md-3">
+            <div class="form-group">
+              <label for="numeroPrefactura">Prefactura:</label>
+            </div>
+          </div>
+          <div class="col-md-8">
+            <div class="form-group">
+              <input type="text" id="numeroPrefactura" class="form-control" name="numeroPrefactura"
+                     [(ngModel)]="prefactura" #numeroPrefactura="ngModel">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button type="button" class="btn btn-primary" (click)="buscarRetenciones()">Buscar</button>
+    <button type="button" class="btn btn-primary" (click)="limpiarDatos()">Limpiar campos</button>
+    <br/>
+    <br/>
+
+  </form>
+
+  <div>
+    <ngx-datatable
+      #table
+      class='material tableHeightFixed'
+      [columns]="columns"
+      [columnMode]="'force'"
+      [headerHeight]="'auto'"
+      [footerHeight]="50"
+      [rowHeight]="'auto'"
+      [rows]='retenciones'
+      [selectionType]="'single'"
+      [scrollbarH]="true">
+    </ngx-datatable>
+  </div>
+
+  <div [ngClass]="{'hide-element': !viewDetail}">
+    <ng-template #detailDynamic></ng-template>
+  </div>
+
+  <div id="templates">
+    <ng-template #tmplIndex let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+      <strong>{{rowIndex+1}}</strong>
+    </ng-template>
+    <ng-template #tmplDate let-value="value">
+      <div>{{value | date: appConfig.formatoFecha}}</div>
+    </ng-template>
+    <ng-template #tmplDateTime let-value="value">
+      <div>{{value | date: appConfig.formatoFechaHora}}</div>
+    </ng-template>
+    <ng-template #tmplAmount let-value="value" let-row="row">
+      <div class="amount-text wm-100">{{value| currency:'USD':'symbol'}}</div>
+    </ng-template>
+    <ng-template #tmplBreakWord let-value="value">
+      <div class="break-word">{{value}}</div>
+    </ng-template>
+    <ng-template #tmplDownloadFiles let-value="value" let-rowIndex="rowIndex" let-row="row">
+      <button type="button" class="btn btn-primary info-button-small" (click)="downloadXML(row)" [disabled]="!value">
+        <i class="far fa-file-code" title="Descargar XML"></i>
+      </button>
+    </ng-template>
+  </div>
+
+</div>

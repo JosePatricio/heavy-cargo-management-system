@@ -1,0 +1,120 @@
+<ngx-loading [show]="loading"></ngx-loading>
+<div class="container-fluid margin-top-container">
+  <h3>{{nuevoProducto ? 'Nuevo producto' : 'Actualizar producto'}}</h3>
+  <hr>
+  <form novalidate #forma="ngForm">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="productoCodigo">* Código</label>
+          <input type="text" class="form-control" id="productoCodigo" name="productoCodigo"
+                 [(ngModel)]="productoNuevosDatos.productoCodigo" required>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <label for="productoCategoria">* Categoría</label>
+        <select class="form-control" id="productoCategoria" name="productoCategoria" [(ngModel)]="productoNuevosDatos.productoCategoriaId"
+                #productoCategoria="ngModel" required>
+          <option [ngValue]="null"> </option>
+          <option *ngFor="let _categoria of categorias" [value]="_categoria.categoriaId">
+            {{_categoria.categoriaNombre}}
+          </option>
+        </select>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="productoNombre">* Nombre</label>
+          <input type="text" class="form-control" id="productoNombre" name="productoNombre"
+                 [(ngModel)]="productoNuevosDatos.productoNombre" required>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="productoVolumen">* Volumen</label>
+          <div class="input-group input-group-one-line">
+            <input type="text" class="form-control input-select-group" id="productoVolumen"  name="productoVolumen" maxlength="7"
+                   [(ngModel)]="productoNuevosDatos.productoVolumen" #productoVolumen="ngModel" pattern="[0-9]+">
+            <div class="input-group-append">
+              <select class="form-control select-input-group" id="productoUnidadVolumenId" name="productoUnidadVolumenId"
+                      [(ngModel)]="productoNuevosDatos.productoUnidadVolumenId" #productoUnidadVolumenId="ngModel"
+                      aria-label="Unidad volumen">
+                <option disabled [value]="undefined" selected>Seleccione unidad</option>
+                <option *ngFor="let unidadVolumen of tiposVolumen" [value]="unidadVolumen.catalogoItemId">
+                  {{unidadVolumen.catalogoItemDescripcion}}
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="productoUnidadesPorCaja">* Unidades por caja</label>
+          <input type="text" class="form-control" id="productoUnidadesPorCaja" name="productoUnidadesPorCaja"
+                 [(ngModel)]="productoNuevosDatos.productoUnidadesPorCaja" required>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="productoPrecioSinImp">* Precio sin impuestos</label>
+          <input type="text" class="form-control" id="productoPrecioSinImp" name="productoPrecioSinImp"
+                 [(ngModel)]="productoNuevosDatos.productoPrecioSinImp" required>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="productoPrecioConImp">* Precio con impuestos</label>
+          <input type="text" class="form-control" id="productoPrecioConImp" name="productoPrecioConImp"
+                 [(ngModel)]="productoNuevosDatos.productoPrecioConImp" required>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="productoPrecioPvpSinImp">* PVP sugerido sin impuestos</label>
+          <input type="text" class="form-control" id="productoPrecioPvpSinImp" name="productoPrecioPvpSinImp"
+                 [(ngModel)]="productoNuevosDatos.productoPrecioPvpSinImp" required>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="productoPrecioPvpConImp">* PVP sugerido con impuestos</label>
+          <input type="text" class="form-control" id="productoPrecioPvpConImp" name="productoPrecioPvpConImp"
+                 [(ngModel)]="productoNuevosDatos.productoPrecioPvpConImp" required>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="row mb-2">
+  <button type="button" class="btn btn-primary col-12 col-lg-3 mt-1 mr-2" (click)="guardarProducto()" *ngIf="nuevoProducto">Guardar</button>
+  <button type="button" class="btn btn-primary col-12 col-lg-3 mt-1 mr-2" (click)="actualizarProducto()" *ngIf="!nuevoProducto">Actualizar</button>
+  <button type="button" class="btn btn-secondary col-12 col-lg-3 mt-1 mr-2" (click)="regresar()">Cancelar</button>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Alerta...!</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="cerrarMensaje()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        <div class="alert alert-success" role="alert"
+             [ngClass]="{'alert-success': operacionCorrecta,'alert-danger': !operacionCorrecta}">
+          <strong>{{mensajeOperacion}}</strong>
+        </div>
+
+      </div>
+      <div class="modal-footer justify-content-md-center">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="cerrarMensaje()">Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

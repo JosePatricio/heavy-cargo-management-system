@@ -1,0 +1,133 @@
+<ngx-loading [show]="loading"></ngx-loading>
+<form novalidate #forma="ngForm">
+  <div class="panel-group">
+    <div class="card">
+      <div class="card-header font-weight-bold">Actualizar información bancaria</div>
+        <div class="card-body">
+
+          <div class="row">
+            <div class="col-md-6">
+              <div class="row">
+                <div class="col-md-5">
+                  <div class="form-group">
+                    <label for="clienteBanco">* Banco:</label>
+                  </div>
+                </div>
+                <div class="col-md-7">
+                  <div class="form-group">
+                    <select class="form-control" id="clienteBanco" name="clienteBanco"
+                            [(ngModel)]="informacionBancaria.banco" #clienteBanco="ngModel" required
+                            [ngClass]="{'is-invalid': clienteBanco.errors  && clienteBanco.touched}">
+                      <option *ngFor="let banco of bancos" [value]="banco.catalogoItemId">
+                        {{banco.catalogoItemDescripcion}}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="row">
+                <div class="col-md-5">
+                  <div class="form-group">
+                    <label for="tipoCuenta">* Tipo de cuenta:</label>
+                  </div>
+                </div>
+                <div class="col-md-7">
+                  <div class="form-group">
+                    <select class="form-control" id="tipoCuenta" name="tipoCuenta"
+                            [(ngModel)]="informacionBancaria.tipoCuenta" #tipoCuenta="ngModel" required
+                            [ngClass]="{'is-invalid': tipoCuenta.errors  && tipoCuenta.touched}">
+                      <option *ngFor="let tipoCuenta of tiposCuenta" [value]="tipoCuenta.catalogoItemId">
+                        {{tipoCuenta.catalogoItemDescripcion}}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="row">
+                <div class="col-md-5">
+                  <div class="form-group">
+                    <label for="numeroCuenta">* Número de cuenta:</label>
+                  </div>
+                </div>
+                <div class="col-md-7">
+                  <div class="form-group">
+                    <input id="numeroCuenta" name="numeroCuenta" [(ngModel)]="informacionBancaria.numeroCuenta"
+                           #numeroCuenta="ngModel" class="form-control" required maxlength="20"
+                           [ngClass]="{'is-invalid': numeroCuenta.errors  && numeroCuenta.touched}">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="row">
+                <div class="col-md-5">
+                  <div class="form-group">
+                    <label for="tipoIdentificacion">* Tipo de identificación:</label>
+                  </div>
+                </div>
+                <div class="col-md-7">
+                  <div class="form-group">
+                    <select class="form-control" id="tipoIdentificacion" name="tipoIdentificacion"
+                            [(ngModel)]="informacionBancaria.tipoIdentificacion" #tipoIdentificacion="ngModel" required
+                            [ngClass]="{'is-invalid': tipoIdentificacion.errors  && tipoIdentificacion.touched}">
+                      <option *ngFor="let tipoIdentificacion of tiposDocumento" [value]="tipoIdentificacion.catalogoItemId">
+                        {{tipoIdentificacion.catalogoItemDescripcion}}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="row">
+                <div class="col-md-5">
+                  <div class="form-group">
+                    <label for="identificacion">* Identificación:</label>
+                  </div>
+                </div>
+                <div class="col-md-7">
+                  <div class="form-group">
+                    <input id="identificacion" name="identificacion" [(ngModel)]="informacionBancaria.identificacion"
+                           #identificacion="ngModel" class="form-control" required pattern="[0-9]+"
+                           minlength="{{informacionBancaria.tipoIdentificacion==appConfig.idRuc?13:10}}"
+                           maxlength="{{informacionBancaria.tipoIdentificacion==appConfig.idRuc?13:10}}"
+                           [ngClass]="{'is-invalid': identificacion.errors  && identificacion.touched}">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="row">
+                <div class="col-md-5">
+                  <div class="form-group">
+                    <label for="nombres">* Nombres:</label>
+                  </div>
+                </div>
+                <div class="col-md-7">
+                  <div class="form-group">
+                    <input id="nombres" name="nombres" [(ngModel)]="informacionBancaria.nombres"
+                           #nombres="ngModel" class="form-control" required maxlength="40"
+                           [ngClass]="{'is-invalid': nombres.errors  && nombres.touched}">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    <div class="mt-3">
+      <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="actualizar()" [disabled]="!forma.valid">Actualizar</button>
+      <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="volver()">Regresar</button>
+    </div>
+  </div>
+</form>

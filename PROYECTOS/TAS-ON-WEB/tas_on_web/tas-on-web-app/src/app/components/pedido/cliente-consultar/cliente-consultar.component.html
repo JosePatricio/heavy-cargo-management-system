@@ -1,0 +1,89 @@
+<ngx-loading [show]="loading"></ngx-loading>
+<div class="container margin-top-container" *ngIf="!clienteDetail">
+  <div>
+    <form novalidate #forma="ngForm">
+      <h3>Clientes</h3>
+      <hr>
+      <div class="row">
+        <div class="col-md-6 mt-3">
+          <div class="form-group">
+            <label for="clienteRazonSocial">* Razon social</label>
+            <input type="text" class="form-control" id="clienteRazonSocial" name="clienteRazonSocial"
+                   [(ngModel)]="razonSocial" required>
+          </div>
+        </div>
+        <div class="col-md-6 mt-3">
+          <div class="form-group">
+            <label for="clienteRuc">* RUC</label>
+            <input type="text" class="form-control" id="clienteRuc" name="clienteRuc"
+                   [(ngModel)]="ruc" required>
+          </div>
+        </div>
+        <div class="col-md-6 mt-3">
+          <label for="vendedor">* Vendedor asignado</label>
+          <select class="form-control" id="vendedor" name="vendedor" [(ngModel)]="vendedorAsignado"
+                  #vendedor="ngModel" required>
+            <option> </option>
+            <option *ngFor="let _vendedor of vendedores" [value]="_vendedor.vendedorId">
+              {{_vendedor.vendedorNombres}}
+            </option>
+            <option value="-1">Sin asignar</option>
+          </select>
+        </div>
+        <div class="col-md-6 mt-3">
+          <label for="dia">* Dia de visita</label>
+          <select class="form-control" id="dia" name="dia" [(ngModel)]="diaVisita"
+                  #vendedor="ngModel" required>
+            <option> </option>
+            <option *ngFor="let _dia of diasSemana" [value]="_dia.diaId">
+              {{_dia.dia}}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="mt-3">
+        <button type="button" class="btn btn-primary mr-2"  (click)="consultarClientes()">Consultar clientes</button>
+        <button type="button" class="btn btn-secondary"  (click)="limpiarCampos()">Limpiar</button>
+        <button type="button" class="btn btn-info mr-2" (click)="nuevoCliente()">Nuevo Cliente</button>
+      </div>
+    </form>
+    <hr>
+
+    <div>
+      <ngx-datatable
+        class='material tableHeightFixed'
+        [columnMode]="'force'"
+        [headerHeight]="'auto'"
+        [footerHeight]="50"
+        [rowHeight]="'auto'"
+        [columns]="columns"
+        [rows]="clientes"
+        [scrollbarH]="true"
+        [selectionType]="'single'"
+        [messages]="{emptyMessage:'Sin registros para mostrar...',totalMessage: 'total',selectedMessage: 'selected'}">
+      </ngx-datatable>
+    </div>
+
+    <div class="mt-3">
+      <button type="button" class="btn btn-primary mr-2"  (click)="agendarmeVisita()">Agendarme visitas</button>
+    </div>
+
+  </div>
+</div>
+
+<div id="templates">
+  <ng-template #linkButton let-value="value" let-rowIndex="rowIndex" let-row="row">
+    <button type="button" class="btn btn-primary info-button-small" (click)="editarCliente(row)">
+      <i class="fas fa-eye"></i>
+    </button>
+  </ng-template>
+  <ng-template #diaVisitaTmpl let-value="value" let-rowIndex="rowIndex" let-row="row">
+    {{ value == null || value == undefined ? 'No asignado' :
+       value == 1 ? 'Lunes' : value == 2 ? 'Martes' : value == 3 ? 'Miércoles' : value == 4 ? 'Jueves' :
+       value == 5 ? 'Viernes' : value == 6 ? 'Sábado' : value == 7 ? 'Domingo' : '' }}
+  </ng-template>
+</div>
+
+<div [ngClass]="{'hide-element': !clienteDetail}">
+  <ng-template #dynamicInsert></ng-template>
+</div>

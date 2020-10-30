@@ -1,0 +1,437 @@
+<ngx-loading [show]="loading"></ngx-loading>
+<form novalidate #forma="ngForm">
+  <div class="modal-content">
+    <div class="modal-header overflow-auto">
+      <label class="modal-title cabeceraFacturasXCobrar" id="mdMoreLabel"><b>Detalle factura No.:</b><br/> {{invoice.invoiceNumber}}</label>
+      <label class="modal-title cabeceraFacturasXCobrar"><b>Cliente:</b><br/> {{invoice.company}}</label>
+      <label class="modal-title cabeceraFacturasXCobrar"><b>Fecha cobro:</b><br/> {{invoice.invoiceDate | date: appConfig.formatoFecha}}</label>
+      <label class="modal-title cabeceraFacturasXCobrar"><b>Monto:</b><br/>{{invoice.invoiceAmount | currency:'USD':'symbol'}}</label>
+      <label class="modal-title cabeceraFacturasXCobrar"><b>Días vencidos:</b><br/> {{invoice.diasFacturaVencida}}</label>
+      <label class="modal-title cabeceraFacturasXCobrar"><b>Saldo:</b><br/>{{invoice.invoiceBalanceDue | currency:'USD':'symbol'}}</label>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeDetail()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="card-body margin">
+        <div *ngIf="detalleSolic">
+          <div id="detallePafo" style="text-align: right !important;">
+            <button type="button" (click)="loadPagoDetail(false)" class="btn btn-primary">
+              <i class="fas fa-info"></i> Ver/Registrar cobros
+            </button>
+          </div>
+          <br/>
+          <div id="facturaDetail">
+            <ngx-datatable
+              class='material tableHeightFixed'
+              [columns]="columnSol"
+              [columnMode]="'force'"
+              [headerHeight]="'auto'"
+              [footerHeight]="50"
+              [rowHeight]="'auto'"
+              [limit]="25"
+              [rows]='rowSol'
+              [scrollbarH]="true"
+              [selectionType]="'single'"
+              [messages]="{emptyMessage:'Sin registros para mostrar...',totalMessage: 'total',selectedMessage: 'selected'}">
+            </ngx-datatable>
+          </div>
+        </div>
+
+        <div *ngIf="!detalleSolic">
+          <div id="generaPago" *ngIf="!newPay" style="text-align: right !important;">
+            <button type="button" (click)="newPay=true" class="btn btn-primary">
+              <i class="fas fa-plus-circle"></i> Registrar cobro
+            </button>
+            <button type="button" (click)="loadPagoDetail(true)" class="btn btn-secondary">
+              <i class="fas fa-arrow-circle-left"></i> Cancelar
+            </button>
+          </div>
+          <br/>
+
+          <div id="dataPay" *ngIf="newPay">
+            <h6>Pago</h6>
+            <hr>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="row">
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label for="pagoTipo">*Tipo:</label>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group"
+                         [ngClass]="{'has-danger': pagoTipo.errors?.required  && pagoTipo.touched}">
+                      <select class="form-control" id="pagoTipo" name="pagoTipo" [(ngModel)]="pago.pagoTipoId"
+                              #pagoTipo="ngModel" required (ngModelChange)="pagoTipoChanged()">
+                        <option [value]="null" label="--Selecione tipo--" disabled selected="selected"></option>
+                        <option *ngFor="let _tipoPago of tipoPago" [value]="_tipoPago.catalogoItemId">
+                          {{_tipoPago.catalogoItemDescripcion}}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-md-2">
+                    <div class="form-group"
+                         [ngClass]="{'has-danger': pagoTipo.errors?.required  && pagoTipo.touched}">
+                      <div *ngIf="pagoTipo.errors?.required" class="form-control-feedback small-text-msg">
+                        {{appConfig.msgRequerido}}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row" *ngIf="checkPagoTipo() == 'otros'">
+              <div class="col-md-6">
+                <div class="row">
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label for="bancos_">*Banco:</label>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group"
+                         [ngClass]="{'has-danger': bancos_.errors?.required  && bancos_.touched}">
+                      <select class="form-control" id="bancos_" name="bancos_" [(ngModel)]="pago.pagoBancoId"
+                              #bancos_="ngModel" required>
+                        <option [value]="null" label="--Selecione banco--" disabled selected="selected"></option>
+                        <option *ngFor="let _tipoPago of bancos" [value]="_tipoPago.catalogoItemId">
+                          {{_tipoPago.catalogoItemDescripcion}}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-md-2">
+                    <div class="form-group"
+                         [ngClass]="{'has-danger': bancos_.errors?.required  && bancos_.touched}">
+                      <div *ngIf="bancos_.errors?.required" class="form-control-feedback small-text-msg">
+                        {{appConfig.msgRequerido}}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="row">
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label for="ducumentoPago">*Número documento:</label>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group"
+                         [ngClass]="{'has-danger': ducumentoPago.errors?.required  && ducumentoPago.touched}">
+                      <input id="ducumentoPago" name="ducumentoPago" [(ngModel)]="pago.pagoNumeroDocumento"
+                             #ducumentoPago="ngModel" class="form-control" required minlength="5" maxlength="13"
+                             pattern="[0-9]+">
+                    </div>
+                  </div>
+                  <div class="col-md-2">
+                    <div class="form-group"
+                         [ngClass]="{'has-danger': (ducumentoPago.errors?.required || ducumentoPago.errors?.pattern || ducumentoPago.errors?.minlength)  && ducumentoPago.touched}">
+                      <div *ngIf="ducumentoPago.errors?.required" class="form-control-feedback small-text-msg">
+                        {{appConfig.msgRequerido}}
+                      </div>
+                      <div *ngIf="ducumentoPago.errors?.pattern" class="form-control-feedback small-text-msg">
+                        {{appConfig.msgSoloNumeros}}
+                      </div>
+                      <div *ngIf="ducumentoPago.errors?.minlength" class="form-control-feedback small-text-msg">Mínimo de caracteres
+                        {{ducumentoPago.errors.minlength.requiredLength}}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="row">
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label for="valorPago">*Valor:</label>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group"
+                         [ngClass]="{'has-danger': valorPago.errors?.required  && valorPago.touched}">
+                      <input id="valorPago" name="valorPago" [(ngModel)]="pago.pagoValor"
+                             #valorPago="ngModel" class="form-control" required maxlength="13" minlength="2"
+                             pattern="^[\d]+([.][\d]{2})?$">
+                    </div>
+                  </div>
+                  <div class="col-md-2">
+                    <div class="form-group"
+                         [ngClass]="{'has-danger': (valorPago.errors?.required || valorPago.errors?.pattern || valorPago.errors?.minlength)  && valorPago.touched}">
+                      <div *ngIf="valorPago.errors?.required" class="form-control-feedback small-text-msg">
+                        {{appConfig.msgRequerido}}
+                      </div>
+                      <div *ngIf="valorPago.errors?.pattern" class="form-control-feedback small-text-msg">
+                        {{appConfig.msgSoloNumerosDecimales}}
+                      </div>
+                      <div *ngIf="valorPago.errors?.minlength" class="form-control-feedback small-text-msg">Mínimo de caracteres
+                        {{valorPago.errors.minlength.requiredLength}}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="row">
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label for="fechaPago">*Fecha Pago:</label>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group"
+                         [ngClass]="{'has-danger': valorPago.errors?.required  && valorPago.touched}">
+                      <my-date-picker id="fechaPago" locale="es" name="fechaPago" placeholder="Fecha de Pago"
+                                      [options]="myDatePickerOptions"
+                                      [(ngModel)]="pago.pagoFechaDocumento"
+                                      #fechaPago="ngModel"
+                                      required></my-date-picker>
+                    </div>
+                  </div>
+                  <div class="col-md-2">
+                    <div class="form-group"
+                         [ngClass]="{'has-danger': fechaPago.errors?.required  && fechaPago.touched}">
+                      <div *ngIf="fechaPago.errors?.required" class="form-control-feedback">{{appConfig.msgRequerido}}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row" *ngIf="checkPagoTipo() == 'pagoRetencion'">
+              <div class="col-md-6">
+                <div class="row">
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label for="claveAcceso_">*Clave Acceso:</label>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group"
+                         [ngClass]="{'has-danger': claveAcceso_.errors?.required  && claveAcceso_.touched}">
+                      <input type="text" id="claveAcceso_" name="claveAcceso_" [(ngModel)]="pago.claveAcceso"
+                             placeholder="Ingrese clave acceso"
+                             #claveAcceso_="ngModel" class="form-control" required minlength="49" maxlength="49"
+                             pattern="[0-9]+">
+                    </div>
+                  </div>
+                  <div class="col-md-2">
+                    <div class="form-group"
+                         [ngClass]="{'has-danger': (claveAcceso_.errors?.required || claveAcceso_.errors?.pattern || claveAcceso_.errors?.minlength)  && claveAcceso_.touched}">
+                      <div *ngIf="claveAcceso_.errors?.required" class="form-control-feedback small-text-msg">
+                        {{appConfig.msgRequerido}}
+                      </div>
+                      <div *ngIf="claveAcceso_.errors?.pattern" class="form-control-feedback small-text-msg">
+                        {{appConfig.msgSoloNumeros}}
+                      </div>
+                      <div *ngIf="claveAcceso_.errors?.minlength" class="form-control-feedback small-text-msg">
+                        Mínimo de caracteres
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="row">
+                  <div class="col-md-1">
+                    <button type="button" class="btn btn-primary" (click)="checkRetOnline()">
+                      <i class="fas fa-search"></i></button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="row">
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label for="rucCliente">RUC:</label>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <input id="rucCliente" name="rucCliente" [(ngModel)]="pago.rucCliente" disabled
+                             placeholder="RUC Cliente"
+                             #rucCliente="ngModel" class="form-control" required minlength="10" maxlength="13"
+                             pattern="[0-9]+">
+                    </div>
+                  </div>
+                  <div class="col-md-2">
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="row">
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label for="razonCliente">Razon social:</label>
+                    </div>
+                  </div>
+                  <div class="col-md-8">
+                    <div class="form-group">
+                      <input id="razonCliente" name="razonCliente" [(ngModel)]="pago.razonCliente" disabled
+                             placeholder="Razon social"
+                             #razonCliente="ngModel" class="form-control" required minlength="10" maxlength="13"
+                             pattern="[0-9]+">
+                    </div>
+                  </div>
+                  <div class="col-md-2">
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="row">
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label for="valorPago2">Valor:</label>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group"
+                         [ngClass]="{'has-danger': valorPago.errors?.required  && valorPago.touched}">
+                      <input id="valorPago2" name="valorPago" [(ngModel)]="pago.pagoValor"
+                             placeholder="Total retenido"
+                             disabled
+                             #valorPago="ngModel" class="form-control" required minlength="10" maxlength="13"
+                             pattern="[0-9]+">
+                    </div>
+                  </div>
+                  <div class="col-md-2">
+                    <div class="form-group"
+                         [ngClass]="{'has-danger': valorPago.errors?.required  && valorPago.touched}">
+                      <div *ngIf="valorPago.errors?.required" class="form-control-feedback small-text-msg">
+                        {{appConfig.msgRequerido}}
+                      </div>
+                      <div *ngIf="valorPago.errors?.pattern" class="form-control-feedback">
+                        {{appConfig.msgSoloNumeros}}
+                      </div>
+                      <div *ngIf="valorPago.errors?.minlength" class="form-control-feedback">Mínimo de caracteres
+                        {{valorPago.errors.minlength.requiredLength}}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6"></div>
+
+              <div class="row" class="w-100">
+                <ngx-datatable
+                  class='material tableHeightFixed'
+                  [columns]="columnsret"
+                  [columnMode]="'force'"
+                  [headerHeight]="'auto'"
+                  [footerHeight]="50"
+                  [rowHeight]="'auto'"
+                  [limit]="25"
+                  [rows]='rowsret'
+                  [scrollbarH]="true"
+                  [selectionType]="'single'"
+                  [messages]="{emptyMessage:'Sin registros para mostrar...',totalMessage: 'total',selectedMessage: 'selected'}">
+                </ngx-datatable>
+              </div>
+            </div>
+
+            <div class="row" *ngIf="checkPagoTipo() == 'pagoNotaCredito'">
+              <div class="col-md-6 padding-left-auto">
+                <div class="row padding-left-15">
+                  <div class="col-md-8">
+                    <div class="form-group">
+                      <label for="claveAcceso_">Buscar notas de crédito asociadas a la factura: </label>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <button type="button" class="btn btn-primary" (click)="buscarNotaCredito()">
+                        <i class="fa fa-search" aria-hidden="true"></i></button>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="row">
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label for="valorPagoNC">Valor:</label>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group"
+                         [ngClass]="{'has-danger': valorPagoNC.errors?.required  && valorPagoNC.touched}">
+                      <input id="valorPagoNC" name="valorPagoNC" [(ngModel)]="pago.pagoValor"
+                             placeholder="Total retenido"
+                             disabled
+                             #valorPagoNC="ngModel" class="form-control" required
+                             pattern="[0-9]+">
+                    </div>
+                  </div>
+                  <div class="col-md-2">
+                    <div class="form-group"
+                         [ngClass]="{'has-danger': valorPagoNC.errors?.required  && valorPagoNC.touched}">
+                      <div *ngIf="valorPagoNC.errors?.required" class="form-control-feedback small-text-msg">
+                        {{appConfig.msgRequerido}}
+                      </div>
+                      <div *ngIf="valorPagoNC.errors?.pattern" class="form-control-feedback">
+                        {{appConfig.msgSoloNumeros}}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6"></div>
+            </div>
+
+            <br/>
+
+            <div style="text-align: right !important;">
+              <button type="button" (click)="guardaPago()" class="btn btn-primary" [disabled]="!forma.valid || pago.pagoValor <= 0">
+                <i class="fas fa-check-circle"></i> Guardar
+              </button>
+              <button type="button" (click)="cancelarPago()" class="btn btn-secondary">
+                <i class="fas fa-arrow-circle-left"></i> Cancelar
+              </button>
+            </div>
+          </div>
+
+          <div id="pagoDetail" [ngClass]="{'hide-element': newPay}">
+            <ngx-datatable
+              class='material tableHeightFixed'
+              [columns]="columns"
+              [columnMode]="'force'"
+              [headerHeight]="'auto'"
+              [footerHeight]="50"
+              [rowHeight]="'auto'"
+              [limit]="25"
+              [rows]='rows'
+              [scrollbarH]="true"
+              [selectionType]="'single'"
+              [messages]="{emptyMessage:'Sin registros para mostrar...',totalMessage: 'total',selectedMessage: 'selected'}">
+            </ngx-datatable>
+          </div>
+        </div>
+
+        <div id="templates">
+          <ng-template #tmplDate let-value="value">
+            <div>{{value | date: appConfig.formatoFecha}}</div>
+          </ng-template>
+          <ng-template #tmplAmount let-value="value">
+            <div class="amount-text wm-100">{{value | currency:'USD':'symbol'}}</div>
+          </ng-template>
+          <ng-template #tmplValorComic let-value="value" let-row="row">
+            <div class="amount-text wm-100">{{(row.amount + row.comision) | currency:'USD':'symbol'}}</div>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer justify-content-md-center">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeDetail()">Cerrar
+      </button>
+    </div>
+  </div>
+</form>

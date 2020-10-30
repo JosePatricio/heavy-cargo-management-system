@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <item
+        android:id="@+id/enrolIndependiente"
+        android:title="@string/dependencia_propia" />
+
+    <item
+        android:id="@+id/enrolConductorComp"
+        android:title="@string/conductor_compania" />
+
+    <item
+        android:id="@+id/enrolCompTrans"
+        android:title="@string/comp_transporte" />
+</menu>

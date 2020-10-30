@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+
+    <display-name>TasOn Rest Backend Application</display-name>
+
+    <!-- location of Camel Spring xml files -->
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+
+        <!-- to use Java DSL -->
+        <param-value>
+            classpath:tason-content.xml, classpath:tason-notification-context.xml
+        </param-value>
+
+        <!-- to use XML DSL, then enable me, and disable Java DSL above
+        <param-value>classpath:camel-config-xml.xml</param-value>
+        -->
+    </context-param>
+
+    <!-- the listener that kick-starts Spring -->
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+
+    <servlet>
+        <servlet-name>CXFServlet</servlet-name>
+        <servlet-class>org.apache.cxf.transport.servlet.CXFServlet</servlet-class>
+    </servlet>
+
+
+
+    <!-- END SNIPPET: e1 -->
+
+    <!-- define that url path for the Camel Servlet to use -->
+    <servlet-mapping>
+        <servlet-name>CXFServlet</servlet-name>
+        <url-pattern>/*</url-pattern>
+    </servlet-mapping>
+
+</web-app>

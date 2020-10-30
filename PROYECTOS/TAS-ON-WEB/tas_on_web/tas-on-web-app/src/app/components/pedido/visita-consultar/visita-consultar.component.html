@@ -1,0 +1,43 @@
+<ngx-loading [show]="loading"></ngx-loading>
+<div class="container-fluid margin-top-container">
+  <div *ngIf="pedidoDetail">
+    <h3>Visitas</h3>
+    <hr>
+    <div class="row">
+      <div class="col-md-4">
+        <label for="fechaPedidos">* Fecha</label>
+        <input type="text"
+               id="fechaPedidos" name="fechaPedidos"
+               [(ngModel)]="fechaVisita"
+               class="form-control"
+               (bsValueChange)="onValueChange($event)"
+               [bsConfig]="{ dateInputFormat: formatoFecha }"
+               bsDatepicker>
+      </div>
+    </div>
+    <hr>
+
+    <ng-container *ngFor="let visita of visitas">
+      <div class="card w-100 mt-2">
+        <div class="card-body">
+          <h5 class="card-title color-black">{{visita.cliente.clienteRazonSocial}}</h5>
+          <p class="card-text" *ngIf="visita.cliente.clienteLat && visita.cliente.clienteLng"><a target="_blank" [href]="'https://www.google.com/maps/search/?api=1&query='+visita.cliente.clienteLat+','+visita.cliente.clienteLng">{{visita.cliente.clienteDireccion}}</a></p>
+          <p class="card-text" *ngIf="!visita.cliente.clienteLat || !visita.cliente.clienteLng">{{visita.cliente.clienteDireccion}}</p>
+          <p class="card-text">
+            <small class="text-muted d-block">{{visita.cliente.clienteNombre}}</small>
+            <a href="tel:{{visita.cliente.clienteTelefono}}" target="_blank" *ngIf="visita.cliente.clienteTelefono"><small class="text-muted d-block">{{visita.cliente.clienteTelefono}}</small></a>
+            <small class="text-muted d-block" *ngIf="!visita.cliente.clienteTelefono">Teléfono no registrado</small>
+          </p>
+          <div class="row">
+            <a class="btn btn-primary col-12 col-lg-4 mt-1 mr-2" (click)="editar(visita)" href="javascript:void(0);" *ngIf="visita.visitaEstado == 'PENDIENTE'">Tomar pedido</a>
+            <a class="btn btn-info col-12 col-lg-4 mt-1 mr-2" (click)="consultarPedido(visita)" href="javascript:void(0);" *ngIf="visita.visitaEstado != 'PENDIENTE'">Ver pedido</a>
+            <a class="btn btn-secondary col-12 col-lg-4 mt-1 mr-2" (click)="editarCliente(visita.cliente)" href="javascript:void(0);">Actualizar datos cliente</a>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+  <div [ngClass]="{'hide-element': pedidoDetail}">
+    <ng-template #dynamicInsert></ng-template>
+  </div>
+</div>

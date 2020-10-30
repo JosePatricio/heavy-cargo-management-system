@@ -1,0 +1,305 @@
+<ngx-loading [show]="loading"></ngx-loading>
+<form novalidate #forma="ngForm">
+  <div class="panel-group">
+    <div class="card">
+      <div class="card-header font-weight-bold">Empresas</div>
+      <div class="card-body margin">
+        <h5>Datos de la empresa</h5>
+        <hr>
+        <div class="row">
+          <div class="col-md-5">
+            <div class="form-group"
+                 [ngClass]="{'has-danger': clienteTipoCliente.errors?.required  && clienteTipoCliente.touched}">
+              <label for="clienteTipoCliente">* Tipo de Empresa</label>
+              <select class="form-control" id="clienteTipoCliente" name="clienteTipoCliente" required
+                      [(ngModel)]="cliente.clienteTipoCliente"
+                      [disabled]="cliente.clienteTipoCliente===appConfig.idTipoEmpresaProveedor"
+                      #clienteTipoCliente="ngModel" (change)="showFields()" disabled="{{enableInput}}">
+                <option></option>
+                <option *ngFor="let tipo of tipoEmpresa" [value]="tipo.catalogoItemId">
+                  {{tipo.catalogoItemDescripcion}}
+                </option>
+              </select>
+              <div *ngIf="clienteTipoCliente.errors?.required" class="form-control-feedback">
+                {{appConfig.msgRequerido}}
+              </div>
+            </div>
+          </div>
+          <div class="col-md-5">
+          </div>
+
+          <div class="col-md-5">
+            <div class="form-group"
+                 [ngClass]="{'has-danger': clienteTipoId.errors?.required  && clienteTipoId.touched}">
+              <label for="clienteTipoId">* Tipo de Persona</label>
+              <select class="form-control" id="clienteTipoId" name="clienteTipoId" required
+                      [(ngModel)]="cliente.clienteTipoId"
+                      #clienteTipoId="ngModel" disabled="{{enableInput}}">
+                <option></option>
+                <option *ngFor="let tipo of tipoPersona" [value]="tipo.catalogoItemId">
+                  {{tipo.catalogoItemDescripcion}}
+                </option>
+              </select>
+              <div *ngIf="clienteTipoId.errors?.required" class="form-control-feedback">{{appConfig.msgRequerido}}</div>
+            </div>
+          </div>
+          <div class="col-md-5">
+            <div class="form-group"
+                 [ngClass]="{'has-danger': (clienteRuc.errors?.required || clienteRuc.errors?.minlength || clienteRuc.errors?.pattern) && clienteRuc.touched}">
+              <label for="clienteRuc">* Ruc</label>
+              <input type="text" class="form-control" id="clienteRuc" placeholder="Ruc de la empresa" name="clienteRuc"
+                     required pattern="[0-9]+" maxlength="13" minlength="13"
+                     [(ngModel)]="cliente.clienteRuc" #clienteRuc="ngModel" disabled="{{enableInput}}">
+              <div *ngIf="clienteRuc.errors?.required" class="form-control-feedback">{{appConfig.msgRequerido}}</div>
+              <div *ngIf="clienteRuc.errors?.minlength" class="form-control-feedback">Mínimo de caracteres
+                {{clienteRuc.errors.minlength.requiredLength}}
+              </div>
+              <div *ngIf="clienteRuc.errors?.pattern" class="form-control-feedback">{{appConfig.msgSoloNumeros}}</div>
+            </div>
+          </div>
+
+          <div class="col-md-5">
+            <div class="form-group"
+                 [ngClass]="{'has-danger': clienteRazonSocial.errors?.required  && clienteRazonSocial.touched}">
+              <label for="clienteRazonSocial">* Raz&oacute;n social</label>
+              <input type="text" class="form-control" id="clienteRazonSocial" placeholder="Raz&oacute;n de la empresa"
+                     name="clienteRazonSocial" required maxlength="200"
+                     [(ngModel)]="cliente.clienteRazonSocial" #clienteRazonSocial="ngModel">
+              <div *ngIf="clienteTipoId.errors?.required" class="form-control-feedback">{{appConfig.msgRequerido}}</div>
+            </div>
+          </div>
+          <div class="col-md-5">
+            <div class="form-group"
+                 [ngClass]="{'has-danger': clienteDireccion.errors?.required  && clienteDireccion.touched}">
+              <label for="clienteDireccion">* Direcci&oacute;n</label>
+              <input type="text" class="form-control" id="clienteDireccion" placeholder="Direcci&oacute;n de la empresa"
+                     name="clienteDireccion" required maxlength="200" [(ngModel)]="cliente.clienteDireccion"
+                     #clienteDireccion="ngModel">
+              <div *ngIf="clienteDireccion.errors?.required" class="form-control-feedback">{{appConfig.msgRequerido}}
+              </div>
+            </div>
+          </div>
+          <div class="col-md-5" *ngIf="cliente.clienteTipoCliente===appConfig.idTipoEmpresaProveedor">
+            <div class="form-group"
+                 [ngClass]="{'has-danger': clienteMail.errors?.required  && clienteMail.touched}">
+              <label for="clienteMail">* Dirección de correo</label>
+              <input type="text" class="form-control" id="clienteMail" placeholder="Direcci&oacute;n de correo"
+                     name="clienteMail" required maxlength="200" [(ngModel)]="cliente.clienteCorreo"
+                     #clienteMail="ngModel">
+              <div *ngIf="clienteMail.errors?.required" class="form-control-feedback">{{appConfig.msgRequerido}}
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-5">
+            <div class="form-group">
+              <label for="provinciaSeleccionada">* Provincia</label>
+              <select class="form-control" id="provinciaSeleccionada" name="provinciaSeleccionada" required
+                      [(ngModel)]="provinciaSeleccionada.id"
+                      #id="ngModel" (change)="mostrarCiudades()">
+                <option></option>
+                <option *ngFor="let localidad of provincias" [value]="localidad.localidadId">
+                  {{localidad.localidadDescripcion}}
+                </option>
+              </select>
+              <div *ngIf="id.errors?.required" class="form-control-feedback">
+                {{appConfig.msgRequerido}}
+              </div>
+            </div>
+          </div>
+          <div class="col-md-5">
+            <div class="form-group"
+                 [ngClass]="{'has-danger': clienteLocalidadId.errors?.required  && clienteLocalidadId.touched}">
+              <label for="clienteLocalidadId">* Ciudad</label>
+              <select class="form-control" id="clienteLocalidadId" name="clienteLocalidadId" required
+                      [(ngModel)]="cliente.clienteLocalidadId"
+                      #clienteLocalidadId="ngModel">
+                <option></option>
+                <option *ngFor="let localidad of ciudades" [value]="localidad.localidadId">
+                  {{localidad.localidadDescripcion}}
+                </option>
+              </select>
+              <div *ngIf="clienteLocalidadId.errors?.required" class="form-control-feedback">
+                {{appConfig.msgRequerido}}
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-5" *ngIf="showCliente">
+            <div class="form-group"
+                 [ngClass]="{'has-danger': clienteDiasPeriodicidad.errors?.required  && clienteDiasPeriodicidad.touched}">
+              <label for="clienteDiasPeriodicidad">* D&iacute;as de periocidad</label>
+              <select class="form-control" id="clienteDiasPeriodicidad" name="clienteDiasPeriodicidad"
+                      required="{{showCliente}}" [(ngModel)]="cliente.clienteDiasPeriodicidad"
+                      #clienteDiasPeriodicidad="ngModel">
+                <option></option>
+                <option *ngFor="let tipo of periocidad" [value]="tipo.catalogoItemId">
+                  {{tipo.catalogoItemDescripcion}}
+                </option>
+              </select>
+              <div *ngIf="clienteDiasPeriodicidad.errors?.required" class="form-control-feedback">
+                {{appConfig.msgRequerido}}
+              </div>
+            </div>
+          </div>
+          <div class="col-md-5" *ngIf="showCliente">
+            <div class="form-group"
+                 [ngClass]="{'has-danger': (clienteComision.errors?.required || clienteComision.errors?.pattern)  && clienteComision.touched}">
+              <label for="comision">* Comisi&oacute;n</label>
+              <input type="text" class="form-control" id="comision" placeholder="Comisi&oacute;n" name="comision"
+                     required="{{showCliente}}" maxlength="4" [(ngModel)]="cliente.clienteComision"
+                     #clienteComision="ngModel" pattern="[0-9]+">
+              <div *ngIf="clienteComision.errors?.required" class="form-control-feedback">{{appConfig.msgRequerido}}
+              </div>
+              <div *ngIf="clienteComision.errors?.pattern" class="form-control-feedback">{{appConfig.msgSoloNumeros}}
+              </div>
+            </div>
+          </div>
+          <div class="col-md-5" *ngIf="showCliente">
+            <div class="form-group"
+                 [ngClass]="{'has-danger': (clienteDiasCredito.errors?.required || clienteDiasCredito.errors?.pattern) && clienteDiasCredito.touched}">
+              <label for="diasCredito">* D&iacute;as de cr&eacute;dito</label>
+              <input type="text" class="form-control" id="diasCredito" placeholder="D&iacute;as de cr&eacute;dito"
+                     name="diasCredito" required="{{showCliente}}" maxlength="5"
+                     [(ngModel)]="cliente.clienteDiasCredito"
+                     #clienteDiasCredito="ngModel" pattern="[0-9]+">
+              <div *ngIf="clienteDiasCredito.errors?.required" class="form-control-feedback">
+                {{appConfig.msgRequerido}}
+              </div>
+              <div *ngIf="clienteDiasCredito.errors?.pattern" class="form-control-feedback">
+                {{appConfig.msgSoloNumeros}}
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-5" *ngIf="showTransportista">
+            <div class="form-group"
+                 [ngClass]="{'has-danger': clienteBanco.errors?.required  && clienteBanco.touched}">
+              <label for="clienteBanco">* Banco</label>
+              <select class="form-control" id="clienteBanco" name="clienteBanco" required="{{showTransportista}}"
+                      [(ngModel)]="cliente.clienteBanco"
+                      #clienteBanco="ngModel">
+                <option></option>
+                <option *ngFor="let tipo of bancos" [value]="tipo.catalogoItemId">
+                  {{tipo.catalogoItemDescripcion}}
+                </option>
+              </select>
+              <div *ngIf="clienteBanco.errors?.required" class="form-control-feedback">{{appConfig.msgRequerido}}</div>
+            </div>
+          </div>
+          <div class="col-md-5" *ngIf="showTransportista">
+            <div class="form-group"
+                 [ngClass]="{'has-danger': (clienteCuenta.errors?.required || clienteCuenta.errors?.pattern)  && clienteCuenta.touched}">
+              <label for="numeroCuenta">* N&uacute;mero de cuenta</label>
+              <input type="text" class="form-control" id="numeroCuenta" placeholder="N&uacute;mero de cuenta"
+                     name="numeroCuenta" required="{{showTransportista}}" maxlength="15"
+                     [(ngModel)]="cliente.clienteCuenta"
+                     #clienteCuenta="ngModel" pattern="[0-9]+">
+              <div *ngIf="clienteCuenta.errors?.required" class="form-control-feedback">{{appConfig.msgRequerido}}</div>
+              <div *ngIf="clienteCuenta.errors?.pattern" class="form-control-feedback">{{appConfig.msgSoloNumeros}}
+              </div>
+            </div>
+          </div>
+          <div class="col-md-5" *ngIf="showTransportista">
+            <div class="form-group"
+                 [ngClass]="{'has-danger': clienteTipoCuenta.errors?.required  && clienteTipoCuenta.touched}">
+              <label for="clienteTipoCuenta">* Tipo de cuenta</label>
+              <select class="form-control" id="clienteTipoCuenta" name="clienteTipoCuenta"
+                      required="{{showTransportista}}"
+                      [(ngModel)]="cliente.clienteTipoCuenta"
+                      #clienteTipoCuenta="ngModel">
+                <option></option>
+                <option *ngFor="let tipo of tipoCuentas" [value]="tipo.catalogoItemId">
+                  {{tipo.catalogoItemDescripcion}}
+                </option>
+              </select>
+              <div *ngIf="clienteTipoCuenta.errors?.required" class="form-control-feedback">{{appConfig.msgRequerido}}
+              </div>
+            </div>
+          </div>
+          <div class="col-md-5" *ngIf="showProveedor">
+            <div class="form-group"
+                 [ngClass]="{'has-danger': provReten.errors?.required  && provReten.touched}">
+              <label for="provReten">* Retención</label>
+              <select class="form-control" id="provReten" name="provReten"
+                      required="{{showProveedor}}"
+                      [(ngModel)]="cliente.clienteRetencion"
+                      #provReten="ngModel">
+                <option></option>
+                <option *ngFor="let tipo of cataRenta" [value]="tipo.catalogoItemId">
+                  {{tipo.catalogoItemDescripcion}}
+                </option>
+              </select>
+              <!--<input type="text" class="form-control" id="provReten" name="provReten" required="{{showProveedor}}"
+                     [(ngModel)]="cliente.clienteRetencion"
+                     #provReten="ngModel" onlyInteger>-->
+              <div *ngIf="provReten.errors?.required" class="form-control-feedback">{{appConfig.msgRequerido}}
+              </div>
+              <!--<div *ngIf="provReten.errors?.onlyInteger" class="form-control-feedback">{{appConfig.msgSoloNumeros}}
+              </div>-->
+            </div>
+          </div>
+          <div class="col-md-5" *ngIf="showProveedor">
+            <div class="form-group"
+                 [ngClass]="{'has-danger': provIva.errors?.required  && provIva.touched}">
+              <label for="provIva">* IVA</label>
+              <select class="form-control" id="provIva" name="provIva"
+                      required="{{showProveedor}}"
+                      [(ngModel)]="cliente.clienteIva"
+                      #provIva="ngModel">
+                <option></option>
+                <option *ngFor="let tipo of cataIVA" [value]="tipo.catalogoItemId">
+                  {{tipo.catalogoItemDescripcion}}
+                </option>
+              </select>
+              <!--<input type="text" class="form-control" id="provIva" name="provIva" required="{{showProveedor}}"
+                     [(ngModel)]="cliente.clienteIva"
+                     #provIva="ngModel" onlyInteger>-->
+              <div *ngIf="provIva.errors?.required" class="form-control-feedback">{{appConfig.msgRequerido}}
+              </div>
+              <!--<div *ngIf="provIva.errors?.onlyInteger" class="form-control-feedback">{{appConfig.msgSoloNumeros}}
+              </div>-->
+            </div>
+          </div>
+        </div>
+        <hr>
+        <button type="button" class="btn btn-primary" (click)="crearEmpresa()" *ngIf="showButtonNew"
+                [disabled]="!forma.valid">Crear
+        </button>
+        <button type="button" class="btn btn-primary" (click)="updateEmpres()" *ngIf="showButtonEdit"
+                [disabled]="!forma.valid">Actualizar
+        </button>
+        <button type="button" class="btn btn-primary" (click)="deleteEmpresa()" *ngIf="showButtonDelete"
+                [disabled]="!forma.valid">Eliminar
+        </button>
+        <button type="button" class="btn btn-primary" (click)="cancelaEmpresa()">Cancelar</button>
+      </div>
+      <!-- Modal -->
+      <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+           aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Alerta...!</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="cerrarMensaje()">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+
+              <div class="alert alert-success" role="alert"
+                   [ngClass]="{'alert-success': operacionCorrecta,'alert-danger': !operacionCorrecta}">
+                <strong>{{mensajeOperacion}}</strong>
+              </div>
+
+            </div>
+            <div class="modal-footer justify-content-md-center">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="cerrarMensaje()">Cerrar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,72 @@
+<ngx-loading [show]="loading"></ngx-loading>
+<div class="container-fluid margin-top-container">
+  <form>
+    <h3>{{titleEmp}}</h3>
+    <hr>
+    <div *ngIf="!typeEmpresa">
+      <div class="row">
+        <button type="button" class="btn btn-outline-primary element-center col-sm-3 hm-75" (click)="checkTypeEmp(1)">
+          <i class="fas fa-truck"></i> Cliente / Transportista
+        </button>
+      </div>
+      <!--routerLink="/panel/empresa/empresa/new/1"-->
+      <div class="row mt-1">
+        <button type="button" class="btn btn-outline-primary element-center col-sm-3 hm-75" (click)="checkTypeEmp(2)">
+          <i class="fas fa-users"></i> Proveedor
+        </button>
+      </div>
+    </div>
+    <hr>
+    <div *ngIf="isListEmp">
+      <div class="text-right mb-2">
+        <button *ngIf="typeEmpresa" type="button" class="btn btn-primary col-md-2" (click)="callAddNew()">
+          <i class="fas fa-plus-circle"></i> Nuevo
+        </button>
+        <button *ngIf="typeEmpresa" type="button" class="btn btn-primary col-md-2" (click)="checkTypeEmp(null)">
+          <i class="fas fa-arrow-circle-left"></i> Regresar
+        </button>
+      </div>
+      <div *ngIf="typeEmpresa==1" class="text-left mb-2 col-md-3">
+        <select class="form-control" id="empresaTipo" name="empresaTipo" required
+                [(ngModel)]="idTypeEmpresa" #empresaTipo="ngModel" (change)="loadData(idTypeEmpresa)">
+          <option></option>
+          <option *ngFor="let tipo of listTypeEmpresa" [value]="tipo.catalogoItemId">
+            {{tipo.catalogoItemDescripcion}}
+          </option>
+        </select>
+      </div>
+      <ngx-datatable *ngIf="typeEmpresa"
+                     #table
+                     class='material tableHeightFixed'
+                     [columns]="columns"
+                     [columnMode]="'force'"
+                     [headerHeight]="'auto'"
+                     [footerHeight]="50"
+                     [rowHeight]="'auto'"
+                     [limit]="25"
+                     [rows]='empresas'
+                     [scrollbarH]="true"
+                     [selectionType]="'single'"
+                     [sorts]="[{prop: 'idSolicitud', dir: 'desc'},{prop: 'idOferta', dir: 'asc'}]">
+      </ngx-datatable>
+    </div>
+
+    <div [ngClass]="{'hide-element': isListEmp}">
+      <ng-template #detailDynamic></ng-template>
+    </div>
+
+    <div id="templates">
+      <ng-template #tmplIndex let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+        <strong>{{rowIndex+1}}</strong>
+      </ng-template>
+      <ng-template #linkButton let-value="value" let-rowIndex="rowIndex" let-row="row">
+        <button type="button" class="btn btn-warning info-button-small" (click)="callEdit(row.ruc)">
+          <i class="far fa-edit"></i>
+        </button>
+        <button type="button" class="btn btn-danger info-button-small" (click)="callDelete(row.ruc)">
+          <i class="fas fa-trash-alt"></i>
+        </button>
+      </ng-template>
+    </div>
+  </form>
+</div>

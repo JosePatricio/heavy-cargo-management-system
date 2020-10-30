@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">TAS-ON</string>
+    <string name="default_notification_channel_id" translatable="false">MainChannel</string>
+</resources>

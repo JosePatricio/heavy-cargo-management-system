@@ -1,0 +1,419 @@
+<ngx-loading [show]="loading"></ngx-loading>
+<form novalidate #forma="ngForm" autocomplete="on">
+  <div class="panel-group">
+    <div class="card">
+      <div class="card-header font-weight-bold">{{edit===1?'Editar':edit===2?'Cancelar': 'Nueva'}} solicitud: {{solicitudEnvio.idSolicitud}}</div>
+      <div class="card-body margin">
+
+        <h6 class="font-weight-bold">Tipo de subasta</h6>
+        <hr>
+        <div class="row">
+          <div class="col-md-5" *ngIf="!emitirNotaCredito">
+            <div class="form-group">
+              <select class="form-control" id="solicitudEnvioTipoSubasta" name="solicitudEnvioTipoSubasta"
+                      [disabled]="edit===1 || edit===2 || emitirNotaCredito" [(ngModel)]="solicitudEnvio.tipoSubasta" required
+                      (change)="solicitudEnvio.solicitudEnvioValorObjetivo = undefined"
+                      #tipoSubastaSolicitud="ngModel" aria-label="Tipo de subasta"
+                      [ngClass]="{'is-invalid': tipoSubastaSolicitud.errors && !camposValidos}">
+                <option *ngFor="let tipo of tiposSubasta" [ngValue]="tipo">
+                  {{tipo.catalogoItemDescripcion}}
+                </option>
+              </select>
+              <div *ngIf="!camposValidos && tipoSubastaSolicitud.errors?.required" class="invalid-feedback">
+                {{appConfig.msgRequerido}}
+              </div>
+            </div>
+          </div>
+          <div class="col-md-1" *ngIf="!emitirNotaCredito"></div>
+          <ng-container *ngIf="solicitudEnvio.tipoSubasta && solicitudEnvio.tipoSubasta.catalogoItemId
+          && solicitudEnvio.tipoSubasta.catalogoItemId != appConfig.idSubastaInversaAbierta">
+            <div class="col-md-5">
+              <div class="form-group">
+                <input type="text" class="form-control" id="solicitudEnvioValorObjetivo"
+                       name="solicitudEnvioValorObjetivo"
+                       placeholder="{{solicitudEnvio.tipoSubasta.catalogoItemId == appConfig.idSubastaInversaValorObjetivo? 'Valor objetivo por el total del envío': 'Precio por el total del envío'}}"
+                       [disabled]="edit===1 || edit===2" [(ngModel)]="solicitudEnvio.valorObjetivo"
+                       #solicitudEnvioValorObjetivo="ngModel" required
+                       maxlength="7" pattern="^[\d]+([.][\d]{2})?$"
+                       [ngClass]="{'is-invalid': solicitudEnvioValorObjetivo.errors && !camposValidos}">
+                <div *ngIf="!camposValidos && solicitudEnvioValorObjetivo.errors?.required" class="invalid-feedback">
+                  {{appConfig.msgRequerido}}
+                </div>
+                <div *ngIf="!camposValidos && solicitudEnvioValorObjetivo.errors?.pattern" class="invalid-feedback">
+                  {{appConfig.msgNumeroDosDecimales}}
+                </div>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+
+        <div class="mb-3" *ngIf="solicitudEnvio.tipoSubasta">
+          <small class="color-black">{{solicitudEnvio.tipoSubasta.catalogoItemValor}}</small>
+        </div>
+
+        <h6 class="font-weight-bold mt-4">Datos del envío</h6>
+        <hr>
+        <div class="row">
+
+          <div class="col-md-5">
+            <div class="form-group">
+              <label for="solicitudEnvioNumeroPiesas">* Número de piezas</label>
+              <input type="text" class="form-control" id="solicitudEnvioNumeroPiesas"
+                     name="solicitudEnvioNumeroPiesas" [disabled]="edit===2"
+                     [(ngModel)]="solicitudEnvio.numeroPiezas" #solicitudEnvioNumeroPiesas="ngModel"
+                     required maxlength="7" pattern="[0-9]+"
+                     [ngClass]="{'is-invalid': solicitudEnvioNumeroPiesas.errors && !camposValidos}">
+              <div *ngIf="!camposValidos && solicitudEnvioNumeroPiesas.errors?.required" class="invalid-feedback">
+                {{appConfig.msgRequerido}}
+              </div>
+              <div *ngIf="!camposValidos && solicitudEnvioNumeroPiesas.errors?.pattern" class="invalid-feedback">
+                {{appConfig.msgSoloNumeros}}
+              </div>
+            </div>
+          </div>
+          <div class="col-md-5 offset-md-1">
+            <div class="form-group">
+              <label for="solicitudEnvioNumeroDocCliente">Número documento Cliente</label>
+              <input type="text" class="form-control" id="solicitudEnvioNumeroDocCliente"
+                     name="solicitudEnvioNumeroDocCliente" [disabled]="edit===2" [(ngModel)]="solicitudEnvio.numeroDocCliente"
+                     placeholder="Número asociado al envío (opcional)"
+                     #solicitudEnvioNumeroDocCliente="ngModel" autocomplete="off" maxlength="60"
+                     [ngClass]="{'is-invalid': (solicitudEnvioNumeroDocCliente.errors) && !camposValidos}">
+              <div *ngIf="!camposValidos && solicitudEnvioNumeroDocCliente.errors?.required" class="invalid-feedback">{{appConfig.msgRequerido}}</div>
+            </div>
+          </div>
+
+          <div class="col-md-5">
+            <div class="form-group">
+              <label for="solicitudEnvioPeso">* Peso total</label>
+              <div class="input-group input-group-one-line">
+                <input type="text" class="form-control input-select-group" id="solicitudEnvioPeso"
+                       name="solicitudEnvioPeso" [disabled]="edit===2" [(ngModel)]="solicitudEnvio.peso"
+                       #solicitudEnvioPeso="ngModel" required maxlength="7" pattern="[0-9]+"
+                       [ngClass]="{'is-invalid': solicitudEnvioPeso.errors && !camposValidos}">
+                <div class="input-group-append">
+                  <select class="form-control select-input-group" id="solicitudEnvioUnidadPeso" name="solicitudEnvioUnidadPeso"
+                          [disabled]="edit===2" [(ngModel)]="solicitudEnvio.tipoPeso" required
+                          #solicitudEnvioUnidadPesoM="ngModel" aria-label="Unidad peso"
+                          [ngClass]="{'is-invalid': solicitudEnvioUnidadPesoM.errors && !camposValidos}">
+                    <option disabled [value]="undefined" selected>Seleccione unidad</option>
+                    <option *ngFor="let unidadpeso of tiposPeso" [value]="unidadpeso.catalogoItemId">
+                      {{unidadpeso.catalogoItemDescripcion}}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <small *ngIf="!camposValidos && solicitudEnvioPeso.errors?.required" class="error-input">
+                {{appConfig.msgRequerido}}
+              </small>
+              <small *ngIf="!camposValidos && solicitudEnvioPeso.errors?.pattern" class="error-input">
+                {{appConfig.msgSoloNumeros}}
+              </small>
+            </div>
+          </div>
+
+          <div class="col-md-5 offset-md-1">
+            <div class="form-group">
+              <label for="solicitudEnvioVolumen">* Volumen total (bruto)</label>
+              <div class="input-group input-group-one-line">
+                <input type="text" class="form-control input-select-group" id="campoPrueba" id="solicitudEnvioVolumen"
+                       name="solicitudEnvioVolumen" [disabled]="edit===2" maxlength="7"
+                       [(ngModel)]="solicitudEnvio.volumen" #solicitudEnvioVolumen="ngModel" required pattern="[0-9]+"
+                       [ngClass]="{'is-invalid': solicitudEnvioVolumen.errors && !camposValidos}">
+                <div class="input-group-append">
+                  <select class="form-control select-input-group" id="solicitudEnvioUnidadVolumen" name="solicitudEnvioUnidadVolumen"
+                          [disabled]="edit===2" [(ngModel)]="solicitudEnvio.tipoVolumen" required
+                          #solicitudEnvioUnidadVolumenM="ngModel" aria-label="Unidad volumen"
+                          [ngClass]="{'is-invalid': solicitudEnvioUnidadVolumenM.errors && !camposValidos}">
+                    <option disabled [value]="undefined" selected>Seleccione unidad</option>
+                    <option *ngFor="let unidadVolumen of tiposVolumen" [value]="unidadVolumen.catalogoItemId">
+                      {{unidadVolumen.catalogoItemDescripcion}}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <small *ngIf="!camposValidos && solicitudEnvioVolumen.errors?.required" class="error-input">
+                {{appConfig.msgRequerido}}
+              </small>
+              <small *ngIf="!camposValidos && solicitudEnvioVolumen.errors?.pattern" class="error-input">
+                {{appConfig.msgSoloNumeros}}
+              </small>
+            </div>
+          </div>
+
+          <div class="col-md-5">
+            <div class="form-group">
+              <label for="solicitudEnvioNumeroEstibadores">* Número estibadores</label>
+              <input type="text" class="form-control" id="solicitudEnvioNumeroEstibadores"
+                     name="solicitudEnvioNumeroEstibadores" maxlength="7" pattern="[0-9]+"
+                     [disabled]="edit===2" [(ngModel)]="solicitudEnvio.numeroEstibadores"
+                     #solicitudEnvioNumeroEstibadores="ngModel" required
+                     [ngClass]="{'is-invalid': solicitudEnvioNumeroEstibadores.errors && !camposValidos}">
+              <div *ngIf="!camposValidos && solicitudEnvioNumeroEstibadores.errors?.required" class="invalid-feedback">
+                {{appConfig.msgRequerido}}
+              </div>
+              <div *ngIf="!camposValidos && solicitudEnvioNumeroEstibadores.errors?.pattern" class="invalid-feedback">
+                {{appConfig.msgSoloNumeros}}
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <h6 class="font-weight-bold mt-4">Información del Origen</h6>
+        <hr>
+        <div class="row">
+          <div class="col-md-5">
+            <div class="form-group">
+              <label for="provinciaOrigen">* Provincia</label>
+              <select class="form-control" id="provinciaOrigen" name="provinciaOrigen" [disabled]="edit===2"
+                      [(ngModel)]="provinciaOrigen" #provinciaOrigenM="ngModel" required (change)="cargarCantones(1)"
+                      [ngClass]="{'is-invalid': provinciaOrigenM.errors && !camposValidos}">
+                <option *ngFor="let provinciaOrigen of provincias" [value]="provinciaOrigen.localidadId">
+                  {{provinciaOrigen.localidadDescripcion}}
+                </option>
+              </select>
+              <div *ngIf="!camposValidos && provinciaOrigenM.errors?.required" class="invalid-feedback">{{appConfig.msgRequerido}}</div>
+            </div>
+          </div>
+          <div class="col-md-5 offset-md-1">
+            <div class="form-group">
+              <label for="solicitudEnvioLocalidadOrigen">* Ciudad origen</label>
+              <select class="form-control" id="solicitudEnvioLocalidadOrigen" name="solicitudEnvioLocalidadOrigen"
+                      [disabled]="edit===2" [(ngModel)]="solicitudEnvio.idOrigen"
+                      #solicitudEnvioLocalidadOrigenM="ngModel" required (change)="consultarDatosOrigen()"
+                      [ngClass]="{'is-invalid': solicitudEnvioLocalidadOrigenM.errors && !camposValidos}">
+                <option></option>
+                <option *ngFor="let cantonO of cantonesOrigen" [value]="cantonO.localidadId">
+                  {{cantonO.localidadDescripcion}}
+                </option>
+              </select>
+              <div *ngIf="!camposValidos && solicitudEnvioLocalidadOrigenM.errors?.required" class="invalid-feedback">
+                {{appConfig.msgRequerido}}
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-5">
+            <div class="form-group">
+              <label for="solicitudEnvioPersonaEntrega">* Remite</label>
+              <input type="text" class="form-control" id="solicitudEnvioPersonaEntrega"
+                     name="solicitudEnvioPersonaEntrega" [disabled]="edit===2" required maxlength="50"
+                     [(ngModel)]="solicitudEnvio.personaEntrega" #solicitudEnvioPersonaEntrega="ngModel"
+                     [typeahead]="entregan"
+                     [ngClass]="{'is-invalid': solicitudEnvioPersonaEntrega.errors && !camposValidos}">
+              <div *ngIf="!camposValidos && solicitudEnvioPersonaEntrega.errors?.required" class="invalid-feedback">
+                {{appConfig.msgRequerido}}
+              </div>
+            </div>
+          </div>
+          <div class="col-md-5 offset-md-1">
+            <div class="form-group">
+              <label for="solicitudEnvioDireccionOrigen">* Dirección origen</label>
+              <input type="text" class="form-control" id="solicitudEnvioDireccionOrigen"
+                     name="solicitudEnvioDireccionOrigen" [disabled]="edit===2" required maxlength="250"
+                     [(ngModel)]="solicitudEnvio.direccion" #solicitudEnvioDireccionOrigen="ngModel"
+                     [typeahead]="direccionesOrigen"
+                     [ngClass]="{'is-invalid': solicitudEnvioDireccionOrigen.errors && !camposValidos}">
+              <div *ngIf="!camposValidos && solicitudEnvioDireccionOrigen.errors?.required" class="invalid-feedback">
+                {{appConfig.msgRequerido}}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <h6 class="font-weight-bold mt-4">Información del Destino</h6>
+        <hr>
+        <div class="row">
+          <div class="col-md-5">
+            <div class="form-group">
+              <label for="provinciaDestino">* Provincia</label>
+              <select class="form-control" id="provinciaDestino" name="provinciaDestino" [disabled]="edit===2"
+                      [(ngModel)]="provinciaDestino" #provinciaDestinoM="ngModel" required (change)="cargarCantones(2)"
+                      [ngClass]="{'is-invalid': provinciaDestinoM.errors && !camposValidos}">
+                <option *ngFor="let provinciaDestino of provincias" [value]="provinciaDestino.localidadId">
+                  {{provinciaDestino.localidadDescripcion}}
+                </option>
+              </select>
+              <div *ngIf="!camposValidos && provinciaDestinoM.errors?.required" class="invalid-feedback">{{appConfig.msgRequerido}}</div>
+            </div>
+          </div>
+          <div class="col-md-5 offset-md-1">
+            <div class="form-group">
+              <label for="solicitudEnvioLocalidadDestino">* Ciudad destino</label>
+              <select class="form-control" id="solicitudEnvioLocalidadDestino" name="solicitudEnvioLocalidadDestino"
+                      [disabled]="edit===2" [(ngModel)]="solicitudEnvio.idDestino"
+                      #solicitudEnvioLocalidadDestinoM="ngModel" required (change)="consultarDatosDestino()"
+                      [ngClass]="{'is-invalid': solicitudEnvioLocalidadDestinoM.errors && !camposValidos}">
+                <option></option>
+                <option *ngFor="let cantonD of cantonesDestino" [value]="cantonD.localidadId">
+                  {{cantonD.localidadDescripcion}}
+                </option>
+              </select>
+              <div *ngIf="!camposValidos && solicitudEnvioLocalidadDestinoM.errors?.required" class="invalid-feedback">
+                {{appConfig.msgRequerido}}
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-5">
+            <div class="form-group">
+              <label for="solicitudEnvioPersonaRecibe">* Recibe</label>
+              <input type="text" class="form-control" id="solicitudEnvioPersonaRecibe"
+                     name="solicitudEnvioPersonaRecibe" [disabled]="edit===2" required maxlength="50"
+                     [(ngModel)]="solicitudEnvio.personaRecibe" #solicitudEnvioPersonaRecibe="ngModel"
+                     [typeahead]="reciben"
+                     [ngClass]="{'is-invalid': solicitudEnvioPersonaRecibe.errors && !camposValidos}">
+              <div *ngIf="!camposValidos && solicitudEnvioPersonaRecibe.errors?.required" class="invalid-feedback">
+                {{appConfig.msgRequerido}}
+              </div>
+            </div>
+          </div>
+          <div class="col-md-5 offset-md-1">
+            <div class="form-group">
+              <label for="solicitudEnvioDireccionDestino">* Dirección destino</label>
+              <input type="text" class="form-control" id="solicitudEnvioDireccionDestino"
+                     name="solicitudEnvioDireccionDestino" [disabled]="edit===2"
+                     [(ngModel)]="solicitudEnvio.direccionEntrega"
+                     [typeahead]="direccionesDestino"
+                     #solicitudEnvioDireccionDestino="ngModel" required maxlength="250"
+                     [ngClass]="{'is-invalid': solicitudEnvioDireccionDestino.errors && !camposValidos}">
+              <div *ngIf="!camposValidos && solicitudEnvioDireccionDestino.errors?.required" class="invalid-feedback">
+                {{appConfig.msgRequerido}}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <h6 class="font-weight-bold mt-4">Información sobre la entrega</h6>
+        <hr>
+        <div class="row">
+          <div class="col-md-5">
+            <div class="form-group">
+              <label for="solicitudEnvioFechaRecoleccion">* Fecha recolección</label>
+              <input id="solicitudEnvioFechaRecoleccion" name="solicitudEnvioFechaRecoleccion"
+                     class="form-control" [disabled]="edit===2" [readonly]="edit===2" [locale]="'es'"
+                     [value]="fechRecol | date: appConfig.formatoFechaHora" [(ngModel)]="fechRecol"
+                     #solicitudEnvioFechaRecoleccion="ngModel" required autocomplete="off"
+                     dateTimePicker
+                     [ngClass]="{'is-invalid': (solicitudEnvioFechaRecoleccion.errors) && !camposValidos}">
+              <div *ngIf="!camposValidos && solicitudEnvioFechaRecoleccion.errors?.required" class="invalid-feedback">
+                {{appConfig.msgRequerido}}
+              </div>
+            </div>
+          </div>
+          <div class="col-md-5 offset-md-1">
+            <div class="form-group">
+              <label for="solicitudEnvioFechaEntrega">* Fecha entrega</label>
+              <input id="solicitudEnvioFechaEntrega" name="solicitudEnvioFechaEntrega"
+                     class="form-control" [disabled]="edit===2" [readonly]="edit===2"
+                     [locale]="'es'" [value]="fechEntreg | date: appConfig.formatoFechaHora"
+                     [(ngModel)]="fechEntreg" #solicitudEnvioFechaEntrega="ngModel"
+                     required autocomplete="off" datesLessValidator="solicitudEnvioFechaRecoleccion" dateTimePicker
+                     [ngClass]="{'is-invalid': (solicitudEnvioFechaEntrega.errors) && !camposValidos}">
+              <div *ngIf="!camposValidos && solicitudEnvioFechaEntrega.errors?.required" class="invalid-feedback">
+                {{appConfig.msgRequerido}}
+              </div>
+              <div *ngIf="!camposValidos && solicitudEnvioFechaEntrega.errors?.dateLess" class="invalid-feedback">No puede ser menor
+                a la Fecha de Recolecci&oacute;n: {{solicitudEnvioFechaRecoleccion.value | date: appConfig.formatoFechaHora}}
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <small class="color-black">
+          * La solicitud se cancelará automáticamente {{horasCaducidad}} hora(s) antes de la fecha de recolección en caso de
+          no seleccionar una oferta como ganadora
+        </small>
+
+        <h6 class="font-weight-bold mt-4">Observaciones</h6>
+        <hr>
+        <div class="row">
+          <div class="col">
+            <div class="form-group">
+              <textarea class="form-control" rows="5" id="solicEnvioObs" name="solicEnvioObs"
+                        [(ngModel)]="solicitudEnvio.observaciones"
+                        (change)="solicitudEnvio.observaciones = solicEnvioObs.value" #solicEnvioObs="ngModel"
+                        maxlength="250" autocomplete="off" [disabled]="edit===3||edit===2"
+                        [ngClass]="{'is-invalid': solicEnvioObs.errors && !camposValidos}"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <h6 *ngIf="edit===0"><b>Términos y condiciones</b></h6>
+        <hr *ngIf="edit===0">
+        <div *ngIf="edit===0" class="row text-center">
+          <div class="col text-center">
+            <div class="form-group">
+              <input type="checkbox" required [ngModel]="" id="acepTerm" name="acepTerm" #acepTerm="ngModel"
+                     [ngClass]="{'is-invalid': acepTerm.errors && !camposValidos}">
+              <app-terminos></app-terminos>
+              <div *ngIf="!camposValidos && acepTerm.errors?.required" class="color-error">
+                {{appConfig.msgRequerido}}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <h6 *ngIf="edit===2||cancelada===1">Comentario</h6>
+        <hr *ngIf="edit===2||cancelada===1">
+        <div *ngIf="edit===2||cancelada===1" class="row">
+          <div class="col">
+            <div class="form-group">
+              <label for="obsSolc">* Motivo cancelación de oferta:</label>
+              <br/>
+              <textarea class="form-control" type="text" required #textbox
+                        (change)="solicitudEnvio.comments = obsSolc.value"
+                        [ngModel]="solicitudEnvio.comments" id="obsSolc" name="obsSolc" [disabled]="cancelada===1"
+                        #obsSolc="ngModel" style="min-width: 90%;"
+                        [ngClass]="{'is-invalid': obsSolc.errors && !camposValidos}"></textarea>
+              <div *ngIf="!camposValidos && obsSolc.errors?.required" class="invalid-feedback">
+                {{appConfig.msgRequerido}}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <hr>
+        <button type="button" class="btn btn-primary" [disabled]="deshabilitarBtnGuardar" (click)="agregarSolicitudEnvio(forma)" *ngIf="edit===0">
+          Crear
+        </button>
+        <button type="button" class="btn btn-primary" [disabled]="deshabilitarBtnEditar" (click)="editarSolicitudEnvio(forma)" *ngIf="edit===1">
+          Editar
+        </button>
+        <button type="button" class="btn btn-primary" [disabled]="deshabilitarBtnCancelar"(click)="cancelarSolicitudEnvio(forma)" *ngIf="edit===2">
+          Cancelar solicitud
+        </button>
+        <button type="button" class="btn btn-primary" (click)="regresar()">Regresar</button>
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+             aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Mensaje...!</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="cerrarMensaje()">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+
+                <div class="alert alert-success" role="alert"
+                     [ngClass]="{'alert-success': operacionCorrecta,'alert-danger': !operacionCorrecta}">
+                  <strong>{{mensajeOperacion}}</strong>
+                </div>
+
+              </div>
+              <div class="modal-footer justify-content-md-center">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="cerrarMensaje()"
+                        routerLink="/panel/solicitudes/listar">Cerrar
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>tas-on-web</artifactId>
+        <groupId>ec.net.redcode.tas.on</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>tas-on-web-services</artifactId>
+    <name>TAS ON :: Services</name>
+    <packaging>war</packaging>
+
+    <dependencies>
+        <dependency>
+            <groupId>ec.net.redcode.tas.on</groupId>
+            <artifactId>tas-on-web-persistence</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ec.net.redcode.tas.on</groupId>
+            <artifactId>tas-on-web-commons</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ec.net.redcode.tas.on</groupId>
+            <artifactId>tas-on-web-notifications</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ec.net.redcode.tas.on</groupId>
+            <artifactId>tas-on-web-security</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ec.net.redcode.tas.on</groupId>
+            <artifactId>tas-on-web-wsdl-sri-auth</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Apache Camel -->
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-cxf</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-spring</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-jaxb</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-quartz2</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+        </dependency>
+
+        <!-- dependency used for XLSX file format -->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>4.0.1</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>${artifactId}</finalName>
+    </build>
+
+
+</project>

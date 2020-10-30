@@ -1,0 +1,383 @@
+<!-- Header -->
+<nav id="header" class="navbar navbar-expand pt-4">
+  <div class="container-fluid">
+    <a class="navbar-brand ml-md-5 pl-lg-4" href="#">
+      <img style="max-width: 54px; height: 56px;" src="../../../assets/images/logo/logo_negativo.svg" alt="Tas-On logo">
+    </a>
+
+    <div class="navbar-collapse ml-4" id="navbar">
+      <ul class="navbar-nav mr-auto d-none d-md-flex">
+        <li class="nav-item d-md-none d-lg-inline-flex">
+          <a class="nav-link" href="#">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link pointer" (click)="scrollToElement(empresas)">Empresas</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link pointer" (click)="scrollToElement(transportistas)">Transportistas</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link pointer" (click)="scrollToElement(beneficios)">Beneficios</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link pointer" (click)="scrollToElement(app)">App</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link pointer" (click)="scrollToElement(contacto)">Contacto</a>
+        </li>
+      </ul>
+
+      <ul class="navbar-nav ml-auto d-sd-flex d-sm-inline-flex mr-lg-5">
+        <li class="nav-item red-social-icon">
+          <a class="nav-link" href="https://www.facebook.com/TasOnApp/" target="_blank">
+            <i class="fab fa-facebook-f" title="Facebook"></i>
+          </a>
+        </li>
+        <li class="nav-item red-social-icon">
+          <a class="nav-link" href="https://www.linkedin.com/company/tas-on/" target="_blank">
+            <i class="fab fa-linkedin-in" title="LinkedIn"></i>
+          </a>
+        </li>
+        <li class="nav-item ml-3">
+          <a class="nav-link btn boton-ingresar" routerLink="/login">INGRESAR <i class="fas fa-arrow-right text-white"></i></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<!-- /Header -->
+
+<!-- Seccion 1 -->
+<!-- Carrusel - Imagen dos celulares -->
+<section id="seccion1">
+  <div class="container-fluid">
+    <div class="row">
+      <!-- Carrusel -->
+      <div class="col-12 col-md-8 offset-md-2 offset-lg-0 columna-carrusel">
+        <div id="carrusel_TasOn" class="carousel slide" data-ride="carousel">
+          <ol class="carousel-indicators d-none d-md-inline-flex">
+            <li data-target="#carrusel_TasOn" data-slide-to="0" class="active"></li>
+            <li data-target="#carrusel_TasOn" data-slide-to="1"></li>
+            <li data-target="#carrusel_TasOn" data-slide-to="2"></li>
+          </ol>
+
+          <div class="row w-100 ml-0 mr-0">
+            <div class="col-12 w-100">
+
+              <div class="carousel-inner">
+                <div class="carousel-item active">
+                  <h4 class="texto-titulo-carrusel font-weight-bold">Envía carga pesada fácil</h4>
+                  <h6 class="texto-descripcion-carrusel">Solucionamos tus procesos con tan sólo un click.</h6>
+                </div>
+                <div class="carousel-item">
+                  <h4 class="texto-titulo-carrusel font-weight-bold">Conecta tu empresa</h4>
+                  <h6 class="texto-descripcion-carrusel">con transportistas calificados y comprometidos para realizar
+                    tus envíos eficazmente.</h6>
+                </div>
+                <div class="carousel-item">
+                  <h4 class="texto-titulo-carrusel font-weight-bold">Disminuye hasta un 30% de costos</h4>
+                  <h6 class="texto-descripcion-carrusel">Obtén las mejores rutas y optimiza tu presupuesto.</h6>
+                </div>
+              </div>
+
+              <div class="">
+                <button type="button" class="btn btn-light botonProbar font-weight-bold" routerLink="/login">PRUÉBALO AHORA</button>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Imagen de dos celulares con circulos azules -->
+      <div class="d-none d-lg-block col-lg-4 img-cel-container">
+        <img class="img-2-celulares" src="../../../assets/images/celulares_circulos.png" alt="Tas-On">
+      </div>
+    </div>
+  </div>
+</section>
+<!-- /Carrusel y dos celulares -->
+
+<!-- Seccion 2 -->
+<!-- Registrar empresa / Trabaja con nosotros -->
+<section id="seccion2">
+  <!-- Flecha abajo -->
+  <div class="container-fluid d-none d-md-block">
+    <div class="row">
+      <div class=" col-12 flecha-abajo text-center">
+        <img src="../../../assets/images/flecha-abajo.svg" alt="Desliza hacia abajo">
+      </div>
+    </div>
+  </div>
+  <div class="container p-sm-3">
+    <div class="row fila1-info" #empresas>
+      <div class="d-sm-block col-12 d-md-none">
+        <img class="imagen-circular imagen-circular mx-auto d-block" src="../../../assets/images/envia_carga.png" alt="Registra tu empresa">
+      </div>
+      <div class="col-12 col-md-6 col-lg-5">
+        <div class="linea-azul mb-3"></div>
+        <h4 class="font-weight-bold">Envía carga pesada desde donde tu quieras</h4>
+        <h5>Optimiza costos y tiempos. Evita papeleos innecesarios con tus envíos.</h5>
+        <h5 class="text-uppercase semibold"><a routerLink="/nuevo-usuario" class="color-texto-enlace">Registra tu Empresa <span class="color-texto-enlace">&#8594;</span></a></h5>
+      </div>
+      <div class="d-none d-md-block col-md-6 col-lg-4">
+        <img class="imagen-circular float-right" src="../../../assets/images/envia_carga.png" alt="Registra tu empresa">
+      </div>
+    </div>
+    <div class="row fila-info" #transportistas>
+      <div class="d-sm-block col-12 d-md-none">
+        <img class="imagen-circular imagen-circular mx-auto d-block" src="../../../assets/images/trabaja_nosotros.png" alt="Trabaja con nosotros">
+      </div>
+      <div class="d-none d-md-block offset-md-2 col-md-4">
+        <img class="imagen-circular float-right" src="../../../assets/images/trabaja_nosotros.png" alt="Trabaja con nosotros">
+      </div>
+      <div class="col-12 col-md-6 offset-lg-1 col-lg-5 text-md-right">
+        <div class="linea-azul mb-3 d-inline-flex"></div>
+        <h4 class="font-weight-bold">Trabaja con nosotros y recibe ofertas todo el tiempo</h4>
+        <h5>Gana dinero de forma fácil y segura con un horario flexible</h5>
+        <h5 class="text-uppercase semibold"><a routerLink="/nuevo-usuario" class="color-texto-enlace">Trabaja con nosotros <span class="color-texto-enlace">&#8594;</span></a></h5>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- /Seccion 2 -->
+
+<!-- Seccion 3 -->
+<!-- Tarjetas -->
+<div #beneficios></div>
+<section id="seccion3">
+  <div class="container h-100">
+    <div class="row h-100 fila-tarjetas scrollbar-primary">
+      <div class="col-7 col-md-4 h-100 align-self-center">
+        <div class="tarjeta bg-white"><h3 class="font-weight-bold text-center color-texto-tarjeta-fondo-blanco mx-auto d-block">Optimiza costos por flete</h3></div>
+      </div>
+      <div class="col-7 col-md-4 h-100 align-self-center">
+        <div class="tarjeta tarjeta-imagen-fondo">
+          <div class="row">
+            <div class="col-12">
+              <img class="mx-auto d-block pb-4" src="../../../assets/images/reloj.svg" alt="Agiliza tiempos de distribución">
+            </div>
+            <div class="col-12">
+              <h6 class="font-weight-bold text-center color-texto-tarjeta-fondo-imagen">Agiliza tiempos de distribución</h6>
+            </div>
+            <div class="col-12">
+              <h6 class="text-center color-texto-tarjeta-fondo-imagen">Recibe ofertas de nuestros transportistas en minutos</h6>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-7 col-md-4 h-100 align-self-center">
+        <div class="tarjeta bg-white"><h3 class="font-weight-bold text-center color-texto-tarjeta-fondo-blanco mx-auto d-block">Envíos a nivel nacional</h3></div>
+      </div>
+      <div class="col-7 col-md-4 h-100 align-self-center">
+        <div class="tarjeta tarjeta-imagen-fondo">
+          <div class="row">
+            <div class="col-12">
+              <img class="mx-auto d-block pb-4" src="../../../assets/images/cajas.svg" alt="Agiliza tiempos de distribución">
+            </div>
+            <div class="col-12">
+              <h6 class="font-weight-bold text-center color-texto-tarjeta-fondo-imagen">Optimiza costos por flete</h6>
+            </div>
+            <div class="col-12">
+              <h6 class="text-center color-texto-tarjeta-fondo-imagen">Reduce los gastos de envío hasta un 25-30%.</h6>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-7 col-md-4 h-100 align-self-center">
+        <div class="tarjeta tarjeta-imagen-fondo">
+          <div class="row">
+            <div class="col-12">
+              <img class="mx-auto d-block pb-4" src="../../../assets/images/camion.svg" alt="Agiliza tiempos de distribución">
+            </div>
+            <div class="col-12">
+              <h6 class="font-weight-bold text-center color-texto-tarjeta-fondo-imagen">Envíos a nivel nacional</h6>
+            </div>
+            <div class="col-12">
+              <h6 class="text-center color-texto-tarjeta-fondo-imagen">¿Necesitas un servicio directo? Podemos atenderte también en nuestras oficinas ubicadas en Ecuador.</h6>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-7 col-md-4 h-100 align-self-center">
+        <div class="tarjeta tarjeta-imagen-fondo">
+          <div class="row">
+            <div class="col-12">
+              <img class="mx-auto d-block pb-4" src="../../../assets/images/telefono.svg" alt="Agiliza tiempos de distribución">
+            </div>
+            <div class="col-12">
+              <h6 class="font-weight-bold text-center color-texto-tarjeta-fondo-imagen">Tiempo de respuesta inmediata</h6>
+            </div>
+            <div class="col-12">
+              <h6 class="text-center color-texto-tarjeta-fondo-imagen">Ingresa las especificaciones de tus pedidos. Elige la mejor oferta y que tu carga empiece a rodar.</h6>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- /Seccion 3 -->
+
+<!-- Seccion 4 -->
+<!-- Video -->
+<section id="seccion4">
+  <div class="container-fluid h-100 middle text-center pl-0 pr-0">
+    <div class="d-inline-block w-100 h-100">
+      <iframe class="video-tas-on" src="https://www.youtube.com/embed/bDuFnS-zNtQ?rel=0"
+              frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen></iframe>
+    </div>
+  </div>
+</section>
+<!-- /Seccion 4 -->
+
+<!-- Seccion 5 -->
+<!-- Certificaciones - Imagen camión -->
+<section id="seccion5" class="mt-md-5 overflow-hidden">
+  <div class="container h-100">
+    <div class="row h-100">
+      <div class="col-12 col-md-6 offset-lg-1 col-lg-5 align-self-center">
+        <div class="linea-azul mb-3"></div>
+        <h4 class="font-weight-bold">¡Tus envíos viajan seguros!</h4>
+        <h5>Puedes conseguir transportistas con certificaciones</h5>
+        <div class="row pb-4">
+          <div class="col-6 imagen-logos mx-auto d-block"><img class="" src="../../../assets/images/logo-BASC.png" alt=""></div>
+          <div class="col-6 imagen-logos mx-auto d-block"><img class="" src="../../../assets/images/logo-agencia-regulacion.png" alt=""></div>
+        </div>
+        <h5>Además accede a nuestros seguros de carga</h5>
+      </div>
+      <div class="d-none d-md-block col-md-6 pl-lg-5">
+        <img class="imagen-camion" src="../../../assets/images/camion.png" alt="Trabaja con nosotros">
+      </div>
+    </div>
+  </div>
+</section>
+<!-- /Seccion 5 -->
+
+<!-- Seccion 6 -->
+<!-- Empresa ecuatoriana - SRI - ANT - Seguros -->
+<section id="seccion6">
+  <div class="container-fluid h-100">
+    <div class="circulo-azul">
+      <div class="row h-100">
+        <div class="col-12 d-md-flex ml-md-0">
+          <div class="row align-self-center">
+            <div class="d-none d-md-block w-100 mb-4">
+              <div class="col-12"><h1 class="font-weight-bold text-center text-white">Somos una</h1></div>
+              <div class="col-12"><h2 class="text-center text-white">empresa 100%</h2></div>
+              <div class="col-12"><h1 class="font-weight-bold text-center text-white">ecuatoriana</h1></div>
+            </div>
+            <div class="col-12 d-block d-md-none w-100 mb-4">
+              <h2 class="font-weight-bold text-center text-white">Somos una empresa 100% ecuatoriana</h2>
+            </div>
+            <div class="col-4 col-md-2 offset-md-3">
+              <img class="mx-auto d-block logos-avalados pb-3" src="../../../assets/images/logo-SRI.png" alt="Facturación 0%">
+              <small class="text-center d-block text-white">Facturación electrónica 0% de iva</small>
+            </div>
+            <div class="col-4 col-md-2">
+              <img class="mx-auto d-block logos-avalados pb-3" src="../../../assets/images/logo-ANT.png" alt="Avalados ANT">
+              <small class="text-center d-block text-white">Avalados por la ANT</small>
+            </div>
+            <div class="col-4 col-md-2">
+              <img class="mx-auto d-block logos-avalados pb-3" src="../../../assets/images/logo-seguros.png" alt="Seguros">
+              <small class="text-center d-block text-white">Reconocimiento de seguros</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- /Seccion 6 -->
+
+
+<!-- Seccion 7 -->
+<!-- Descarga app -->
+<section id="seccion7" #app>
+  <div class="container h-100">
+    <div class="row h-100">
+      <div class="col-12 col-lg-6 align-self-center h-100">
+        <img class="mx-auto d-block codigo-qr" src="../../../assets/images/qr.png" alt="Código QR">
+        <h4 class="font-weight-bold text-center">Descarga nuestra app</h4>
+        <h5 class="text-center">y maneja tus datos logísticos desde la comodidad de tu celular</h5>
+        <a href="https://play.google.com/store/apps/details?id=ec.redcode.tas.on.android" target="_blank">
+          <img class="mx-auto d-block google-play-logo" src="../../../assets/images/google-play-badge.png" alt="GooglePlay">
+        </a>
+      </div>
+      <div class="d-none d-lg-block col-lg-6">
+        <img class="mx-auto d-block celular" src="../../../assets/images/celular.png" alt="Descarga Tas-On">
+        <img class="mx-auto d-block logo-tason-circulo" src="../../../assets/images/logo/tason-circulo.png" alt="Descarga Tas-On">
+      </div>
+    </div>
+  </div>
+</section>
+<!-- /Seccion 7 -->
+
+<!-- Footer -->
+<!-- Contáctanos -->
+<footer class="footer pb-3" #contacto>
+  <div class="container h-100">
+    <div class="row d-none d-md-flex">
+      <div class="col-4 offset-1 ">
+        <div class="fila-encabezado-contacto">
+          <img src="../../../assets/images/logo/logo-texto.png" alt="Tas-On">
+        </div>
+        <div class="fila-contacto">
+          <img src="../../../assets/images/mail.svg" alt="Correo" class="d-block d-md-inline pr-4"><span>info@tas-on.com</span>
+        </div>
+        <!--div class="fila-contacto">
+          <img src="../../../assets/images/phone.svg" alt="Teléfono" class="d-block d-md-inline pr-4"><span>+593 900 000 000</span>
+        </div-->
+      </div>
+      <div class="col-4">
+        <div class="fila-encabezado-contacto"></div>
+        <div class="fila-contacto"><a routerLink="/login" class="color-unset">Mi cuenta</a></div>
+        <div class="fila-contacto"><a routerLink="/nuevo-usuario" class="color-unset"><span>Registrarse</span></a></div>
+      </div>
+      <div class="col-3">
+        <div class="fila-encabezado-contacto"></div>
+        <div class="fila-contacto"><a href="https://www.facebook.com/TasOnApp/" class="color-unset" target="_blank">Facebook</a></div>
+        <div class="fila-contacto"><a href="https://www.linkedin.com/company/tas-on/" class="color-unset" target="_blank">LinkedIn</a></div>
+      </div>
+    </div>
+
+    <div class="row d-md-none text-center">
+      <div class="col">
+        <div class="fila-encabezado-contacto">
+          <img src="../../../assets/images/logo/logo-texto.png" alt="Tas-On">
+        </div>
+        <div class="fila-contacto">
+          <img src="../../../assets/images/mail.svg" alt="Correo" class="pr-4"><span>info@tas-on.com</span>
+        </div>
+        <div class="fila-contacto">
+          <a class="nav-link d-inline" href="https://www.facebook.com/TasOnApp/" target="_blank">
+            <i class="fab fa-facebook-square darkgray" title="Facebook"></i>
+          </a>
+          <a class="nav-link d-inline" href="https://www.linkedin.com/company/tas-on/" target="_blank">
+            <i class="fab fa-linkedin darkgray" title="LinkedIn"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+<div class="footer copyright">
+  <div class="container h-100">
+    <div class="row h-100">
+      <div class="col-12 middle">
+        <small>Copyright © all rights reserved. Powered by Tas-On</small>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- /Footer -->
+
+<!-- Whatsapp -->
+<div class="contenedor-whatsapp-button middle">
+  <a class="whatsapp-button"
+     href="https://api.whatsapp.com/send?phone=593984993418&text=Hola!%20Quiero%20obtener%20más%20información%20sobre%20Tas-On"
+     target="_blank">
+    <i class="fab fa-whatsapp" title="Escríbenos"></i>
+  </a>
+</div>
+<!-- /Whatsapp -->

@@ -1,0 +1,72 @@
+<ngx-loading [show]="loading"></ngx-loading>
+<div class="container-fluid margin-top-container">
+  <form>
+    <h3>Solicitudes</h3>
+    <hr>
+    <div *ngIf="solNew">
+      <button type="button" class="btn btn-primary" (click)="nuevaSolicitud()">Nueva solicitud</button>
+      <button type="button" class="btn btn-primary" (click)="refrescarDoc()">
+        <i class="fas fa-retweet" title="Refrescar documentos"></i>
+      </button>
+      <hr>
+      <ngx-datatable
+        class='material tableHeightFixed'
+        [columns]="columns"
+        [columnMode]="'force'"
+        [headerHeight]="'auto'"
+        [footerHeight]="50"
+        [rowHeight]="'auto'"
+        [limit]="25"
+        [rows]='listaSolicitudes'
+        [selectionType]="'single'"
+        [scrollbarH]="true"
+        [messages]="{emptyMessage:'Sin registros para mostrar...',totalMessage: 'total',selectedMessage: 'selected'}">
+      </ngx-datatable>
+    </div>
+
+    <div [ngClass]="{'hide-element': solNew}">
+      <ng-template #dynamicInsert></ng-template>
+    </div>
+
+    <div id="templates">
+      <ng-template #tmplIndex let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+        <strong>{{rowIndex+1}}</strong>
+      </ng-template>
+      <ng-template #tmplDate let-value="value">
+        <div>{{value | date: appConfig.formatoFecha}}</div>
+      </ng-template>
+      <ng-template #linkButton let-value="value" let-rowIndex="rowIndex" let-row="row">
+        <button type="button" class="btn btn-primary info-button-small" title="Editar"
+                (click)="editar(row.idSolicitud)">
+          <i class="fas fa-edit"></i>
+        </button>
+        <button type="button" class="btn btn-warning info-button-small" title="Cancelar"
+                (click)="cancelar(row.idSolicitud)">
+          <i class="fas fa-minus-circle"></i>
+        </button>
+        <button *ngIf="false" type="button" class="btn btn-danger info-button-small" title="Eliminar"
+                (click)="eliminar(row)">
+          <i class="fas fa-trash-alt"></i>
+        </button>
+      </ng-template>
+      <ng-template #tmpPeso let-value="value" let-rowIndex="rowIndex" let-row="row">
+        <div>{{row.peso}} {{row.medida}}</div>
+      </ng-template>
+      <ng-template #tmplFiltro let-column="column">
+        {{column.name}}
+        <input
+          type='text'
+          style="float: left; width: 100%"
+          (keyup)='updateFilter($event,column.prop)'/>
+      </ng-template>
+      <ng-template #tmplFiltroDate let-column="column">
+        {{column.name}}
+        <my-date-picker locale="es" placeholder="{{myDatePickerOptions.dateFormat}}"
+                        [options]="myDatePickerOptions"
+                        (dateChanged)='updateFilterData($event,column.prop)'>
+        </my-date-picker>
+      </ng-template>
+    </div>
+  </form>
+</div>
+

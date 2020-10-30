@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/numeroPiezas"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/padding_title_top"
+        android:text="@string/numero_piezas" />
+
+    <TextView
+        android:id="@+id/ciudadOrigen"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/ciudad_origen" />
+
+    <TextView
+        android:id="@+id/ciudadDestino"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/ciudad_destino" />
+
+    <TextView
+        android:id="@+id/detallesAdicionales"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/detalles_adicionales" />
+
+    <TextView
+        android:id="@+id/precioUnitario"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/precio_unitario" />
+
+    <TextView
+        android:id="@+id/descuento"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/descuento" />
+
+    <TextView
+        android:id="@+id/total"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/total" />
+
+</LinearLayout>

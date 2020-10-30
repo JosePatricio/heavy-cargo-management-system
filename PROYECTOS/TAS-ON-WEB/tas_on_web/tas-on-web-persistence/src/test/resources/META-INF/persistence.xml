@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence" version="2.1">
+
+    <persistence-unit name="TasOnPersistenceUnitTest" transaction-type="RESOURCE_LOCAL">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <class>ec.net.redcode.tas.on.persistence.entities.Catalogo</class>
+        <class>ec.net.redcode.tas.on.persistence.entities.Contrato</class>
+        <class>ec.net.redcode.tas.on.persistence.entities.Factura</class>
+        <class>ec.net.redcode.tas.on.persistence.entities.Cliente</class>
+        <class>ec.net.redcode.tas.on.persistence.entities.FacturaDetalle</class>
+        <class>ec.net.redcode.tas.on.persistence.entities.Localidad</class>
+        <class>ec.net.redcode.tas.on.persistence.entities.Oferta</class>
+        <class>ec.net.redcode.tas.on.persistence.entities.SolicitudEnvio</class>
+        <class>ec.net.redcode.tas.on.persistence.entities.Usuario</class>
+        <class>ec.net.redcode.tas.on.persistence.entities.CatalogoItem</class>
+        <class>ec.net.redcode.tas.on.persistence.entities.Vehiculo</class>
+        <class>ec.net.redcode.tas.on.persistence.entities.Conductor</class>
+        <class>ec.net.redcode.tas.on.persistence.entities.Pago</class>
+        <properties>
+            <!-- Hibernate properties -->
+            <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
+            <property name="hibernate.format_sql" value="false"/>
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.id.new_generator_mappings" value="false"/>
+        </properties>
+    </persistence-unit>
+</persistence>

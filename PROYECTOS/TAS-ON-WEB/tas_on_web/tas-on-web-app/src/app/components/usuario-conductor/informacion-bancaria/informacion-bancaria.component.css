@@ -1,0 +1,25 @@
+.margin{
+  margin-bottom: 20px;
+  margin-top: 20px;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.card{
+  margin-top: 10px;
+}
+
+.card-text{
+  color: black;
+}
+
+.col-md-6, .col-12{
+  margin-bottom: 1rem;
+}
+
+.show-hide-password {
+  position: absolute;
+  right: 35px;
+  margin-top: -27px;
+  color: #32519D;
+}

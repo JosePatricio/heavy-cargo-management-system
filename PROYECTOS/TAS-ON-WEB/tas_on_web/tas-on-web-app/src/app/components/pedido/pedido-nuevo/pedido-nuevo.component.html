@@ -1,0 +1,240 @@
+<ngx-loading [show]="loading"></ngx-loading>
+<div class="container-fluid margin-top-container">
+  <h3>Nuevo pedido</h3>
+  <hr>
+  <form novalidate #forma="ngForm" autocomplete="on">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="productoBusqueda">* Buscar</label>
+          <input type="text" class="form-control" id="productoBusqueda" name="productoBusqueda"
+                 [(ngModel)]="selectedValue" required
+                 [typeahead]="productos"
+                 typeaheadOptionField="productoNombre"
+                 [typeaheadItemTemplate]="customCapTemplate"
+                 (typeaheadOnSelect)="onSelect($event)"
+          >
+        </div>
+      </div>
+      <div class="col-md-6"></div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="productoNombre">* Producto</label>
+          <input type="text" class="form-control" id="productoNombre" name="productoNombre" disabled
+                 [(ngModel)]="producto.productoNombre" required>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="productoCodigo">* Codigo</label>
+          <input type="text" class="form-control" id="productoCodigo" name="productoCodigo" disabled
+                 [(ngModel)]="producto.productoCodigo" required>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="productoPrecioSinImp">* Precio sin imp</label>
+          <input type="text" class="form-control" id="productoPrecioSinImp" name="productoPrecioSinImp" disabled
+                 [(ngModel)]="producto.productoPrecioSinImp" required>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="productoPrecioImp">* Precio + imp</label>
+          <input type="text" class="form-control" id="productoPrecioImp" name="productoPrecioImp" disabled
+                 [(ngModel)]="producto.productoPrecioConImp" required>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="productoPvpSugeridoSinImp">* Precio sugerido sin imp</label>
+          <input type="text" class="form-control" id="productoPvpSugeridoSinImp" name="productoPvpSugeridoSinImp" disabled
+                 [(ngModel)]="producto.productoPrecioPvpSinImp" required>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="productoPvpSugeridoConImp">* Precio sugerido + imp</label>
+          <input type="text" class="form-control" id="productoPvpSugeridoConImp" name="productoPvpSugeridoConImp" disabled
+                 [(ngModel)]="producto.productoPrecioPvpConImp" required>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="productoCantidad">* Cantidad</label>
+          <input type="number" class="form-control" id="productoCantidad" name="productoCantidad"
+                 [(ngModel)]="producto.productoCantidad" required>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-right mb-2 mt-1">
+      <button type="button" class="btn btn-secondary" (click)="limpiarCamposNuevoProducto()">Limpiar campos</button>
+      <button type="button" class="btn btn-info" (click)="agregarProducto()">Agregar producto</button>
+    </div>
+
+    <div class="mt-3 mb-3 d-md-none">
+      <h3>Detalle del pedido</h3>
+      <hr>
+      <table class="w-100">
+        <ng-container *ngFor="let item of productosSolicitados; index as i;">
+          <tr [ngClass]="{'fondoTabla': i%2==0}">
+            <td>Producto</td><td>{{item.productoNombre}}</td>
+          </tr>
+          <tr [ngClass]="{'fondoTabla': i%2==0}">
+            <td>Cantidad</td><td>{{item.productoCantidad}}</td>
+          </tr>
+          <tr [ngClass]="{'fondoTabla': i%2==0}">
+            <td>Precio + Imp</td><td>{{item.productoPrecioConImp}}</td>
+          </tr>
+          <tr [ngClass]="{'fondoTabla': i%2==0}">
+            <td>Total</td><td>{{item.precioTotalConImp}}</td>
+          </tr>
+          <tr [ngClass]="{'fondoTabla': i%2==0}">
+            <td>Eliminar</td>
+            <td>
+              <button type="button" class="btn btn-danger info-button-small" (click)="eliminarPorCodigo(item.codigo)">
+              <i class="fas fa-trash"></i>
+              </button>
+            </td>
+          </tr>
+        </ng-container>
+        <tr class="alto-total">
+          <td>Total</td><td><b>{{pedido.total}}</b></td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="d-none d-md-block mt-3 mb-3">
+      <h3>Detalle del pedido</h3>
+      <hr>
+      <ngx-datatable
+        class='material tableHeightFixed'
+        [columnMode]="'force'"
+        [headerHeight]="'auto'"
+        [footerHeight]="50"
+        [rowHeight]="'auto'"
+        [columns]="columns"
+        [rows]="productosSolicitados"
+        [scrollbarH]="true"
+        [selectionType]="'single'"
+        [messages]="{emptyMessage:'Sin registros para mostrar...',totalMessage: 'total',selectedMessage: 'selected'}">
+      </ngx-datatable>
+
+      <div id="templates">
+        <ng-template #linkButton let-value="value" let-rowIndex="rowIndex" let-row="row">
+          <button type="button" class="btn btn-danger info-button-small" (click)="eliminar(rowIndex)">
+            <i class="fas fa-trash"></i>
+          </button>
+        </ng-template>
+      </div>
+
+      <div class="mt-3 mb-3 text-right">Total: <b>{{pedido.total}}</b></div>
+    </div>
+
+    <h3>Datos de entrega</h3>
+    <hr>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="entregarA">* Entregar a</label>
+          <input type="text" class="form-control" id="entregarA" name="entregarA"
+                 [(ngModel)]="pedido.personaRecibe" required>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="fechaEntrega">* Fecha de entrega</label>
+          <input type="text" id="fechaEntrega" name="fechaEntrega" [(ngModel)]="fechaEntregaPedido"
+                 class="form-control" bsDatepicker [bsConfig]="{ isAnimated: true }">
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="form-group">
+          <label for="horarioDesde">* Hora de entrega (desde)</label>
+          <timepicker [(ngModel)]="horarioRecibeDesde" [showMeridian]="false" id="horarioDesde" name="horarioDesde"></timepicker>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="form-group">
+          <label for="horarioHasta">* Hora de entrega (hasta)</label>
+          <timepicker [(ngModel)]="horarioRecibeHasta" [showMeridian]="false" id="horarioHasta" name="horarioHasta"></timepicker>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="credito">* Solicita crédito</label>
+            <input type="checkbox" name="credito" id="credito" #credito="ngModel" [(ngModel)]="pedido.solicitaCredito" required>
+        </div>
+      </div>
+      <div *ngIf="pedido.solicitaCredito" class="col-12">
+        <h3>Documentos para el crédito</h3>
+        <hr>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="fileCedula1">Cédula</label>
+            <input type="file" id="fileCedula1" (change)="onFileChange($event, 'Cedula lado 1')" accept="image/*" class="form-control">
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="fileServicioBasico">Servicio básico</label>
+            <input type="file" id="fileServicioBasico" (change)="onFileChange($event, 'Servicio basico')" accept="image/*" class="form-control">
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="fileSolicitudCredito">Solicitud crédito</label>
+            <input type="file" id="fileSolicitudCredito" (change)="onFileChange($event, 'Solicitud credito')" accept="image/*" class="form-control">
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="contenedor-imagenes">
+            <img [ngClass]="{'imagen-seleccionada': imagenEntregaSeleccionada==i}" class="imagen-oferta" alt="Imagen de recolección"
+                 *ngFor="let imagen of imagenesCredito; index as i" [src]="'data:image/jpg;base64,'+imagen.file" (click)="seleccionarImagen(i)">
+          </div>
+          <button *ngIf="imagenEntregaSeleccionada>=0" type="button" (click)="eliminarImagen()"
+                  class="btn btn-warning mt-3">Eliminar imagen</button>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="row mb-2">
+      <button type="button" class="btn btn-primary col-12 col-lg-3 mt-1 mr-2" (click)="hacerPedido()">Hacer pedido</button>
+      <button type="button" class="btn btn-secondary col-12 col-lg-3 mt-1" (click)="regresar()">Regresar</button>
+    </div>
+
+
+    <ng-template #customCapTemplate let-model="item" let-index="index">
+      <h5>{{model.productoCodigo}} {{model.productoNombre}}</h5>
+    </ng-template>
+  </form>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Alerta...!</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="cerrarMensaje()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        <div class="alert alert-success" role="alert"
+             [ngClass]="{'alert-success': operacionCorrecta,'alert-danger': !operacionCorrecta}">
+          <strong>{{mensajeOperacion}}</strong>
+        </div>
+
+      </div>
+      <div class="modal-footer justify-content-md-center">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="cerrarMensaje()">Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

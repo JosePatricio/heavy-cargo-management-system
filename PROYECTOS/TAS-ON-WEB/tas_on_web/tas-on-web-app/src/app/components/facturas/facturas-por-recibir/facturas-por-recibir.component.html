@@ -1,0 +1,598 @@
+<ngx-loading [show]="loading"></ngx-loading>
+<div class="container-fluid margin-top-container">
+  <form>
+    <h3>Facturas por recibir</h3>
+    <hr>
+    <div>
+      <ngx-datatable
+        class='material tableHeightFixed'
+        [columnMode]="'force'"
+        [headerHeight]="'auto'"
+        [footerHeight]="50"
+        [rowHeight]="'auto'"
+        [rows]='facturas'
+        [columns]="columns"
+        [scrollbarH]="true"
+        [selectionType]="'single'"
+        [messages]="{emptyMessage:'Sin registros para mostrar...',totalMessage: 'total',selectedMessage: 'selected'}">
+      </ngx-datatable>
+    </div>
+    <div id="templates">
+      <ng-template #tmplIndex let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+        <strong>{{rowIndex+1}}</strong>
+      </ng-template>
+      <ng-template #linkButton let-value="value" let-rowIndex="rowIndex" let-row="row">
+        <button type="button" class="btn btn-primary info-button-small" (click)="callDetailInvoice(row)">
+          <i class="fas fa-eye"></i>
+        </button>
+      </ng-template>
+      <ng-template #tmplAmount let-value="value" let-rowIndex="rowIndex" let-row="row">
+        <div class="amount-text wm-100">
+          {{(row.invoicesTypePay==appConfig.idPagoInmediato?value-row.invoicesDiscount:value ) | currency:'USD':'symbol'}}
+        </div>
+      </ng-template>
+      <ng-template #tmplDiscount let-value="value" let-rowIndex="rowIndex" let-row="row">
+        <div class="amount-text wm-100">{{value | currency:'USD':'symbol'}}
+        </div>
+      </ng-template>
+      <ng-template #tmplTypePay let-value="value" let-rowIndex="rowIndex" let-row="row">
+        <strong>{{row.invoicesTypePay===0?'NORMAL':value}}</strong>
+      </ng-template>
+    </div>
+  </form>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="modPreviewInvoice" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog forma" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">[ FACTURA ELECTRÓNICA/MANUAL ]</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form novalidate #forma="ngForm">
+        <div class="modal-body">
+          <h5 class="modal-title" id="provData">Datos del proveedor:</h5>
+          <div class="col">
+            <div class="row">
+              <div class="col-md-1">
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label>Razon social:</label>
+                </div>
+              </div>
+              <div class="col-md-5">
+                <div class="form-group"
+                     [ngClass]="{'has-danger': chkNombProv.errors?.required  && chkNombProv.touched}">
+                  <input class="form-control" id="nombreCt" name="nombreCt" [readonly]="true"
+                         [(ngModel)]="datosCompania.razonSocial" value="{{datosCompania.razonSocial}}">
+                </div>
+              </div>
+              <div class="col-md-1">
+                <div class="form-group"
+                     [ngClass]="{'has-danger': chkNombProv.errors?.required  && chkNombProv.touched}">
+                  <input type="checkbox" name="chkNombProv" id="chkNombProv" #chkNombProv="ngModel" [ngModel]=""
+                         required/>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="form-group"
+                     [ngClass]="{'has-danger': chkNombProv.errors?.required  && chkNombProv.touched}">
+                  <div *ngIf="chkNombProv.errors?.required" class="form-control-feedback small-text-msg">
+                    {{appConfig.msgRequerido}}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-1">
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label>RUC:</label>
+                </div>
+              </div>
+              <div class="col-md-5">
+                <div class="form-group" [ngClass]="{'has-danger': chkRucProv.errors?.required  && chkRucProv.touched}">
+                  <input class="form-control" id="rucCt" name="rucCt" [readonly]="true"
+                         [(ngModel)]="datosCompania.ruc" value="{{datosCompania.ruc}}">
+                </div>
+              </div>
+              <div class="col-md-1">
+                <div class="form-group" [ngClass]="{'has-danger': chkRucProv.errors?.required  && chkRucProv.touched}">
+                  <input type="checkbox" name="chkRucProv" id="chkRucProv" #chkRucProv="ngModel" [ngModel]="" required/>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="form-group" [ngClass]="{'has-danger': chkRucProv.errors?.required  && chkRucProv.touched}">
+                  <div *ngIf="chkRucProv.errors?.required" class="form-control-feedback small-text-msg">
+                    {{appConfig.msgRequerido}}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-1">
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label for="noFactCt">No. factura:</label>
+                </div>
+              </div>
+              <div class="col-md-5">
+                <div class="form-group" [ngClass]="{'has-danger': noFactCt.errors?.required  && noFactCt.touched}">
+                  <input class="form-control" id="noFactCt" name="noFactCt" [(ngModel)]="invoiceData.noFact"
+                         #noFactCt="ngModel" value="{{invoiceData.noFact}}" required maxlength="17" minlength="17"
+                         pattern="([0-9]{3}-[0-9]{3}-[0-9]{9})">
+                </div>
+              </div>
+              <div class="col-md-1">
+              </div>
+              <div class="col-md-2">
+                <div class="form-group" [ngClass]="{'has-danger': noFactCt.errors?.required  && noFactCt.touched}">
+                  <div *ngIf="noFactCt.errors?.required" class="form-control-feedback small-text-msg">
+                    {{appConfig.msgRequerido}}
+                  </div>
+                  <div *ngIf="noFactCt.errors?.maxlength" class="form-control-feedback small-text-msg">
+                    Maximo de caracteres: {{noFactCt.errors.maxlength.requiredLength}}
+                  </div>
+                  <div *ngIf="noFactCt.errors?.pattern" class="form-control-feedback small-text-msg">
+                    El formato es el siguiente: 001-001-12...789
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-1">
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label for="noAutCt">No. autorizacion:</label>
+                </div>
+              </div>
+              <div class="col-md-5">
+                <div class="form-group" [ngClass]="{'has-danger': noAutCt.errors?.required  && noAutCt.touched}">
+                  <input class="form-control" id="noAutCt" name="noAutCt" [(ngModel)]="invoiceData.noAut"
+                         value="{{invoiceData.noAut}}" #noAutCt="ngModel" required maxlength="37" minlength="10"
+                         pattern="[0-9]+">
+                </div>
+              </div>
+              <div class="col-md-1">
+              </div>
+              <div class="col-md-2">
+                <div class="form-group" [ngClass]="{'has-danger': noAutCt.errors?.required  && noAutCt.touched}">
+                  <div *ngIf="noAutCt.errors?.required" class="form-control-feedback small-text-msg">
+                    {{appConfig.msgRequerido}}
+                  </div>
+                  <div *ngIf="noAutCt.errors?.minlength" class="form-control-feedback small-text-msg">
+                    Minimo de caracteres: {{noAutCt.errors.minlength.requiredLength}}
+                  </div>
+                  <div *ngIf="noAutCt.errors?.pattern" class="form-control-feedback small-text-msg">
+                    {{appConfig.msgSoloNumeros}}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-1">
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label>Fecha autorizacion:</label>
+                </div>
+              </div>
+              <div class="col-md-5">
+                <div class="form-group">
+                  <my-date-picker id="factFechAut" locale="es" name="factFechAut" placeholder="Fecha de autorización"
+                                  [options]="myDatePickerOptions" [(ngModel)]="invoiceData.fechAut"
+                                  #factFechAut="ngModel"
+                                  required datesLessValidator></my-date-picker>
+                </div>
+              </div>
+              <div class="col-md-1">
+              </div>
+              <div class="col-md-2">
+                <div class="form-group"
+                     [ngClass]="{'has-danger': (factFechAut.errors?.required  || factFechAut.errors?.dateLess) && factFechAut.touched}">
+                  <div *ngIf="factFechAut.errors?.required" class="form-control-feedback small-text-msg">
+                    {{appConfig.msgRequerido}}
+                  </div>
+                  <div *ngIf="factFechAut.errors?.dateLess" class="form-control-feedback small-text-msg">Fecha maxima no
+                    debe ser mayor a {{maxDate|date: appConfig.formatoFechaHora}}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <h5 class="modal-title" id="tasData">Datos de TAS-ON:</h5>
+          <div class="col">
+            <div class="row">
+              <div class="col-md-1">
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label>Razon social:</label>
+                </div>
+              </div>
+              <div class="col-md-5">
+                <div class="form-group" [ngClass]="{'has-danger': chkRsTas.errors?.required  && chkRsTas.touched}">
+                  <input class="form-control" id="nombreTas" name="nombreTas" [readonly]="true"
+                         [(ngModel)]="datosTasOn.razonSocial" value="{{datosTasOn.razonSocial}}">
+                </div>
+              </div>
+              <div class="col-md-1">
+                <div class="form-group" [ngClass]="{'has-danger': chkRsTas.errors?.required  && chkRsTas.touched}">
+                  <input type="checkbox" name="chkRsTas" id="chkRsTas" #chkRsTas="ngModel" [ngModel]="" required>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="form-group" [ngClass]="{'has-danger': chkRsTas.errors?.required  && chkRsTas.touched}">
+                  <div *ngIf="chkRsTas.errors?.required" class="form-control-feedback small-text-msg">
+                    {{appConfig.msgRequerido}}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-1">
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label for="rucTas">RUC:</label>
+                </div>
+              </div>
+              <div class="col-md-5">
+                <div class="form-group" [ngClass]="{'has-danger': chkRucTas.errors?.required  && chkRucTas.touched}">
+                  <input class="form-control" id="rucTas" name="rucTas" [readonly]="true"
+                         [(ngModel)]="datosTasOn.ruc" value="{{datosTasOn.ruc}}">
+                </div>
+              </div>
+              <div class="col-md-1">
+                <div class="form-group" [ngClass]="{'has-danger': chkRsTas.errors?.required  && chkRsTas.touched}">
+                  <input type="checkbox" name="chkRucTas" id="chkRucTas" #chkRucTas="ngModel" [ngModel]="" required/>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="form-group" [ngClass]="{'has-danger': chkRucTas.errors?.required  && chkRucTas.touched}">
+                  <div *ngIf="chkRucTas.errors?.required" class="form-control-feedback small-text-msg">
+                    {{appConfig.msgRequerido}}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-1">
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label for="direccTas">Dirección:</label>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group" [ngClass]="{'has-danger': chkDirTas.errors?.required  && chkDirTas.touched}">
+                  <input class="form-control" id="direccTas" name="direccTas" [readonly]="true"
+                         [(ngModel)]="datosTasOn.direccion" value="{{datosTasOn.direccion}}">
+                </div>
+              </div>
+              <div class="col-md-1">
+                <div class="form-group" [ngClass]="{'has-danger': chkDirTas.errors?.required  && chkDirTas.touched}">
+                  <input type="checkbox" name="chkDirTas" id="chkDirTas" #chkDirTas="ngModel" [ngModel]="" required/>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="form-group" [ngClass]="{'has-danger': chkDirTas.errors?.required  && chkDirTas.touched}">
+                  <div *ngIf="chkDirTas.errors?.required" class="form-control-feedback small-text-msg">
+                    {{appConfig.msgRequerido}}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row" *ngIf="false">
+              <div class="col-md-1">
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label for="telefTas">Teléfono:</label>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <input class="form-control" id="telefTas" name="telefTas" [readonly]="true"
+                         [(ngModel)]="datosTasOn.direccion" value="{{datosTasOn.direccion}}">
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <input type="checkbox"/>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <h5 class="modal-title" id="factData">Datos de la factura:</h5>
+          <div class="col">
+            <div class="row">
+              <div class="col-md-1">
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label>Tipo de pago:</label>
+                </div>
+              </div>
+              <div class="col-md-5">
+                <div class="form-group" [ngClass]="{'has-danger': chkNumDoc.errors?.required  && chkNumDoc.touched}">
+                  <input class="form-control" id="invoicesTypePayDesc" name="invoicesTypePayDesc" [readonly]="true"
+                         [(ngModel)]="invoiceData.invoicesTypePayDesc" value="{{invoiceData.invoicesTypePayDesc}}">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-1">
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label>Número de documento:</label>
+                </div>
+              </div>
+              <div class="col-md-5">
+                <div class="form-group" [ngClass]="{'has-danger': chkNumDoc.errors?.required  && chkNumDoc.touched}">
+                  <input class="form-control" id="numdoc" name="numdoc" [readonly]="true"
+                         [(ngModel)]="invoiceData.numDoc" value="{{invoiceData.numDoc}}">
+                </div>
+              </div>
+              <div class="col-md-1">
+                <div class="form-group" [ngClass]="{'has-danger': chkNumDoc.errors?.required  && chkNumDoc.touched}">
+                  <input type="checkbox" name="chkNumDoc" id="chkNumDoc" #chkNumDoc="ngModel" [ngModel]="" required/>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="form-group" [ngClass]="{'has-danger': chkNumDoc.errors?.required  && chkNumDoc.touched}">
+                  <div *ngIf="chkNumDoc.errors?.required" class="form-control-feedback small-text-msg">
+                    {{appConfig.msgRequerido}}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-1">
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label>Fecha de emisión:</label>
+                </div>
+              </div>
+              <div class="col-md-5">
+                <div class="form-group" [ngClass]="{'has-danger': chkFechemi.errors?.required  && chkFechemi.touched}">
+                  <input class="form-control" id="fechemi" name="fechemi" [readonly]="true"
+                         value="{{invoiceData.fechPreFact | date: appConfig.formatoFecha}}">
+                </div>
+              </div>
+              <div class="col-md-1">
+                <div class="form-group" [ngClass]="{'has-danger': chkFechemi.errors?.required  && chkFechemi.touched}">
+                  <input type="checkbox" name="chkFechemi" id="chkFechemi" #chkFechemi="ngModel" [ngModel]="" required/>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="form-group" [ngClass]="{'has-danger': chkFechemi.errors?.required  && chkFechemi.touched}">
+                  <div *ngIf="chkFechemi.errors?.required" class="form-control-feedback small-text-msg">
+                    {{appConfig.msgRequerido}}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-1">
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label>Subtotal (IVA 0%):</label>
+                </div>
+              </div>
+              <div class="col-md-5">
+                <div class="form-group" [ngClass]="{'has-danger': chkSubIva.errors?.required  && chkSubIva.touched}">
+                  <input class="form-control" id="subt0" name="subt0" [readonly]="true"
+                         value="{{invoiceData.subTotal | number:'1.2'}}">
+                </div>
+              </div>
+              <div class="col-md-1">
+                <div class="form-group" [ngClass]="{'has-danger': chkSubIva.errors?.required  && chkSubIva.touched}">
+                  <input type="checkbox" name="chkSubIva" id="chkSubIva" #chkSubIva="ngModel" [ngModel]="" required/>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="form-group" [ngClass]="{'has-danger': chkSubIva.errors?.required  && chkSubIva.touched}">
+                  <div *ngIf="chkSubIva.errors?.required" class="form-control-feedback small-text-msg">
+                    {{appConfig.msgRequerido}}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row" *ngIf="invoiceData.invoiceTypePay===appConfig.idPagoInmediato">
+              <div class="col-md-1">
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label>Descuento:</label>
+                </div>
+              </div>
+              <div class="col-md-5">
+                <div class="form-group"
+                     [ngClass]="{'has-danger': chkDescuent.errors?.required  && chkDescuent.touched}">
+                  <input class="form-control" id="descuent" name="descuent" [readonly]="true"
+                         value="{{invoiceData.invoiceDiscount | number:'1.2'}}">
+                </div>
+              </div>
+              <div class="col-md-1">
+                <div class="form-group"
+                     [ngClass]="{'has-danger': chkDescuent.errors?.required  && chkDescuent.touched}">
+                  <input type="checkbox" name="chkDescuent" id="chkDescuent" #chkDescuent="ngModel" [ngModel]=""
+                         required/>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="form-group"
+                     [ngClass]="{'has-danger': chkDescuent.errors?.required  && chkDescuent.touched}">
+                  <div *ngIf="chkDescuent.errors?.required" class="form-control-feedback small-text-msg">
+                    {{appConfig.msgRequerido}}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-1">
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label>IVA:</label>
+                </div>
+              </div>
+              <div class="col-md-5">
+                <div class="form-group" [ngClass]="{'has-danger': chkIva.errors?.required  && chkIva.touched}">
+                  <input class="form-control" id="iva" name="iva" [readonly]="true" value="0.00">
+                </div>
+              </div>
+              <div class="col-md-1">
+                <div class="form-group" [ngClass]="{'has-danger': chkIva.errors?.required  && chkIva.touched}">
+                  <input type="checkbox" name="chkIva" id="chkIva" #chkIva="ngModel" [ngModel]="" required/>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="form-group" [ngClass]="{'has-danger': chkIva.errors?.required  && chkIva.touched}">
+                  <div *ngIf="chkIva.errors?.required" class="form-control-feedback small-text-msg">
+                    {{appConfig.msgRequerido}}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-1">
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label>Total:</label>
+                </div>
+              </div>
+              <div class="col-md-5">
+                <div class="form-group" [ngClass]="{'has-danger': chkTot.errors?.required  && chkTot.touched}">
+                  <input class="form-control" id="total" name="total" [readonly]="true"
+                         [(ngModel)]="invoiceData.amountInv" value="{{invoiceData.amountInv}}">
+                </div>
+              </div>
+              <div class="col-md-1">
+                <div class="form-group" [ngClass]="{'has-danger': chkTot.errors?.required  && chkTot.touched}">
+                  <input type="checkbox" name="chkTot" id="chkTot" #chkTot="ngModel" [ngModel]="" required/>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="form-group" [ngClass]="{'has-danger': chkTot.errors?.required  && chkTot.touched}">
+                  <div *ngIf="chkTot.errors?.required" class="form-control-feedback small-text-msg">
+                    {{appConfig.msgRequerido}}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-1">
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label>Firma sellado:</label>
+                </div>
+              </div>
+              <div class="col-md-5">
+                <div class="form-group" [ngClass]="{'has-danger': chkFirm.errors?.required  && chkFirm.touched}">
+                  <input class="form-control" id="firmSell" name="firmSell" [readonly]="true" value="">
+                </div>
+              </div>
+              <div class="col-md-1">
+                <div class="form-group" [ngClass]="{'has-danger': chkFirm.errors?.required  && chkFirm.touched}">
+                  <input type="checkbox" name="chkFirm" id="chkFirm" #chkFirm="ngModel" [ngModel]="" required/>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="form-group" [ngClass]="{'has-danger': chkFirm.errors?.required  && chkFirm.touched}">
+                  <div *ngIf="chkFirm.errors?.required" class="form-control-feedback small-text-msg">
+                    {{appConfig.msgRequerido}}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <h5 class="modal-title" id="factDataIng">Datos de ingreso:</h5>
+          <div class="col">
+            <div class="row">
+              <div class="col-md-1">
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label>Fecha de recepcion de factura:</label>
+                </div>
+              </div>
+              <div class="col-md-5">
+                <div class="form-group">
+                  <input class="form-control" id="fechRecFact" name="fechRecFact" [readonly]="true"
+                         value="{{invoiceData.fechRecivFact | date: appConfig.formatoFechaHoraSegundos}}">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-1">
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label>Persona que recibe la factura:</label>
+                </div>
+              </div>
+              <div class="col-md-5">
+                <div class="form-group">
+                  <input class="form-control" id="userRec" name="userRec" [readonly]="true"
+                         value="{{invoiceData.userReciv}}">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-1">
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label>Persona que entregó la factura:</label>
+                </div>
+              </div>
+              <div class="col-md-5">
+                <div class="form-group">
+                  <input class="form-control" id="userEntre" name="userEntre" [(ngModel)]="invoiceData.userEntre"
+                         #userEntre="ngModel"
+                         value="{{invoiceData.userEntre}}" pattern="([a-zA-Z\u00C0-\u017F ])*" required maxlength="100">
+                </div>
+              </div>
+              <div class="col-md-1">
+              </div>
+              <div class="col-md-2">
+                <div class="form-group" [ngClass]="{'has-danger': userEntre.errors?.required  && userEntre.touched}">
+                  <div *ngIf="userEntre.errors?.required" class="form-control-feedback small-text-msg">
+                    {{appConfig.msgRequerido}}
+                  </div>
+                  <div *ngIf="noFactCt.errors?.pattern" class="form-control-feedback small-text-msg">
+                    Ingrese un nombre.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="saveInvoice()"
+                  [disabled]="!forma.valid">Guardar
+          </button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="onCloseDialog()">Cerrar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

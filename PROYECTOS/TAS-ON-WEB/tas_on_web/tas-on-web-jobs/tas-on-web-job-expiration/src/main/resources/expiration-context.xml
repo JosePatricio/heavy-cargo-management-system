@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:camel="http://camel.apache.org/schema/spring"
+       xsi:schemaLocation="
+         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+         http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
+
+    <import resource="persistence-config.xml"/>
+
+    <bean id="expirationProcessor" class="ec.net.redcode.tas.on.job.expiration.processor.ExpirationProcessor">
+        <property name="solicitudEnvioService" ref="solicititudService"/>
+        <property name="ofertaService" ref="ofertaService"/>
+        <property name="clienteService" ref="clienteService"/>
+    </bean>
+
+    <bean id="expirationRoute" class="ec.net.redcode.tas.on.job.expiration.route.ExpirationRoute">
+    </bean>
+
+    <camel:camelContext id="tasOnCamelExpiration">
+        <camel:routeBuilder ref="expirationRoute"/>
+    </camel:camelContext>
+
+</beans>

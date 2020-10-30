@@ -1,0 +1,117 @@
+<ngx-loading [show]="loading"></ngx-loading>
+<div class="container-fluid margin-top-container">
+  <form>
+    <h3>Aprobar nuevos usuarios</h3>
+    <hr>
+    <div *ngIf="!viewUser">
+      <div class="col-md-5">
+        <div class="form-group" *ngIf="catUsers">
+          <label for="usuarioTipo">Tipo de Usuario</label>
+          <select class="form-control" id="usuarioTipo" name="usuarioTipo" [(ngModel)]="idCatUser"
+                  #usuarioTipo="ngModel" required (ngModelChange)="getUser(idCatUser,idCatState)">
+            <option></option>
+            <option *ngFor="let _usuarioTipo of catUsers" [value]="_usuarioTipo.catalogoItemId">
+              {{_usuarioTipo.catalogoItemDescripcion}}
+            </option>
+          </select>
+          <label for="usuarioEstado">Estado de Usuario</label>
+          <select class="form-control" id="usuarioEstado" name="usuarioEstado" [(ngModel)]="idCatState"
+                  #usuarioEstado="ngModel" required (ngModelChange)="getUser(idCatUser,idCatState)">
+            <option></option>
+            <option *ngFor="let _usuarioState of catState" [value]="_usuarioState.catalogoItemId">
+              {{_usuarioState.catalogoItemDescripcion}}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div *ngIf="usuarios">
+        <ngx-datatable
+          #table
+          class='material tableHeightFixed'
+          [columnMode]="'force'"
+          [headerHeight]="'auto'"
+          [footerHeight]="50"
+          [rowHeight]="'auto'"
+          [limit]="25"
+          [rows]='usuarios'
+          [columns]="columns"
+          [scrollbarH]="true"
+          [selectionType]="'single'"
+          [sorts]="[{prop: 'idSolicitud', dir: 'desc'},{prop: 'idOferta', dir: 'asc'}]">
+        </ngx-datatable>
+        <hr>
+      </div>
+    </div>
+    <div [ngClass]="{'hide-element': !viewUser}">
+      <ng-template #dynamicInsert></ng-template>
+    </div>
+
+    <div id="templates">
+      <ng-template #tmplIndex let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+        <strong>{{rowIndex+1}}</strong>
+      </ng-template>
+      <ng-template #linkButton let-value="value" let-rowIndex="rowIndex" let-row="row">
+        <button type="button" class="btn btn-success info-button-small"
+                (click)="checkOk(row,true)">
+          <i class="fas fa-check-circle"></i>
+        </button>
+        <button type="button" class="btn btn-warning info-button-small"
+                (click)="checkOk(row,false)">
+          <i class="fas fa-times"></i>
+        </button>
+      </ng-template>
+    </div>
+
+    <form novalidate #forma2="ngForm">
+      <!-- Modal -->
+      <div class="modal fade" id="restableceModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+      <div class="modal-dialog modal-dialog-w600" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">{{acepta?'Aprobación de':'Denegar '}} usuario</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+
+          <div class="modal-body">
+            Está seguro en <b>{{acepta?'ACEPTAR':'RECHAZAR'}}</b> el registro de: <b><i>{{userSelec.nombres}}
+            {{userSelec.apellidos}}</i></b>
+            <ng-container *ngIf="acepta">
+              <br>
+              <br>
+              <label for="rolUsr" class="font-weight-bold">* Elija un rol para el usuario:</label>
+              <select class="form-control" id="rolUsr" name="rolUsr"
+                      [(ngModel)]="rolNuevoUsuario" #rolUsr="ngModel" required>
+                <option *ngFor="let rol of tiposRol" [value]="rol.id">
+                  {{rol.descripcion}}
+                </option>
+              </select>
+              <br>
+              <table class="table table-hover">
+                <thead>
+                  <tr><th *ngFor="let head of columnsRol" scope="col">{{head}}</th></tr>
+                </thead>
+                <tbody>
+                  <tr mdbTableCol *ngFor="let el of elementsRol">
+                    <td>{{el.accion}}</td>
+                    <td class="text-center">{{el.rol1}}</td>
+                    <td class="text-center">{{el.rol2}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </ng-container>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-primary" data-dismiss="modal" [disabled]="!forma2.valid"
+                    (click)="aceptaUser()">Aceptar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    </form>
+  </form>
+</div>

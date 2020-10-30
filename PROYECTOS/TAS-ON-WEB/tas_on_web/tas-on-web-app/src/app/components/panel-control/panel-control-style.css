@@ -1,0 +1,56 @@
+/*For menu*/
+/*NO sent to master style*/
+a.list-group-item.collapsed > div > div > span > i.fas.fa-chevron-down {
+  display: block !important;
+}
+
+a.list-group-item > div > div > span > i.fas.fa-chevron-up {
+  display: block !important;
+}
+
+a.list-group-item > div > div > span > i.fas.fa-chevron-down {
+  display: none !important;
+}
+
+a.list-group-item.collapsed > div > div > span > i.fas.fa-chevron-up {
+  display: none !important;
+}
+
+
+.list-group-item.active{
+  background-color: unset !important;
+  font-weight: bold;
+  border-left-style: solid !important;
+  border-left-color: #03A9DD !important;
+}
+
+.list-group-item{
+  border: none !important;
+  background: transparent;
+}
+
+.navbar-lateral-tas-on{
+  background: #FDFDFD;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #F4F4F4;
+  border-top: none;
+  min-height:100vh;
+  font-size: 14px;
+}
+
+.navbar-lateral-tas-on-oculto{
+  background: none;
+  border-style: none;
+  border-width: 0;
+  min-height:auto;
+}
+
+/* Medium devices (tablets, less than 992px) */
+@media (max-width: 991.98px) {
+  .navbar-lateral-tas-on{
+    min-height:auto;
+  }
+}
+
+

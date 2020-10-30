@@ -1,0 +1,162 @@
+<ngx-loading [show]="loading"></ngx-loading>
+<div class="container-fluid margin-top-container">
+  <h3>Envíos</h3>
+  <hr>
+
+  <form novalidate #forma="ngForm" *ngIf="envioDetail">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="row">
+          <div class="col-md-3">
+            <div class="form-group">
+              <label for="razonSocialCliente">Razon Social:</label>
+            </div>
+          </div>
+          <div class="col-md-8">
+            <div class="form-group">
+              <input type="text" id="razonSocialCliente" name="razonSocialCliente" class="form-control"
+                     placeholder="Cliente"
+                     [(ngModel)]="razonSocial" #razonSocialCliente="ngModel">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="row">
+          <div class="col-md-3">
+            <div class="form-group">
+              <label for="nroDocCliente">Número documento:</label>
+            </div>
+          </div>
+          <div class="col-md-8">
+            <div class="form-group">
+              <input type="text" id="nroDocCliente" class="form-control" name="nroDocCliente"
+                     [(ngModel)]="nroDocumento" #nroDocCliente="ngModel">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="row">
+          <div class="col-md-3">
+            <div class="form-group">
+              <label for="fechaDesde">Fecha desde:</label>
+            </div>
+          </div>
+          <div class="col-md-8">
+            <div class="form-group">
+              <input type="text" class="form-control" id="fechaDesde" name="fechaDesde"
+                     [(ngModel)]="fechaRecoleccionEnvioDesde" #fechaDesde="ngModel" dateTimePicker
+                     placeholder="Fecha de recolección"
+                     [value]="fechaRecoleccionEnvioDesde | date: appConfig.formatoFecha" [locale]="'es'">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="row">
+          <div class="col-md-3">
+            <div class="form-group">
+              <label for="fechaHasta">Fecha hasta:</label>
+            </div>
+          </div>
+          <div class="col-md-8">
+            <div class="form-group">
+              <input type="text" class="form-control" id="fechaHasta" name="fechaHasta"
+                     [(ngModel)]="fechaRecoleccionEnvioHasta" #fechaHasta="ngModel" dateTimePicker
+                     placeholder="Fecha de recolección"
+                     [value]="fechaRecoleccionEnvioHasta | date: appConfig.formatoFecha" [locale]="'es'">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="row">
+          <div class="col-md-3">
+            <div class="form-group">
+              <label for="envioEstados">Estado:</label>
+            </div>
+          </div>
+          <div class="col-md-8">
+            <div class="form-group">
+              <select class="form-control" id="envioEstados" name="envioEstados"
+                      [(ngModel)]="estado" #state="ngModel">
+                <option value="null">TODOS</option>
+                <option *ngFor="let tipo of estados" [value]="tipo.catalogoItemId">
+                  {{tipo.catalogoItemDescripcion}}
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6" *ngIf="_authService.getTypeUser()==appConfig.idUsuarioEnviosAdmin">
+        <div class="row">
+          <div class="col-md-3">
+            <div class="form-group">
+              <label for="conductorID">Conductor ID:</label>
+            </div>
+          </div>
+          <div class="col-md-8">
+            <div class="form-group">
+              <input type="text" id="conductorID" class="form-control" name="conductorID"
+                     [(ngModel)]="conductor" #conductorID="ngModel">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button type="button" class="btn btn-primary" (click)="buscarEnvios()">Buscar</button>
+    <button type="button" class="btn btn-primary" (click)="limpiarCampos()">Limpiar campos</button>
+    <br/>
+    <br/>
+
+  </form>
+
+  <form>
+    <div *ngIf="envioDetail">
+      <ngx-datatable
+        class='material tableHeightFixed'
+        [columns]="columns"
+        [columnMode]="'force'"
+        [headerHeight]="'auto'"
+        [footerHeight]="50"
+        [rowHeight]="'auto'"
+        [limit]="25"
+        [rows]='envios'
+        [scrollbarH]="true"
+        [selectionType]="'single'"
+        [sorts]="[{prop: 'envioFechaRecoleccion', dir: 'asc'}]">
+      >
+      </ngx-datatable>
+    </div>
+
+    <div [ngClass]="{'hide-element': envioDetail}">
+      <ng-template #dynamicInsert></ng-template>
+    </div>
+
+    <div id="templates">
+      <ng-template #tmplIndex let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+        <strong>{{rowIndex+1}}</strong>
+      </ng-template>
+      <ng-template #linkButton let-value="value" let-rowIndex="rowIndex" let-row="row">
+        <button type="button" class="btn btn-primary info-button-small"
+                (click)="verDetalle(row)">
+          <i class="fas fa-info-circle"></i>
+        </button>
+      </ng-template>
+      <ng-template #tmplDateTime let-value="value">
+        <div>{{value | date: appConfig.formatoFechaHora}}</div>
+      </ng-template>
+      <ng-template #tmplTipoEnvio let-value="value">
+        <div>{{value == "G" ? "Guía": value == "C" ? "Cobro" : value == "D" ? "Devolución" : "ERROR" }}</div>
+      </ng-template>
+    </div>
+  </form>
+</div>

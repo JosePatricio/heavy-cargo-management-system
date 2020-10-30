@@ -1,0 +1,30 @@
+<ngx-loading [show]="loading"></ngx-loading>
+<div class="container margin-top-container" *ngIf="!productoDetail">
+  <h3>Productos</h3>
+  <hr>
+  <ngx-datatable
+    class='material tableHeightFixed'
+    [columnMode]="'force'"
+    [headerHeight]="'auto'"
+    [footerHeight]="50"
+    [rowHeight]="'auto'"
+    [columns]="columns"
+    [rows]="productos"
+    [scrollbarH]="true"
+    [selectionType]="'single'"
+    [messages]="{emptyMessage:'Sin registros para mostrar...',totalMessage: 'total',selectedMessage: 'selected'}">
+  </ngx-datatable>
+
+  <button type="button" class="btn btn-primary mt-2" (click)="nuevoProducto()"> Agregar producto
+  </button>
+</div>
+
+<ng-template #linkButton let-value="value" let-rowIndex="rowIndex" let-row="row">
+  <button type="button" class="btn btn-primary info-button-small" (click)="editarProducto(row)">
+    <i class="fas fa-eye"></i>
+  </button>
+</ng-template>
+
+<div [ngClass]="{'hide-element': !productoDetail}">
+  <ng-template #dynamicInsert></ng-template>
+</div>

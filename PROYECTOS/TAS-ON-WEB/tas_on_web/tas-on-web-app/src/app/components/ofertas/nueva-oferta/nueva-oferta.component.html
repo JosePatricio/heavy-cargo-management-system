@@ -1,0 +1,123 @@
+<ngx-loading [show]="loading"></ngx-loading>
+<form novalidate #forma="ngForm">
+  <div class="panel-group">
+    <h3 class="text-center m-3">{{solicitudesOfertas.idSolicitud}}</h3>
+
+    <div class="text-center">
+      <div class="row font-weight-bold">
+        <div class="col-4">N. ofertas</div>
+        <div class="col-4">Mejor oferta</div>
+        <div class="col-4">Promedio</div>
+      </div>
+      <div class="row">
+        <div class="col-4 card-text">{{solicitudesOfertas.totalOffer}}</div>
+        <div class="col-4 card-text">{{solicitudesOfertas.bestOffer | currency:'USD':'symbol'}}</div>
+        <div class="col-4 card-text">{{solicitudesOfertas.averageOffer | currency:'USD':'symbol'}}</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header font-weight-bold">Datos del envío</div>
+      <div class="card-body margin">
+        <div class="row">
+          <div class="col-md-6">
+            <h6 class="card-subtitle">Tipo de producto</h6>
+            <p class="card-text">{{solicitudesOfertas.tipo}}</p>
+          </div>
+          <div class="col-md-6">
+            <h6 class="card-subtitle">Número de piezas</h6>
+            <p class="card-text">{{solicitudesOfertas.numeroPiezas}}</p>
+          </div>
+          <div class="col-md-6">
+            <h6 class="card-subtitle">Peso</h6>
+            <p class="card-text">{{solicitudesOfertas.peso}} {{solicitudesOfertas.tipoPeso}}</p>
+          </div>
+          <div class="col-md-6">
+            <h6 class="card-subtitle">Volúmen</h6>
+            <p class="card-text">{{solicitudesOfertas.volumen}} {{solicitudesOfertas.tipoVolumen}}</p>
+          </div>
+          <div class="col-md-6">
+            <h6 class="card-subtitle">Estibadores</h6>
+            <p class="card-text">{{solicitudesOfertas.numeroEstibadores}}</p>
+          </div>
+          <div class="col-md-6" *ngIf="solicitudesOfertas.observaciones">
+            <h6 class="card-subtitle">Observaciones</h6>
+            <p class="card-text">{{solicitudesOfertas.observaciones}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header font-weight-bold">Origen</div>
+      <div class="card-body margin">
+        <div class="row">
+          <div class="col-md-6">
+            <h6 class="card-subtitle">Ciudad</h6>
+            <p class="card-text">{{solicitudesOfertas.origen}}</p>
+          </div>
+          <div class="col-md-6">
+            <h6 class="card-subtitle">Dirección</h6>
+            <p class="card-text">{{solicitudesOfertas.direccion}}</p>
+          </div>
+          <div class="col-md-6">
+            <h6 class="card-subtitle">Fecha de recolección</h6>
+            <p class="card-text">{{solicitudesOfertas.fechaEnvio | date: appConfig.formatoFechaHora}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header font-weight-bold">Destino</div>
+      <div class="card-body margin">
+        <div class="row">
+          <div class="col-md-6">
+            <h6 class="card-subtitle">Ciudad</h6>
+            <p class="card-text">{{solicitudesOfertas.destino}}</p>
+          </div>
+          <div class="col-md-6">
+            <h6 class="card-subtitle">Dirección</h6>
+            <p class="card-text">{{solicitudesOfertas.direccionEntrega}}</p>
+          </div>
+          <div class="col-md-6">
+            <h6 class="card-subtitle">Fecha de entrega</h6>
+            <p class="card-text">{{solicitudesOfertas.fechaEntrega | date: appConfig.formatoFechaHora}}</p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header font-weight-bold">Ofertar</div>
+      <div class="card-body margin">
+        <div class="row">
+          <div class="col-md-6">
+            <h6 class="card-subtitle">Pago en</h6>
+            <p class="card-text">{{solicitudesOfertas.diasPago}} días</p>
+          </div>
+          <div class="col-12">
+            <div class="form-group">
+              <label for="amount">* Valor de mi oferta:</label>
+              <input type="text" class="form-control" id="amount" placeholder="0.00" name="amount"
+                     [(ngModel)]="oferta.amount" pattern="^[\d]+([.][\d]{2})?$" required
+                     #amount="ngModel" maxlength="8" minlength="2"
+                     [ngClass]="{'is-invalid': amount.errors && !camposValidos}">
+            </div>
+          </div>
+          <div class="col-12">
+            <label for="comments">Comentario:</label>
+            <textarea class="form-control" rows="5" id="comments"
+                      name="comments" [(ngModel)]="oferta.comments"
+                      #comments="ngModel" maxlength="100" minlength="10"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <hr>
+    <button type="button" class="btn btn-primary" (click)="ofertar(forma)" [disabled]="deshabilitarBtnOfertar">Ofertar</button>
+    <button type="button" class="btn btn-secondary" routerLink="/panel/ofertas/puja">Regresar</button>
+  </div>
+</form>

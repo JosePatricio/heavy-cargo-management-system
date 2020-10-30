@@ -1,0 +1,60 @@
+<!-- Header -->
+<nav id="headerLogin" class="navbar navbar-expand pt-4">
+  <div class="container">
+    <div class="navbar-collapse" id="navbar">
+      <ul class="navbar-nav mr-auto d-flex">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/"><i class="fas fa-arrow-left color-inherit"></i> Volver al inicio</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<!-- /Header -->
+
+<!-- Registro -->
+<div class="container-fluid">
+  <form>
+    <div class="row">
+      <div class="col-12 col-md-6 offset-md-3 col-lg-5">
+        <div class="pb-3 pt-1">
+          <img class="mx-auto d-block" src="../../../assets/images/logo/logo-texto.png" alt="Tas-On">
+        </div>
+        <div class="text-center mb-4">
+          <h4>Registro</h4>
+        </div>
+        <div class="form-group">
+          <label for="tipoUsuario">Selecciona el tipo de usuario a registrar para continuar:</label>
+          <select class="form-control" id="tipoUsuario" name="tipoUsuario"
+                  [(ngModel)]="tipoUsuario" (change)="onChangeTipoPersona()">
+            <option value="">-- Seleccione --</option>
+            <option *ngFor="let tipe of typesUser" [ngValue]="tipe.idTipo">{{tipe.nombreTipo}}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="tipoUsuario===appConfig.idClienteType">
+      <app-nuevo-cliente-login></app-nuevo-cliente-login>
+    </div>
+
+    <div *ngIf="tipoUsuario===appConfig.idEmpresaType">
+      <app-nueva-empresa></app-nueva-empresa>
+    </div>
+
+    <div *ngIf="tipoUsuario===appConfig.idUsuarioConductorAdmin">
+      <app-nuevo-conductor-dependencia-propia></app-nuevo-conductor-dependencia-propia>
+    </div>
+
+    <div *ngIf="tipoUsuario===appConfig.idTipoClienteEmpresaTransportista">
+      <app-nueva-empresa-transporte></app-nueva-empresa-transporte>
+    </div>
+
+    <div *ngIf="tipoUsuario===appConfig.idUsuarioConductor">
+      <app-nuevo-conductor-login></app-nuevo-conductor-login>
+    </div>
+  </form>
+
+
+</div>
+<!-- /Registro -->

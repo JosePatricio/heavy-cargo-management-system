@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+    <catalogo catalogo_id="1" catalogo_descripcion="catalogo" catalogo_estado="1"/>
+    <catalogo_item catalogo_item_id="1" catalogo_item_id_catalogo="1" catalogo_item_descripcion="catalogo_item" catalogo_item_estado="1"/>
+    <localidad localidad_id="1" localidad_descripcion="localidadPadre" localidad_code="0" localidad_localidad_padre="0"  localidad_estado="1"/>
+    <localidad localidad_id="2" localidad_descripcion="localidadHijo" localidad_code="0" localidad_localidad_padre="1"  localidad_estado="1"/>
+    <usuario usuario_id_documento="1310479231" usuario_tipo_documento="1" usuario_nombres="Alberto" usuario_apellidos="Miranda" usuario_celular="0984520889" usuario_convecional="2685113" usuario_ruc="1310479231001" usuario_direccion="Calceta" usuario_localidad="1" usuario_nombre_usuario="amiranda" usuario_contrasenia="password" usuario_estado="1" usuario_mail="alberto.miranda@redcode.net.ec"/>
+    <usuario usuario_id_documento="1308930808" usuario_tipo_documento="1" usuario_nombres="Mauricio" usuario_apellidos="Chilan" usuario_celular="0981950430" usuario_convecional="2300290" usuario_ruc="1308930807001" usuario_direccion="Puerto Lopez" usuario_localidad="1" usuario_nombre_usuario="mauchilan" usuario_contrasenia="password" usuario_estado="1" usuario_mail="mauricio.chilan@redcode.net.ec"/>
+    <solicitud_envio solicitud_envio_id ="11" solicitud_envio_peso="10.1"  solicitud_envio_unidad_peso="1"
+                     solicitud_envio_volumen="22.0" solicitud_envio_unidad_volumen="1" solicitud_envio_numero_piesas="2"
+                     solicitud_envio_direccion_origen="xxx" solicitud_envio_localidad_origen="1" solicitud_envio_direccion_destino="xxx"
+                     solicitud_envio_localidad_destino="2"  solicitud_envio_numero_estibadores="2"
+                     solicitud_envio_dias_valides="2"  solicitud_envio_estado="1" solicitud_envio_persona_entrega="Manuel Salvador" solicitud_envio_persona_recibe="David Solis"/>
+    <contrato contrato_id="33" contrato_id_solicitud="11" contrato_documento_cliente="1310479231" contrato_documento_conductor="1308930808" contrato_ip_cliente="192.168.12.1"
+              contrato_ip_conductor="200.98.1.2" contrato_imei_conductor="xxxx" contrato_valor="33.0" contrato_estado="1"/>
+
+</dataset>

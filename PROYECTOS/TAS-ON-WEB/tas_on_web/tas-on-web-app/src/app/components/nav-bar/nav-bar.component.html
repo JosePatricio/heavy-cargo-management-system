@@ -1,0 +1,32 @@
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand navbar-tason" *ngIf="_authService.isAuthenticated()">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">
+      <img style="height: 40px;" class="pl-4" src="../../../assets/images/logo/tas-on-letras-der.svg" alt="Tas-On logo">
+    </a>
+
+    <div class="navbar-collapse ml-4" id="navbar">
+      <ul class="navbar-nav ml-auto d-sd-flex d-sm-inline-flex mr-lg-5 middle">
+        <li class="nav-item color-black d-none d-sm-block texto14">
+          {{_authService.getIdUsuario()}}
+        </li>
+        <li class="nav-item dropleft">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <div class="container-dropdown-tas-on">
+              <img class="dropdown-tas-on" src="../../../assets/images/logo/logo_negativo.svg" alt="Opciones">
+            </div>
+          </a>
+          <div class="dropdown-menu texto14" aria-labelledby="navbarDropdown">
+            <span class="dropdown-item">Perfil: {{_authService.getTypeName()}}</span>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" (click)="_authService.logout()">Cerrar sesión</a>
+
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<!-- /NAVBAR -->
+
+

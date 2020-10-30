@@ -1,0 +1,1 @@
+UPDATE catalogo_item SET catalogo_item_valor = '4fXAGKkgkrhMDNxKy/1efA==' WHERE catalogo_item_id = 19;

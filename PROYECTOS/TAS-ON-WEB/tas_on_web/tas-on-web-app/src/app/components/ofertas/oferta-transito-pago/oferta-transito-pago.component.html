@@ -1,0 +1,59 @@
+<ngx-loading [show]="loading"></ngx-loading>
+<div class="container-fluid margin-top-container">
+  <form>
+    <h2>Ofertas en tránsito de pago</h2>
+    <hr>
+    <ngx-datatable
+      class='material tableHeightFixed'
+      [columnMode]="'force'"
+      [headerHeight]="'auto'"
+      [footerHeight]="50"
+      [rowHeight]="'auto'"
+      [columns]="columns"
+      [rows]='ofertas'
+      [scrollbarH]="true"
+      [selectionType]="'single'"
+      [messages]="{emptyMessage:'Sin registros para mostrar...',totalMessage: 'total',selectedMessage: 'selected'}">
+    </ngx-datatable>
+
+    <div id="templates">
+      <ng-template #tmplIndex let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+        <strong>{{rowIndex+1}}</strong>
+      </ng-template>
+      <ng-template #tmplDate let-value="value">
+        <div>{{value | date: appConfig.formatoFecha}}</div>
+      </ng-template>
+      <ng-template #tmplAmount let-value="value" let-row="row">
+        <div class="amount-text wm-100">
+          {{(row.invoicesTypePay==appConfig.idPagoInmediato?(value-row.descuento):formatNumeric(row)) | currency:'USD':'symbol'}}
+        </div>
+      </ng-template>
+      <ng-template #tmplDiscount let-value="value" let-row="row">
+        <div class="amount-text wm-100">{{value | currency:'USD':'symbol'}}</div>
+      </ng-template>
+      <ng-template #tmplTypePay let-value="value" let-rowIndex="rowIndex" let-row="row">
+        <strong>{{row.invoicesTypePay===0?'Normal':value}}</strong>
+      </ng-template>
+      <ng-template #frmCash let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+        <form novalidate #outerForm="ngForm">
+          <div class="row">
+            <div class="col-md-9">
+              <div class="form-group">
+                <input type="text" class="form-control wm-150" id="cash_" name="cash_"
+                       [(ngModel)]="row.noTransfe" value="{{row.noTransfe}}" #cash_="ngModel" required
+                       pattern="^[0-9]+" title="No. de Transferencia">
+              </div>
+            </div>
+            <div class="col-md-1">
+              <div class="form-group">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="saveCash(row)"
+                        [disabled]="!outerForm.valid">
+                  <i class="far fa-check-circle"></i></button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </ng-template>
+    </div>
+  </form>
+</div>

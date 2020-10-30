@@ -1,0 +1,82 @@
+<ngx-loading [show]="loading"></ngx-loading>
+<form novalidate #forma="ngForm">
+  <div class="container-fluid margin-top-container">
+      <h2>Generar factura manual</h2>
+      <hr>
+
+    <h5>Datos comprador</h5>
+    <hr>
+
+    <div class="row">
+      <div class="col-md-5">
+        <div class="form-group">
+          <label for="tipoIdentificacionComprador">Tipo identificación</label>
+          <select class="form-control" id="tipoIdentificacionComprador" name="tipoIdentificacionComprador"
+                  [(ngModel)]="facturaManual.infoFactura.tipoIdentificacionComprador"
+                  #tipoIdentificacionComprador="ngModel" required>
+            <option value="04">RUC</option>
+            <option value="05">CÉDULA</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="identificacionComprador">Identificación</label>
+          <input type="text" class="form-control" id="identificacionComprador"
+                 name="identificacionComprador" [(ngModel)]="facturaManual.infoFactura.identificacionComprador"
+                 #identificacionComprador="ngModel" required pattern="^\d+$" (input)="buscarComprador()"
+                 minlength="{{facturaManual.infoFactura.tipoIdentificacionComprador=='04'?13:10}}"
+                 maxlength="{{facturaManual.infoFactura.tipoIdentificacionComprador=='04'?13:10}}">
+        </div>
+        <div class="form-group">
+          <label for="razonSocial">Razón social</label>
+          <input type="text" class="form-control" id="razonSocial" name="razonSocial"
+                 [(ngModel)]="facturaManual.infoFactura.razonSocialComprador"
+                 #razonSocial="ngModel" required maxlength="299">
+        </div>
+        <div class="form-group">
+          <label for="direccionComprador">Dirección</label>
+          <input type="text" class="form-control" id="direccionComprador"
+                 name="direccionComprador" [(ngModel)]="facturaManual.infoFactura.dirEstablecimiento"
+                 #direccionComprador="ngModel" required maxlength="299">
+        </div>
+      </div>
+    </div>
+
+    <h5>Detalles factura</h5>
+    <hr>
+    <div class="row">
+      <div class="col-md-5">
+        <div class="form-group">
+          <label for="codigoPrincipal">Código principal</label>
+          <input type="text" class="form-control" id="codigoPrincipal"
+                 name="codigoPrincipal" [(ngModel)]="detalle.codigoPrincipal"
+                 #codigoPrincipal="ngModel" required maxlength="24">
+        </div>
+        <div class="form-group">
+          <label for="codigoAuxiliar">Código auxiliar</label>
+          <input type="text" class="form-control" id="codigoAuxiliar"
+                 name="codigoAuxiliar" [(ngModel)]="detalle.codigoAuxiliar"
+                 #codigoAuxiliar="ngModel" required maxlength="24">
+        </div>
+        <div class="form-group">
+          <label for="descripcion">Descripción</label>
+          <input type="text" class="form-control" id="descripcion"
+                 name="descripcion" [(ngModel)]="detalle.descripcion"
+                 #descripcion="ngModel" required maxlength="299">
+        </div>
+        <div class="form-group">
+          <label for="precioUnitario">Precio unitario</label>
+          <input type="text" class="form-control" id="precioUnitario"
+                 name="precioUnitario" [(ngModel)]="detalle.precioUnitario"
+                 #precioUnitario="ngModel" required pattern="^\d+(\.(\d){2})?$" maxlength="8">
+        </div>
+      </div>
+    </div>
+
+    <button type="button" class="btn btn-primary" (click)="generarFactura()" [disabled]="!forma.valid || bloquearBotonGenerarFactura">Generar factura</button>
+    <button type="button" class="btn btn-primary" (click)="limpiarCampos()">Limpiar campos</button>
+
+
+  </div>
+</form>
+<br/>
+<h6><i>* La factura será generada con código de impuesto 2 (IVA) y tarifa de IVA código 6 (No objeto de impuesto). Forma de pago código 01 (Sin utilización del sistema financiero). Plazo de pago 30 días.</i></h6>
